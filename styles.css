@@ -449,13 +449,13 @@ body {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    padding: 1.5rem;
+    padding: 0;
     text-align: center;
     transition: all 0.3s ease;
     cursor: pointer;
     aspect-ratio: 16/9;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
@@ -469,16 +469,13 @@ body {
 
 .presentation-card img {
     width: 100%;
-    height: 60%;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 1rem;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 15px;
 }
 
 .presentation-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-    color: white;
+    display: none;
 }
 
 .presentation-card::before {

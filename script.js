@@ -158,6 +158,7 @@ function loadPresentationGrid(type, containerId) {
 function createPresentationCard(presentation) {
     const card = document.createElement('div');
     card.className = 'presentation-card';
+    card.title = presentation.title; // Add tooltip
     card.addEventListener('click', () => {
         window.open(presentation.link, '_blank');
     });
@@ -172,24 +173,19 @@ function createPresentationCard(presentation) {
         const placeholder = document.createElement('div');
         placeholder.style.cssText = `
             width: 100%;
-            height: 60%;
+            height: 100%;
             background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-            border-radius: 10px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
             font-size: 3rem;
         `;
         placeholder.textContent = '🎯';
-        card.insertBefore(placeholder, card.firstChild);
+        card.appendChild(placeholder);
     };
 
-    const title = document.createElement('h3');
-    title.textContent = presentation.title;
-
     card.appendChild(img);
-    card.appendChild(title);
 
     return card;
 }
