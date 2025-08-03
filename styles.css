@@ -411,11 +411,12 @@ body {
 
 .modal-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
 }
 
 .modal-header h2 {
@@ -433,6 +434,9 @@ body {
     padding: 0.5rem;
     border-radius: 50%;
     transition: background 0.3s ease;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .close-btn:hover {
