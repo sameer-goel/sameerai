@@ -20,6 +20,21 @@ const presentations = {
             title: "How to Cultivate Inner Intelligence using AI",
             image: "books/CultivateInerIntelleigenceUsingAI-cover.png",
             link: "https://www.canva.com/design/DAGT1-fee-4/oXT_UDn8gXHMD3jrfJHzmg/view?utm_content=DAGT1-fee-4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6b6dfb094d"
+        },
+        {
+            title: "Saving Earth from invasive species",
+            image: "presentations/science-of-ai-menu.md", // Placeholder - will need actual image
+            link: "https://prezi.com/view/dkW0nrmdDtLgaxlBJgCR/"
+        },
+        {
+            title: "Architect your life",
+            image: "presentations/science-of-ai-menu.md", // Placeholder - will need actual image
+            link: "https://prezi.com/view/NzqLAj0QG54qLMPSHIY1/"
+        },
+        {
+            title: "Emotional Intelligence at Workplace",
+            image: "presentations/science-of-ai-menu.md", // Placeholder - will need actual image
+            link: "https://prezi.com/view/kSVzdmy1HMMAuoiY2rGx/"
         }
     ],
     soul: [

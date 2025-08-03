@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Left Brain Right Brain Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #2d1b69 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        .brain-portal-container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Neural background particles */
+        .neural-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .neural-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(0, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: neuralFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes neuralFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-30px) scale(1.2); opacity: 1; }
+        }
+
+        .portal-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 1400px;
+            padding: 2rem;
+        }
+
+        .portal-header {
+            margin-bottom: 3rem;
+        }
+
+        .portal-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff, #ffff00);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .portal-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .brain-subtitle {
+            font-size: 1rem;
+            color: rgba(0, 212, 255, 0.8);
+            font-style: italic;
+        }
+
+        /* 3D Brain System */
+        .brain-system {
+            position: relative;
+            width: 900px;
+            height: 600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1200px;
+            transform-style: preserve-3d;
+        }
+
+        /* 3D Brain Container */
+        .brain-3d {
+            position: relative;
+            width: 500px;
+            height: 350px;
+            transform-style: preserve-3d;
+            animation: brainRotate 20s linear infinite;
+        }
+
+        @keyframes brainRotate {
+            0% { transform: rotateY(0deg) rotateX(5deg); }
+            100% { transform: rotateY(360deg) rotateX(5deg); }
+        }
+
+        /* Brain Hemispheres with realistic shape */
+        .brain-hemisphere {
+            position: absolute;
+            width: 240px;
+            height: 320px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            transform-style: preserve-3d;
+        }
+
+        .left-brain {
+            left: 10px;
+            transform: rotateY(-10deg);
+        }
+
+        .right-brain {
+            right: 10px;
+            transform: rotateY(10deg);
+        }
+
+        /* Brain hemisphere layers for 3D effect */
+        .hemisphere-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 120px 120px 100px 80px;
+            transform-style: preserve-3d;
+        }
+
+        /* Front layer */
+        .hemisphere-front {
+            background: linear-gradient(135deg, 
+                rgba(255, 182, 193, 0.9), 
+                rgba(255, 160, 180, 0.8), 
+                rgba(255, 140, 160, 0.9)
+            );
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 0 30px rgba(255, 182, 193, 0.4),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+            transform: translateZ(30px);
+        }
+
+        /* Middle layer */
+        .hemisphere-middle {
+            background: linear-gradient(135deg, 
+                rgba(255, 160, 180, 0.7), 
+                rgba(255, 140, 160, 0.6), 
+                rgba(255, 120, 140, 0.7)
+            );
+            transform: translateZ(15px);
+            border-radius: 115px 115px 95px 75px;
+        }
+
+        /* Back layer */
+        .hemisphere-back {
+            background: linear-gradient(135deg, 
+                rgba(255, 140, 160, 0.5), 
+                rgba(255, 120, 140, 0.4), 
+                rgba(255, 100, 120, 0.5)
+            );
+            transform: translateZ(0px);
+            border-radius: 110px 110px 90px 70px;
+        }
+
+        /* Left brain coloring */
+        .left-brain .hemisphere-front {
+            background: linear-gradient(135deg, 
+                rgba(0, 212, 255, 0.9), 
+                rgba(0, 180, 255, 0.8), 
+                rgba(0, 150, 255, 0.9)
+            );
+            box-shadow: 
+                0 0 30px rgba(0, 212, 255, 0.4),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .left-brain .hemisphere-middle {
+            background: linear-gradient(135deg, 
+                rgba(0, 180, 255, 0.7), 
+                rgba(0, 150, 255, 0.6), 
+                rgba(0, 120, 255, 0.7)
+            );
+        }
+
+        .left-brain .hemisphere-back {
+            background: linear-gradient(135deg, 
+                rgba(0, 150, 255, 0.5), 
+                rgba(0, 120, 255, 0.4), 
+                rgba(0, 100, 255, 0.5)
+            );
+        }
+
+        /* Brain folds and sulci */
+        .brain-fold {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            animation: foldPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes foldPulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+        }
+
+        .fold-1 {
+            width: 180px;
+            height: 3px;
+            top: 80px;
+            left: 30px;
+            transform: rotate(-15deg);
+        }
+
+        .fold-2 {
+            width: 160px;
+            height: 2px;
+            top: 120px;
+            left: 40px;
+            transform: rotate(10deg);
+        }
+
+        .fold-3 {
+            width: 140px;
+            height: 3px;
+            top: 160px;
+            left: 50px;
+            transform: rotate(-5deg);
+        }
+
+        .fold-4 {
+            width: 120px;
+            height: 2px;
+            top: 200px;
+            left: 60px;
+            transform: rotate(20deg);
+        }
+
+        /* Corpus callosum (connection between hemispheres) */
+        .corpus-callosum {
+            position: absolute;
+            width: 100px;
+            height: 20px;
+            background: linear-gradient(90deg, 
+                rgba(147, 112, 219, 0.8), 
+                rgba(255, 255, 255, 0.9), 
+                rgba(147, 112, 219, 0.8)
+            );
+            border-radius: 10px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(20px);
+            box-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
+            animation: callosumPulse 3s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes callosumPulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) translateZ(20px) scaleX(1);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translate(-50%, -50%) translateZ(20px) scaleX(1.1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes leftBrainPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 40px rgba(0, 212, 255, 0.3), inset 0 0 30px rgba(255, 255, 255, 0.1);
+            }
+            50% { 
+                transform: scale(1.02);
+                box-shadow: 0 0 60px rgba(0, 212, 255, 0.5), inset 0 0 40px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        @keyframes rightBrainPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 40px rgba(255, 107, 107, 0.3), inset 0 0 30px rgba(255, 255, 255, 0.1);
+            }
+            50% { 
+                transform: scale(1.02);
+                box-shadow: 0 0 60px rgba(255, 107, 107, 0.5), inset 0 0 40px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        .brain-hemisphere:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .left-brain:hover {
+            box-shadow: 0 0 80px rgba(0, 212, 255, 0.6);
+            border-color: rgba(0, 212, 255, 0.8);
+        }
+
+        .right-brain:hover {
+            box-shadow: 0 0 80px rgba(255, 107, 107, 0.6);
+            border-color: rgba(255, 107, 107, 0.8);
+        }
+
+        /* Brain Content */
+        .brain-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 80%;
+        }
+
+        .brain-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .brain-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .left-brain .brain-title {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        .right-brain .brain-title {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+        }
+
+        .brain-description {
+            font-size: 1rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
+
+        /* Neural Connections */
+        .neural-connection {
+            position: absolute;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                rgba(0, 212, 255, 0.6), 
+                rgba(147, 112, 219, 0.8), 
+                rgba(255, 107, 107, 0.6)
+            );
+            top: 50%;
+            left: 25%;
+            right: 25%;
+            border-radius: 2px;
+            animation: neuralPulse 3s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        @keyframes neuralPulse {
+            0%, 100% { 
+                opacity: 0.4;
+                transform: scaleY(1);
+            }
+            50% { 
+                opacity: 1;
+                transform: scaleY(1.5);
+            }
+        }
+
+        /* Synaptic sparks */
+        .synapse {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #ffffff;
+            border-radius: 50%;
+            top: 50%;
+            animation: synapseTravel 4s linear infinite;
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        .synapse:nth-child(1) {
+            left: 25%;
+            animation-delay: 0s;
+        }
+
+        .synapse:nth-child(2) {
+            left: 35%;
+            animation-delay: 1s;
+        }
+
+        .synapse:nth-child(3) {
+            left: 45%;
+            animation-delay: 2s;
+        }
+
+        .synapse:nth-child(4) {
+            left: 55%;
+            animation-delay: 3s;
+        }
+
+        @keyframes synapseTravel {
+            0% { 
+                transform: translateY(-4px) scale(0.5);
+                opacity: 0;
+            }
+            10% { 
+                opacity: 1;
+                transform: translateY(-4px) scale(1);
+            }
+            90% { 
+                opacity: 1;
+                transform: translateY(-4px) scale(1);
+            }
+            100% { 
+                transform: translateY(-4px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Brain waves */
+        .brain-wave {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(147, 112, 219, 0.6), 
+                transparent
+            );
+            animation: brainWave 5s ease-in-out infinite;
+        }
+
+        .brain-wave:nth-child(1) { top: 20%; animation-delay: 0s; }
+        .brain-wave:nth-child(2) { top: 30%; animation-delay: 1s; }
+        .brain-wave:nth-child(3) { top: 70%; animation-delay: 2s; }
+        .brain-wave:nth-child(4) { top: 80%; animation-delay: 3s; }
+
+        @keyframes brainWave {
+            0%, 100% { transform: translateX(-100%); opacity: 0; }
+            50% { transform: translateX(0%); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .brain-system {
+                width: 700px;
+                height: 500px;
+            }
+            
+            .brain-hemisphere {
+                width: 280px;
+                height: 320px;
+            }
+            
+            .left-brain { left: 40px; }
+            .right-brain { right: 40px; }
+        }
+
+        @media (max-width: 768px) {
+            .portal-title {
+                font-size: 2.5rem;
+            }
+            
+            .brain-system {
+                width: 500px;
+                height: 400px;
+            }
+            
+            .brain-hemisphere {
+                width: 200px;
+                height: 240px;
+            }
+            
+            .left-brain { left: 30px; }
+            .right-brain { right: 30px; }
+            
+            .brain-title {
+                font-size: 1.4rem;
+            }
+            
+            .brain-description {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="brain-portal-container">
+        <!-- Neural background particles -->
+        <div class="neural-particles" id="neural-particles"></div>
+        
+        <!-- Main portal -->
+        <div class="portal-content">
+            <header class="portal-header">
+                <h1 class="portal-title">Welcome to My Neural Universe</h1>
+                <p class="portal-subtitle">Explore the intersection of logic and intuition</p>
+                <p class="brain-subtitle">Left Brain ⚡ Right Brain</p>
+            </header>
+
+            <div class="brain-system">
+                <!-- Brain waves -->
+                <div class="brain-wave"></div>
+                <div class="brain-wave"></div>
+                <div class="brain-wave"></div>
+                <div class="brain-wave"></div>
+                
+                <!-- 3D Brain Container -->
+                <div class="brain-3d">
+                    <!-- Corpus Callosum (connection between hemispheres) -->
+                    <div class="corpus-callosum"></div>
+                    
+                    <!-- Neural connection -->
+                    <div class="neural-connection">
+                        <div class="synapse"></div>
+                        <div class="synapse"></div>
+                        <div class="synapse"></div>
+                        <div class="synapse"></div>
+                    </div>
+                    
+                    <!-- Left Brain Hemisphere -->
+                    <div class="brain-hemisphere left-brain" onclick="alert('Opening Science of AI - Left Brain Portal')">
+                        <!-- 3D Layers -->
+                        <div class="hemisphere-layer hemisphere-back"></div>
+                        <div class="hemisphere-layer hemisphere-middle"></div>
+                        <div class="hemisphere-layer hemisphere-front"></div>
+                        
+                        <!-- Brain folds (sulci and gyri) -->
+                        <div class="brain-fold fold-1"></div>
+                        <div class="brain-fold fold-2"></div>
+                        <div class="brain-fold fold-3"></div>
+                        <div class="brain-fold fold-4"></div>
+                        
+                        <!-- Content overlay -->
+                        <div class="brain-content">
+                            <span class="brain-icon">🤖</span>
+                            <h3 class="brain-title">Science of AI</h3>
+                            <p class="brain-description">Logic • Analysis • Technology<br>Machine Learning • Data • Systems</p>
+                        </div>
+                    </div>
+
+                    <!-- Right Brain Hemisphere -->
+                    <div class="brain-hemisphere right-brain" onclick="alert('Opening Science of Soul - Right Brain Portal')">
+                        <!-- 3D Layers -->
+                        <div class="hemisphere-layer hemisphere-back"></div>
+                        <div class="hemisphere-layer hemisphere-middle"></div>
+                        <div class="hemisphere-layer hemisphere-front"></div>
+                        
+                        <!-- Brain folds (sulci and gyri) -->
+                        <div class="brain-fold fold-1"></div>
+                        <div class="brain-fold fold-2"></div>
+                        <div class="brain-fold fold-3"></div>
+                        <div class="brain-fold fold-4"></div>
+                        
+                        <!-- Content overlay -->
+                        <div class="brain-content">
+                            <span class="brain-icon">🧘</span>
+                            <h3 class="brain-title">Science of Soul</h3>
+                            <p class="brain-description">Intuition • Creativity • Consciousness<br>Spirituality • Wisdom • Inner Peace</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create neural particles background
+        function createNeuralParticles() {
+            const particlesContainer = document.getElementById('neural-particles');
+            const particleCount = 60;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'neural-particle';
+                
+                // Random position
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // Random animation delay
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                
+                // Random size and color variation
+                const size = Math.random() * 2 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Alternate between blue and purple particles
+                if (Math.random() > 0.5) {
+                    particle.style.background = 'rgba(255, 107, 107, 0.6)';
+                }
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Add interactive brain wave effects
+        document.addEventListener('mousemove', function(e) {
+            const brains = document.querySelectorAll('.brain-hemisphere');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            brains.forEach((brain, index) => {
+                const speed = (index + 1) * 0.3;
+                const x = (mouseX - 0.5) * speed * 10;
+                const y = (mouseY - 0.5) * speed * 10;
+                
+                brain.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Reset brain positions when mouse leaves
+        document.addEventListener('mouseleave', function() {
+            const brains = document.querySelectorAll('.brain-hemisphere');
+            brains.forEach(brain => {
+                brain.style.transform = '';
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createNeuralParticles();
+        });
+    </script>
+</body>
+</html>

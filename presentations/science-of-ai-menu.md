@@ -9,3 +9,12 @@ https://www.canva.com/design/DAGYIhzD4ks/x_43pbxc35WT2N54ZaOVFQ/view?utm_content
 
 How to Cultivate Inner Intelleigence using AI,
 https://www.canva.com/design/DAGT1-fee-4/oXT_UDn8gXHMD3jrfJHzmg/view?utm_content=DAGT1-fee-4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6b6dfb094d
+
+Saving Earth from invasive species,
+https://prezi.com/view/dkW0nrmdDtLgaxlBJgCR/
+
+Architect you life,
+https://prezi.com/view/NzqLAj0QG54qLMPSHIY1/
+
+Emotional Intelleignece at Workplace,
+https://prezi.com/view/kSVzdmy1HMMAuoiY2rGx/
