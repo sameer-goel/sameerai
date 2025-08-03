@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Brain Portal - Interactive Mind</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #2d1b69 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .portal-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Background particles */
+        .neural-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .neural-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(0, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: neuralFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes neuralFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: translateY(-30px) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Human figure container */
+        .human-figure {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            z-index: 10;
+        }
+
+        /* Human body silhouette */
+        .human-body {
+            position: absolute;
+            width: 200px;
+            height: 400px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(180deg,
+                    rgba(255, 255, 255, 0.1) 0%,
+                    rgba(255, 255, 255, 0.05) 50%,
+                    rgba(255, 255, 255, 0.02) 100%);
+            border-radius: 100px 100px 20px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Human head */
+        .human-head {
+            position: absolute;
+            width: 120px;
+            height: 140px;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.15) 0%,
+                    rgba(255, 255, 255, 0.08) 100%);
+            border-radius: 60px 60px 50px 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            position: relative;
+        }
+
+        /* Interactive brain */
+        .brain {
+            position: absolute;
+            width: 80px;
+            height: 60px;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+        }
+
+        .brain-left,
+        .brain-right {
+            position: absolute;
+            width: 35px;
+            height: 50px;
+            border-radius: 20px 20px 15px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .brain-left {
+            left: 5px;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+            animation: brainPulseLeft 3s ease-in-out infinite;
+        }
+
+        .brain-right {
+            right: 5px;
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+            animation: brainPulseRight 3s ease-in-out infinite;
+        }
+
+        @keyframes brainPulseLeft {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px rgba(0, 212, 255, 0.8);
+            }
+        }
+
+        @keyframes brainPulseRight {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+            }
+
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 0 25px rgba(255, 107, 107, 0.6);
+            }
+        }
+
+        .brain:hover .brain-left {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 1);
+        }
+
+        .brain:hover .brain-right {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(255, 107, 107, 0.8);
+        }
+
+        /* Brain options that pop out */
+        .brain-options {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 200px;
+            pointer-events: none;
+        }
+
+        .brain-option {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform: scale(0);
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            border: 3px solid;
+        }
+
+        .brain-option.active {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .ai-option {
+            left: -100px;
+            top: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 153, 204, 0.3));
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+        }
+
+        .ai-option.active {
+            transform: scale(1) translateX(-50px);
+        }
+
+        .soul-option {
+            right: -100px;
+            top: 0;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 71, 87, 0.3));
+            border-color: rgba(255, 107, 107, 0.6);
+            box-shadow: 0 0 40px rgba(255, 107, 107, 0.4);
+        }
+
+        .soul-option.active {
+            transform: scale(1) translateX(50px);
+        }
+
+        .option-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .option-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .ai-option .option-title {
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        .soul-option .option-title {
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+        }
+
+        .option-description {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.3;
+        }
+
+        .brain-option:hover {
+            transform: scale(1.1) translateX(-50px);
+        }
+
+        .soul-option:hover {
+            transform: scale(1.1) translateX(50px);
+        }
+
+        /* Title and instructions */
+        .portal-header {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 5;
+        }
+
+        .portal-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff, #ffff00);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .portal-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+        }
+
+        .portal-instruction {
+            font-size: 1rem;
+            color: rgba(0, 212, 255, 0.9);
+            font-style: italic;
+            animation: instructionPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes instructionPulse {
+
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .human-figure {
+                width: 300px;
+                height: 450px;
+            }
+
+            .human-body {
+                width: 150px;
+                height: 300px;
+            }
+
+            .human-head {
+                width: 90px;
+                height: 105px;
+            }
+
+            .brain {
+                width: 60px;
+                height: 45px;
+            }
+
+            .brain-left,
+            .brain-right {
+                width: 26px;
+                height: 38px;
+            }
+
+            .brain-options {
+                width: 400px;
+                height: 150px;
+            }
+
+            .brain-option {
+                width: 150px;
+                height: 150px;
+            }
+
+            .portal-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="portal-container">
+        <!-- Background particles -->
+        <div class="neural-particles" id="neural-particles"></div>
+
+        <!-- Portal header -->
+        <div class="portal-header">
+            <h1 class="portal-title">Sameerai</h1>
+        </div>
+
+        <!-- Human figure -->
+        <div class="human-figure">
+            <div class="human-body"></div>
+            <div class="human-head">
+                <div class="brain" onclick="toggleBrainOptions()">
+                    <div class="brain-left"></div>
+                    <div class="brain-right"></div>
+                </div>
+            </div>
+
+            <!-- Brain options -->
+            <div class="brain-options">
+                <div class="brain-option ai-option active" onclick="navigateToAI()">
+                    <span class="option-icon">🤖</span>
+                    <h3 class="option-title">Science of AI</h3>
+                    <p class="option-description">Artificial Intelligence & Technology</p>
+                </div>
+
+                <div class="brain-option soul-option" onclick="navigateToSoul()">
+                    <span class="option-icon">🧘</span>
+                    <h3 class="option-title">Science of Soul</h3>
+                    <p class="option-description">Consciousness & Spirituality</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let brainOptionsVisible = true; // AI is shown by default
+
+        function toggleBrainOptions() {
+            const aiOption = document.querySelector('.ai-option');
+            const soulOption = document.querySelector('.soul-option');
+
+            if (brainOptionsVisible) {
+                // Hide options
+                aiOption.classList.remove('active');
+                soulOption.classList.remove('active');
+                brainOptionsVisible = false;
+            } else {
+                // Show options (AI by default)
+                aiOption.classList.add('active');
+                setTimeout(() => {
+                    soulOption.classList.add('active');
+                }, 200);
+                brainOptionsVisible = true;
+            }
+        }
+
+        function navigateToAI() {
+            // Add click effect
+            const aiOption = document.querySelector('.ai-option');
+            aiOption.style.transform = 'scale(1.2) translateX(-50px)';
+
+            setTimeout(() => {
+                window.location.href = 'science-of-ai.html';
+            }, 300);
+        }
+
+        function navigateToSoul() {
+            // Add click effect
+            const soulOption = document.querySelector('.soul-option');
+            soulOption.style.transform = 'scale(1.2) translateX(50px)';
+
+            setTimeout(() => {
+                window.location.href = 'science-of-soul.html';
+            }, 300);
+        }
+
+        // Create neural particles background
+        function createNeuralParticles() {
+            const particlesContainer = document.getElementById('neural-particles');
+            const particleCount = 60;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'neural-particle';
+
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+
+                const size = Math.random() * 2 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+
+                // Mix of blue and pink particles
+                if (Math.random() > 0.7) {
+                    particle.style.background = 'rgba(255, 107, 107, 0.6)';
+                }
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            createNeuralParticles();
+
+            // Show AI option by default after a brief delay
+            setTimeout(() => {
+                document.querySelector('.ai-option').classList.add('active');
+                setTimeout(() => {
+                    document.querySelector('.soul-option').classList.add('active');
+                }, 300);
+            }, 1000);
+        });
+
+        // Add mouse interaction effects
+        document.addEventListener('mousemove', function (e) {
+            const brain = document.querySelector('.brain');
+            const rect = brain.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            const deltaX = (mouseX - centerX) * 0.1;
+            const deltaY = (mouseY - centerY) * 0.1;
+
+            brain.style.transform = `translateX(-50%) translate(${deltaX}px, ${deltaY}px)`;
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,296 @@
+/* SPACE/COSMIC THEME ICONS */
+
+/* Replace the lab-equipment div with this structure:
+<div class="space-equipment">
+    <div class="planet">
+        <div class="planet-core"></div>
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+    </div>
+    
+    <div class="rocket">
+        <div class="nose"></div>
+        <div class="body"></div>
+        <div class="fin fin-1"></div>
+        <div class="fin fin-2"></div>
+        <div class="flame"></div>
+    </div>
+    
+    <div class="galaxy">
+        <div class="spiral spiral-1"></div>
+        <div class="spiral spiral-2"></div>
+        <div class="center-star"></div>
+    </div>
+    
+    <div class="space-particles">
+        <div class="star star-1">✦</div>
+        <div class="star star-2">✧</div>
+        <div class="star star-3">✦</div>
+        <div class="star star-4">✧</div>
+    </div>
+</div>
+*/
+
+.space-equipment {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* Planet Animation */
+.planet {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    animation: planetOrbit 8s linear infinite;
+}
+
+.planet-core {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc2e2e, #991111);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+    animation: planetPulse 3s ease-in-out infinite;
+}
+
+.ring {
+    position: absolute;
+    border: 2px solid;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: ringRotate 4s linear infinite;
+}
+
+.ring-1 {
+    width: 80px;
+    height: 80px;
+    border-color: rgba(255, 215, 0, 0.6);
+    animation-direction: normal;
+}
+
+.ring-2 {
+    width: 100px;
+    height: 100px;
+    border-color: rgba(0, 212, 255, 0.4);
+    animation-direction: reverse;
+    animation-duration: 6s;
+}
+
+@keyframes planetOrbit {
+    0% { transform: rotateZ(0deg); }
+    100% { transform: rotateZ(360deg); }
+}
+
+@keyframes planetPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(255, 107, 107, 0.8);
+    }
+}
+
+@keyframes ringRotate {
+    0% { transform: translate(-50%, -50%) rotateZ(0deg); }
+    100% { transform: translate(-50%, -50%) rotateZ(360deg); }
+}
+
+/* Rocket Animation */
+.rocket {
+    position: relative;
+    width: 30px;
+    height: 80px;
+    animation: rocketFly 5s ease-in-out infinite;
+}
+
+.nose {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid #00d4ff;
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.8));
+}
+
+.rocket .body {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 40px;
+    background: linear-gradient(180deg, #ddd, #999);
+    border-radius: 0 0 5px 5px;
+}
+
+.fin {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50px;
+}
+
+.fin-1 {
+    left: 0;
+    border-top: 10px solid #666;
+    border-right: 8px solid transparent;
+}
+
+.fin-2 {
+    right: 0;
+    border-top: 10px solid #666;
+    border-left: 8px solid transparent;
+}
+
+.flame {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 15px;
+    background: linear-gradient(180deg, #ff6b6b, #ffff00, #ff4500);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flameFlicker 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes rocketFly {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-10px) rotate(2deg); }
+    50% { transform: translateY(-5px) rotate(0deg); }
+    75% { transform: translateY(-8px) rotate(-2deg); }
+}
+
+@keyframes flameFlicker {
+    0% { transform: translateX(-50%) scaleY(1); }
+    100% { transform: translateX(-50%) scaleY(1.3); }
+}
+
+/* Galaxy Animation */
+.galaxy {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    animation: galaxyRotate 12s linear infinite;
+}
+
+.spiral {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px solid;
+    border-radius: 50%;
+    border-style: dashed;
+    animation: spiralSpin 6s linear infinite;
+}
+
+.spiral-1 {
+    border-color: rgba(147, 112, 219, 0.8);
+    animation-direction: normal;
+}
+
+.spiral-2 {
+    border-color: rgba(255, 215, 0, 0.6);
+    animation-direction: reverse;
+    transform: scale(0.7);
+}
+
+.center-star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, #ffffff, #ffff00);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    animation: starTwinkle 2s ease-in-out infinite;
+}
+
+@keyframes galaxyRotate {
+    0% { transform: rotateZ(0deg); }
+    100% { transform: rotateZ(360deg); }
+}
+
+@keyframes spiralSpin {
+    0% { transform: rotateZ(0deg); }
+    100% { transform: rotateZ(360deg); }
+}
+
+@keyframes starTwinkle {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 1;
+    }
+}
+
+/* Space Particles */
+.space-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    font-size: 12px;
+    color: white;
+    animation: starFloat 4s ease-in-out infinite;
+}
+
+.star-1 {
+    top: 15%;
+    left: 10%;
+    animation-delay: 0s;
+    color: #00d4ff;
+}
+
+.star-2 {
+    top: 70%;
+    right: 20%;
+    animation-delay: 1s;
+    color: #ffff00;
+}
+
+.star-3 {
+    bottom: 25%;
+    left: 25%;
+    animation-delay: 2s;
+    color: #ff6b6b;
+}
+
+.star-4 {
+    top: 35%;
+    right: 35%;
+    animation-delay: 3s;
+    color: #9370db;
+}
+
+@keyframes starFloat {
+    0%, 100% { 
+        transform: translateY(0px) scale(1);
+        opacity: 0.6;
+    }
+    50% { 
+        transform: translateY(-8px) scale(1.2);
+        opacity: 1;
+    }
+}

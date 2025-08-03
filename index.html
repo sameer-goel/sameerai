@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Personal Portal</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Sameerai Universe</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap"
         rel="stylesheet">
+
 </head>
 
 <body>
@@ -16,69 +17,37 @@
         <!-- Background particles -->
         <div class="particles" id="particles"></div>
 
+
+
         <!-- Main portal -->
-        <div class="portal-content">
-            <header class="portal-header">
-                <h1 class="portal-title">Welcome to My Universe</h1>
-                <p class="portal-subtitle">Explore the intersection of technology and consciousness</p>
-            </header>
-
-            <div class="atomic-system">
-                <!-- Central Atom -->
-                <div class="atom-core">
-                    <div class="nucleus">
-                        <div class="proton"></div>
-                        <div class="neutron"></div>
-                        <div class="proton"></div>
-                        <div class="neutron"></div>
-                    </div>
-                    <div class="electron-ring ring-1">
-                        <div class="electron"></div>
-                    </div>
-                    <div class="electron-ring ring-2">
-                        <div class="electron"></div>
-                        <div class="electron"></div>
-                    </div>
-                    <div class="electron-ring ring-3">
-                        <div class="electron"></div>
-                    </div>
-                </div>
-
-                <!-- Orbiting Icons -->
-                <div class="orbital-system">
-                    <div class="orbit-path orbit-ai">
-                        <div class="icon-container" data-realm="ai">
-                            <div class="floating-icon ai-icon">
-                                <div class="icon-glow"></div>
-                                <div class="icon-content">
-                                    <span class="icon-symbol">🤖</span>
-                                    <h3>Science of AI</h3>
-                                    <p>Artificial Intelligence & Technology</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="orbit-path orbit-soul">
-                        <div class="icon-container" data-realm="soul">
-                            <div class="floating-icon soul-icon">
-                                <div class="icon-glow"></div>
-                                <div class="icon-content">
-                                    <span class="icon-symbol">🧘</span>
-                                    <h3>Science of Soul</h3>
-                                    <p>Consciousness & Spirituality</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="game-layout">
+            <!-- Work Section -->
+            <div class="realm-section work-section" data-realm="ai">
+                <div class="realm-icon">🤖</div>
+                <div class="realm-title">WORK</div>
+                <div class="realm-subtitle">AI & Technology</div>
+                <div class="enter-btn">Enter Realm</div>
             </div>
+            
+            <!-- Life Section -->
+            <div class="realm-section life-section" data-realm="soul">
+                <div class="realm-icon">❤️</div>
+                <div class="realm-title">LIFE</div>
+                <div class="realm-subtitle">Growth & Balance</div>
+                <div class="enter-btn">Enter Realm</div>
+            </div>
+        </div>
+        
+        <!-- Universe Title at Bottom -->
+        <div class="universe-title-bottom">
+            <h1 class="brand-name">Sameerai Universe</h1>
+            <div class="stars">✦✧✦✧</div>
         </div>
 
 
     </div>
 
-    <script src="script.js"></script>
+    <script src="assets/scripts/script.js"></script>
 </body>
 
 </html>

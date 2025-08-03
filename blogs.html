@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Published AWS Blogs</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .page-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            text-align: center;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00d4ff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+        
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+        
+        .back-icon {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .back-icon:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #00d4ff;
+            transform: scale(1.1);
+        }
+        
+        .movies-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding: 2rem 0;
+        }
+        
+        .movie-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            aspect-ratio: 16/9;
+            position: relative;
+        }
+        
+        .movie-card:hover {
+            transform: translateY(-8px);
+            border-color: #00d4ff;
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+        }
+        
+        .movie-poster {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .blog-cover {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .blog-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            line-height: 1.4;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+            z-index: 2;
+        }
+        
+        .movie-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
+            padding: 1rem 0.8rem 0.8rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            max-height: 60%;
+            overflow: hidden;
+        }
+        
+        .movie-card:hover .movie-overlay {
+            transform: translateY(0);
+        }
+        
+        .movie-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: white;
+            line-height: 1.2;
+        }
+        
+        .movie-description {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.3;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="particles" id="particles"></div>
+        
+        <a href="work.html" class="back-icon">←</a>
+        
+        <div class="page-header">
+            <h1 class="page-title">📝 Published AWS Blogs</h1>
+            <p class="page-subtitle">Technical articles published on AWS official channels</p>
+        </div>
+        
+        <div class="movies-container">
+            <div class="movies-grid">
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/machine-learning/use-computer-vision-to-measure-agriculture-yield-with-amazon-rekognition-custom-labels/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #4CAF50, #2E7D32);">
+                            <div class="blog-title">Computer Vision for Agriculture Yield</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Computer Vision for Agriculture Yield</div>
+                            <div class="movie-description">Use computer vision to measure agriculture yield with Amazon Rekognition Custom Labels.</div>
+                        </div>
+                        <div class="movie-type">ML/Agriculture</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/machine-learning/part-1-end-to-end-solution-building-your-own-brand-detection-and-visibility-using-amazon-sagemaker-ground-truth-and-amazon-rekognition-custom-labels/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
+                            <div class="blog-title">Brand Detection with SageMaker</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Brand Detection with SageMaker</div>
+                            <div class="movie-description">Building your own brand detection and visibility using Amazon SageMaker Ground Truth.</div>
+                        </div>
+                        <div class="movie-type">ML/Computer Vision</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/machine-learning/part-2-build-your-own-brand-detection-and-visibility-using-amazon-sagemaker-ground-truth-and-amazon-rekognition-custom-labels-training-and-analysis-workflows/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2);">
+                            <div class="blog-title">Brand Detection Training Workflows</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Brand Detection Training Workflows</div>
+                            <div class="movie-description">Build your own brand detection training and analysis workflows.</div>
+                        </div>
+                        <div class="movie-type">ML/Training</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/awsmarketplace/using-machine-learning-to-support-healthcare-during-a-pandemic/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #2196F3, #1976D2);">
+                            <div class="blog-title">ML for Healthcare During Pandemic</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">ML for Healthcare During Pandemic</div>
+                            <div class="movie-description">Using machine learning to support healthcare during a pandemic.</div>
+                        </div>
+                        <div class="movie-type">ML/Healthcare</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/machine-learning/plant-leaf-disease-detection-with-amazon-rekognition-custom-labels/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #8BC34A, #689F38);">
+                            <div class="blog-title">Plant Disease Detection</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Plant Disease Detection</div>
+                            <div class="movie-description">Use computer vision to detect crop disease through image analysis.</div>
+                        </div>
+                        <div class="movie-type">ML/Agriculture</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/devops/automate-code-reviews-with-amazon-codeguru-reviewer/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #607D8B, #455A64);">
+                            <div class="blog-title">Automate Code Reviews</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Automate Code Reviews</div>
+                            <div class="movie-description">Automate code reviews with Amazon CodeGuru Reviewer.</div>
+                        </div>
+                        <div class="movie-type">DevOps</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/architecture/field-notes-applying-machine-learning-to-vegetation-management-using-amazon-sagemaker/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #795548, #5D4037);">
+                            <div class="blog-title">ML for Vegetation Management</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">ML for Vegetation Management</div>
+                            <div class="movie-description">Applying Machine Learning to Vegetation Management using Amazon SageMaker.</div>
+                        </div>
+                        <div class="movie-type">ML/Environment</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/machine-learning/accenture-promotes-machine-learning-growth-with-worlds-largest-private-aws-deepcomposer-battle-of-the-bands-league/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #E91E63, #C2185B);">
+                            <div class="blog-title">AWS DeepComposer Battle</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">AWS DeepComposer Battle</div>
+                            <div class="movie-description">AWS DeepComposer Battle of the Bands League with Accenture.</div>
+                        </div>
+                        <div class="movie-type">ML/Music</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/big-data/analyze-and-visualize-your-vpc-network-traffic-using-amazon-kinesis-and-amazon-athena/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #3F51B5, #303F9F);">
+                            <div class="blog-title">VPC Network Traffic Analysis</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">VPC Network Traffic Analysis</div>
+                            <div class="movie-description">Analyze and visualize your VPC network traffic using Amazon Kinesis and Amazon Athena.</div>
+                        </div>
+                        <div class="movie-type">Big Data</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/big-data/part-1-query-an-apache-hudi-dataset-in-an-amazon-s3-data-lake-with-amazon-athena-part-1-read-optimized-queries/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #009688, #00796B);">
+                            <div class="blog-title">Apache Hudi with Athena</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Apache Hudi with Athena</div>
+                            <div class="movie-description">Query an Apache Hudi dataset in an Amazon S3 data lake with Amazon Athena.</div>
+                        </div>
+                        <div class="movie-type">Big Data</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/big-data/building-a-real-time-notification-system-with-amazon-kinesis-data-streams-for-amazon-dynamodb-and-amazon-kinesis-data-analytics-for-apache-flink/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #FF5722, #E64A19);">
+                            <div class="blog-title">Real-time Notification System</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Real-time Notification System</div>
+                            <div class="movie-description">Building a real-time notification system with Amazon Kinesis Data Streams and Apache Flink.</div>
+                        </div>
+                        <div class="movie-type">Big Data</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/business-productivity/how-to-create-an-expense-tracking-app-without-coding-using-amazon-honeycode/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #FFC107, #FF8F00);">
+                            <div class="blog-title">No-Code Expense Tracking</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">No-Code Expense Tracking</div>
+                            <div class="movie-description">How to create an Expense Tracking App without coding using Amazon Honeycode.</div>
+                        </div>
+                        <div class="movie-type">No-Code</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/compute/performing-canary-deployments-for-service-integrations-with-amazon-api-gateway/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #673AB7, #512DA8);">
+                            <div class="blog-title">Canary Deployments API Gateway</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Canary Deployments API Gateway</div>
+                            <div class="movie-description">Performing canary deployments for service integrations with Amazon API Gateway.</div>
+                        </div>
+                        <div class="movie-type">DevOps</div>
+                    </div>
+                </div>
+                
+                <div class="movie-card" onclick="openPresentation('https://aws.amazon.com/blogs/apn/transforming-the-traveling-experience-with-accenture-5g-smart-airport-assistant-and-amazon-ar-vr/')">
+                    <div class="movie-poster">
+                        <div class="blog-cover" style="background: linear-gradient(135deg, #00BCD4, #0097A7);">
+                            <div class="blog-title">5G Smart Airport Assistant</div>
+                        </div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">5G Smart Airport Assistant</div>
+                            <div class="movie-description">Transforming the Traveling Experience with Accenture 5G Smart Airport Assistant and Amazon AR/VR.</div>
+                        </div>
+                        <div class="movie-type">AR/VR</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openPresentation(url) {
+            window.open(url, '_blank');
+        }
+        
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                
+                const size = Math.random() * 3 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+        });
+    </script>
+</body>
+</html>
