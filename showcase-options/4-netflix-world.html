@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix-Style World Portal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Netflix+Sans:wght@300;400;500;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #141414;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff, #ffff00);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+        }
+
+        .explore-btn {
+            background: linear-gradient(45deg, #e50914, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .explore-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+        }
+
+        /* Content Sections */
+        .content-world {
+            background: #141414;
+            padding: 2rem 0;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            padding: 0 4%;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon {
+            font-size: 2rem;
+        }
+
+        /* Netflix-style horizontal scroll */
+        .content-row {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scroll-behavior: smooth;
+        }
+
+        .content-row::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .content-row::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .content-row::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .content-row::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Content Cards */
+        .content-card {
+            min-width: 300px;
+            height: 180px;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #2a2a2a;
+        }
+
+        .content-card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .content-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover img {
+            filter: brightness(1.2);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 1.5rem 1rem 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .content-card:hover .card-overlay {
+            transform: translateY(0);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+
+        .card-type {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Category-specific styling */
+        .ai-section .content-card {
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a2a);
+        }
+
+        .ai-section .content-card:hover {
+            border-color: #00d4ff;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .soul-section .content-card {
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #2a2a2a, #2a1a1a);
+        }
+
+        .soul-section .content-card:hover {
+            border-color: #ff6b6b;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .apps-section .content-card {
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #2a2a2a, #1a2a1a);
+        }
+
+        .apps-section .content-card:hover {
+            border-color: #4ecdc4;
+            box-shadow: 0 10px 30px rgba(78, 205, 196, 0.3);
+        }
+
+        /* Featured Content */
+        .featured-card {
+            min-width: 400px;
+            height: 250px;
+            background: linear-gradient(135deg, #e50914, #ff6b6b);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .featured-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* Navigation */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 4%;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e50914;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #e50914;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 0 2%;
+            }
+
+            .content-card {
+                min-width: 250px;
+                height: 150px;
+            }
+
+            .featured-card {
+                min-width: 300px;
+                height: 200px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Category Sections */
+        .category-section {
+            margin-bottom: 4rem;
+            padding: 0 4%;
+        }
+
+        .category-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .category-icon {
+            font-size: 3rem;
+        }
+
+        .ai-category .category-title {
+            color: #00d4ff;
+            border-bottom-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .soul-category .category-title {
+            color: #ff6b6b;
+            border-bottom-color: rgba(255, 107, 107, 0.3);
+        }
+
+        /* Genre Sections */
+        .genre-section {
+            margin-bottom: 3rem;
+        }
+
+        .genre-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            padding-left: 1rem;
+            border-left: 4px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .ai-category .genre-title {
+            border-left-color: #00d4ff;
+        }
+
+        .soul-category .genre-title {
+            border-left-color: #ff6b6b;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        /* Updated Content Cards for Grid */
+        .content-grid .content-card {
+            min-width: unset;
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .content-grid .content-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        /* Category-specific card styling */
+        .ai-category .content-card {
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a2a);
+        }
+
+        .ai-category .content-card:hover {
+            border-color: #00d4ff;
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .soul-category .content-card {
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #2a2a2a, #2a1a1a);
+        }
+
+        .soul-category .content-card:hover {
+            border-color: #ff6b6b;
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Loading animation */
+        .loading-placeholder {
+            background: linear-gradient(90deg, #2a2a2a, #3a3a3a, #2a2a2a);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Responsive Design for Categories */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1rem;
+            }
+
+            .category-title {
+                font-size: 2rem;
+            }
+
+            .genre-title {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .category-section {
+                padding: 0 2%;
+            }
+
+            .content-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                padding: 0;
+            }
+
+            .content-grid .content-card {
+                height: 180px;
+            }
+
+            .category-title {
+                font-size: 1.8rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .genre-title {
+                font-size: 1.2rem;
+                padding-left: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-grid .content-card {
+                height: 160px;
+            }
+
+            .category-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Split Screen Layout */
+        .split-screen-container {
+            display: flex;
+            min-height: 100vh;
+            background: #141414;
+        }
+
+        .split-side {
+            flex: 1;
+            padding: 3rem 2rem;
+            overflow-y: auto;
+        }
+
+        .left-side {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .right-side {
+            background: linear-gradient(135deg, #1a0a0a 0%, #2e1a1a 50%, #3e1616 100%);
+        }
+
+        .side-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .side-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .ai-side .side-title {
+            color: #00d4ff;
+        }
+
+        .life-side .side-title {
+            color: #ff6b6b;
+        }
+
+        .side-icon {
+            font-size: 3rem;
+        }
+
+        .side-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+
+        /* Movies Grid */
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 1rem 0;
+        }
+
+        .movie-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .movie-poster {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #2a2a2a;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .ai-side .movie-poster:hover {
+            border-color: #00d4ff;
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+        }
+
+        .life-side .movie-poster:hover {
+            border-color: #ff6b6b;
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.3);
+        }
+
+        .movie-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #1a1a1a;
+            transition: all 0.3s ease;
+        }
+
+        .movie-poster:hover img {
+            filter: brightness(1.2);
+        }
+
+        .placeholder-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+        }
+
+        .movie-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            padding: 2rem 1.5rem 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover .movie-overlay {
+            transform: translateY(0);
+        }
+
+        .movie-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .movie-description {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+
+        .movie-type {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        /* Responsive Design for Split Screen */
+        @media (max-width: 1024px) {
+            .movies-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .side-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .split-screen-container {
+                flex-direction: column;
+            }
+
+            .split-side {
+                padding: 2rem 1rem;
+            }
+
+            .left-side {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .movies-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1rem;
+            }
+
+            .side-title {
+                font-size: 1.8rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .side-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .movies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .side-title {
+                font-size: 1.5rem;
+            }
+
+            .movie-title {
+                font-size: 1rem;
+            }
+
+            .movie-description {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <div class="logo">SameerAI</div>
+            <ul class="nav-links">
+                <li><a href="#ai">Science of AI</a></li>
+                <li><a href="#soul">Science of Soul</a></li>
+                <li><a href="#apps">Apps</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Welcome to My Universe</h1>
+            <p class="hero-subtitle">Explore the intersection of technology and consciousness</p>
+            <p class="hero-description">
+                Discover a curated collection of presentations, insights, and applications
+                spanning artificial intelligence, spiritual wisdom, and human potential.
+            </p>
+            <button class="explore-btn"
+                onclick="document.querySelector('.content-world').scrollIntoView({behavior: 'smooth'})">
+                Start Exploring
+            </button>
+        </div>
+    </section>
+
+    <!-- Split Screen Content -->
+    <div class="split-screen-container">
+        <!-- Left Side - Science of AI -->
+        <div class="split-side left-side ai-side">
+            <div class="side-header">
+                <h1 class="side-title">
+                    <span class="side-icon">🤖</span>
+                    Science of AI
+                </h1>
+                <p class="side-subtitle">Artificial Intelligence & Technology</p>
+            </div>
+
+            <div class="movies-grid">
+                <div class="movie-card"
+                    onclick="openPresentation('https://www.canva.com/design/DAGjGm-t5kk/Ndu7fQgbt2a_dUf7YY4KQw/view')">
+                    <div class="movie-poster">
+                        <img src="../presentations/genai-gym-for-employees-cover.png" alt="Gen AI Gym">
+                        <div class="movie-overlay">
+                            <div class="movie-title">Gen AI Gym for Employees</div>
+                            <div class="movie-description">Transform your workplace with generative AI</div>
+                            <div class="movie-type">Canva</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card"
+                    onclick="openPresentation('https://www.canva.com/design/DAFf1YZAEas/f4onYbk7YGrTy_yMIOLaYA/view')">
+                    <div class="movie-poster">
+                        <img src="../presentations/Generative-Agents-Cover.png" alt="Generative Agents">
+                        <div class="movie-overlay">
+                            <div class="movie-title">Generative Agents 2023</div>
+                            <div class="movie-description">The future of AI-powered autonomous agents</div>
+                            <div class="movie-type">Canva</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card"
+                    onclick="openPresentation('https://www.canva.com/design/DAGT1-fee-4/oXT_UDn8gXHMD3jrfJHzmg/view')">
+                    <div class="movie-poster">
+                        <img src="../books/CultivateInerIntelleigenceUsingAI-cover.png" alt="Inner Intelligence">
+                        <div class="movie-overlay">
+                            <div class="movie-title">Cultivate Inner Intelligence using AI</div>
+                            <div class="movie-description">Merge artificial and human intelligence</div>
+                            <div class="movie-type">Book</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card" onclick="openPresentation('https://prezi.com/view/NzqLAj0QG54qLMPSHIY1/')">
+                    <div class="movie-poster">
+                        <div class="placeholder-content">🎯</div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Architect Your Life</div>
+                            <div class="movie-description">Design your future with strategic thinking</div>
+                            <div class="movie-type">Prezi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card" onclick="openPresentation('https://prezi.com/view/kSVzdmy1HMMAuoiY2rGx/')">
+                    <div class="movie-poster">
+                        <div class="placeholder-content">💼</div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Emotional Intelligence at Workplace</div>
+                            <div class="movie-description">Building better professional relationships</div>
+                            <div class="movie-type">Prezi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card" onclick="openPresentation('https://prezi.com/view/dkW0nrmdDtLgaxlBJgCR/')">
+                    <div class="movie-poster">
+                        <div class="placeholder-content">🌍</div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Saving Earth from Invasive Species</div>
+                            <div class="movie-description">AI solutions for environmental protection</div>
+                            <div class="movie-type">Prezi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card" onclick="openPresentation('https://sameer-goel.github.io/total-recall/')">
+                    <div class="movie-poster">
+                        <div class="placeholder-content">🎮</div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">Book Quiz Game</div>
+                            <div class="movie-description">Interactive knowledge testing</div>
+                            <div class="movie-type">Web App</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side - Science of Life -->
+        <div class="split-side right-side life-side">
+            <div class="side-header">
+                <h1 class="side-title">
+                    <span class="side-icon">🧘</span>
+                    Science of Life
+                </h1>
+                <p class="side-subtitle">Consciousness & Spirituality</p>
+            </div>
+
+            <div class="movies-grid">
+                <div class="movie-card"
+                    onclick="openPresentation('https://www.canva.com/design/DAGhXAHIEoc/Z1f0cwmKxaYHFWx8yOjAuQ/view')">
+                    <div class="movie-poster">
+                        <img src="../presentations/ever-asked-these-questions-cover.png" alt="Questions">
+                        <div class="movie-overlay">
+                            <div class="movie-title">Have you ever asked these Questions?</div>
+                            <div class="movie-description">Fundamental questions about existence</div>
+                            <div class="movie-type">Canva</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card"
+                    onclick="openPresentation('https://www.canva.com/design/DAGodhPO7X8/fZfd0qbuc1tej6ekIILrqg/view')">
+                    <div class="movie-poster">
+                        <img src="../presentations/What is Truth about AUM-cover.png" alt="Science of AUM">
+                        <div class="movie-overlay">
+                            <div class="movie-title">Science of AUM</div>
+                            <div class="movie-description">The sacred sound and universal vibration</div>
+                            <div class="movie-type">Canva</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card"
+                    onclick="openPresentation('https://www.canva.com/design/DAGjs21lux8/iYE5dm3C1AlfNZxlAqFZZA/view')">
+                    <div class="movie-poster">
+                        <img src="../presentations/science-of-aum-cover.png" alt="Science of Universe">
+                        <div class="movie-overlay">
+                            <div class="movie-title">Science of Universe</div>
+                            <div class="movie-description">Cosmic consciousness and universal laws</div>
+                            <div class="movie-type">Canva</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card"
+                    onclick="openPresentation('https://www.canva.com/design/DAGvAqrXyfc/kOPbnTa-OWCgiixZguBImw/view')">
+                    <div class="movie-poster">
+                        <img src="../presentations/science-of-spirituality-cover.png" alt="Sacred Geometry">
+                        <div class="movie-overlay">
+                            <div class="movie-title">Sacred Geometry</div>
+                            <div class="movie-description">Mathematical patterns in spiritual wisdom</div>
+                            <div class="movie-type">Canva</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="movie-card"
+                    onclick="openPresentation('https://www.canva.com/design/DAGM9gegNfQ/dNT_Viy4lRdVII9w126pvw/watch')">
+                    <div class="movie-poster">
+                        <div class="placeholder-content">🔮</div>
+                        <div class="movie-overlay">
+                            <div class="movie-title">The Only Way is Within</div>
+                            <div class="movie-description">Journey to inner transformation</div>
+                            <div class="movie-type">Video</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPresentation(url) {
+            window.open(url, '_blank');
+        }
+
+        // Smooth scroll navigation
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.nav-bar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(20, 20, 20, 0.95)';
+            } else {
+                navbar.style.background = 'rgba(20, 20, 20, 0.9)';
+            }
+        });
+
+        // Add loading animation to placeholder cards
+        document.addEventListener('DOMContentLoaded', function () {
+            const placeholders = document.querySelectorAll('.loading-placeholder');
+            placeholders.forEach(placeholder => {
+                // Simulate loading different content types
+                const contentTypes = ['🎯', '📊', '🎨', '💡', '🔬'];
+                const randomIcon = contentTypes[Math.floor(Math.random() * contentTypes.length)];
+
+                setTimeout(() => {
+                    placeholder.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 4rem;">
+                            ${randomIcon}
+                        </div>
+                    `;
+                    placeholder.classList.remove('loading-placeholder');
+                }, Math.random() * 2000 + 1000);
+            });
+        });
+    </script>
+</body>
+
+</html>
