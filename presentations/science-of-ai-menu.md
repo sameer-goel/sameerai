@@ -10,6 +10,9 @@ https://www.canva.com/design/DAGYIhzD4ks/x_43pbxc35WT2N54ZaOVFQ/view?utm_content
 How to Cultivate Inner Intelleigence using AI,
 https://www.canva.com/design/DAGT1-fee-4/oXT_UDn8gXHMD3jrfJHzmg/view?utm_content=DAGT1-fee-4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h6b6dfb094d
 
+Have you ever asked these Questions?,
+https://www.canva.com/design/DAGhXAHIEoc/Z1f0cwmKxaYHFWx8yOjAuQ/view?utm_content=DAGhXAHIEoc&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h97e6b8a160
+
 Saving Earth from invasive species,
 https://prezi.com/view/dkW0nrmdDtLgaxlBJgCR/
 
