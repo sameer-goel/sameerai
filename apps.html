@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books</title>
+    <title>Apps</title>
     <link rel="stylesheet" href="assets/styles/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
@@ -79,7 +79,7 @@
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
-            aspect-ratio: 9/14;
+            aspect-ratio: 16/9;
             position: relative;
         }
         
@@ -95,11 +95,25 @@
             position: relative;
         }
         
-        .movie-poster img {
+        .app-cover {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .app-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            line-height: 1.4;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+            z-index: 2;
         }
         
         .movie-overlay {
@@ -133,18 +147,6 @@
             line-height: 1.3;
         }
         
-        .movie-type {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(0, 212, 255, 0.8);
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: white;
-        }
-        
         .category-buttons {
             display: flex;
             justify-content: center;
@@ -176,6 +178,7 @@
             border-color: #00d4ff;
             color: white;
         }
+
     </style>
 </head>
 <body>
@@ -185,38 +188,28 @@
         <a href="work.html" class="back-icon">←</a>
         
         <div class="page-header">
-            <h1 class="page-title">📚 Books</h1>
-            <p class="page-subtitle">AI-powered personal development and growth resources</p>
+            <h1 class="page-title">📱 Apps</h1>
+            <p class="page-subtitle">Interactive applications and tools</p>
             
             <div class="category-buttons">
                 <a href="work.html" class="category-btn">AI Tech</a>
                 <a href="blogs.html" class="category-btn">Published AWS Blogs</a>
-                <a href="books.html" class="category-btn active">Books</a>
-                <a href="apps.html" class="category-btn">Apps</a>
+                <a href="books.html" class="category-btn">Books</a>
+                <a href="apps.html" class="category-btn active">Apps</a>
             </div>
         </div>
         
         <div class="movies-container">
             <div class="movies-grid">
-                <div class="movie-card" onclick="openPresentation('#')">
+                <div class="movie-card" onclick="openPresentation('https://sameer-goel.github.io/total-recall/')">
                     <div class="movie-poster">
-                        <img src="assets/images/books/TheEyeOpenersBookCover.png" alt="The Eye Openers">
-                        <div class="movie-overlay">
-                            <div class="movie-title">The Eye Openers</div>
-                            <div class="movie-description">Insights and revelations that change your perspective on life and reality.</div>
+                        <div class="app-cover" style="background: linear-gradient(135deg, #FF6B6B, #4ECDC4);">
+                            <div class="app-title">Book Quiz Game</div>
                         </div>
-                        <div class="movie-type">Philosophy</div>
-                    </div>
-                </div>
-                
-                <div class="movie-card" onclick="openPresentation('https://www.canva.com/design/DAGT1-fee-4/oXT_UDn8gXHMD3jrfJHzmg/view')">
-                    <div class="movie-poster">
-                        <img src="assets/images/books/CultivateInerIntelleigenceUsingAI-cover.png" alt="Inner Intelligence">
                         <div class="movie-overlay">
-                            <div class="movie-title">How to Cultivate Inner Intelligence using AI</div>
-                            <div class="movie-description">Merge artificial and human intelligence for personal growth.</div>
+                            <div class="movie-title">Book Quiz Game</div>
+                            <div class="movie-description">Interactive quiz application to test your knowledge from books.</div>
                         </div>
-                        <div class="movie-type">AI Psychology</div>
                     </div>
                 </div>
             </div>
