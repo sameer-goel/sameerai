@@ -1358,6 +1358,83 @@ body::after {
     animation: sphereBounce 3s ease-in-out infinite;
 }
 
+.hi-button-container {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 100;
+    display: flex;
+    gap: 1rem;
+}
+
+.website-button {
+    display: inline-block;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(76, 175, 80, 0.4);
+    border-radius: 50px;
+    padding: 1rem 2rem;
+    color: #4caf50;
+    text-decoration: none;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    animation: hiButtonFloat 3s ease-in-out infinite;
+    animation-delay: 1.5s;
+}
+
+.website-button:hover {
+    background: radial-gradient(circle at 30% 30%, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.1));
+    border-color: #4caf50;
+    color: white;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 
+        0 0 30px rgba(76, 175, 80, 0.6),
+        0 10px 30px rgba(0, 0, 0, 0.3);
+    animation-play-state: paused;
+}
+
+.hi-button {
+    display: inline-block;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(0, 212, 255, 0.4);
+    border-radius: 50px;
+    padding: 1rem 2rem;
+    color: #00d4ff;
+    text-decoration: none;
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    animation: hiButtonFloat 3s ease-in-out infinite;
+}
+
+.hi-button:hover {
+    background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.3), rgba(0, 212, 255, 0.1));
+    border-color: #00d4ff;
+    color: white;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 
+        0 0 30px rgba(0, 212, 255, 0.6),
+        0 10px 30px rgba(0, 0, 0, 0.3);
+    animation-play-state: paused;
+}
+
+@keyframes hiButtonFloat {
+    0%, 100% { 
+        transform: translateY(0px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+    50% { 
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+}
+
 .universe-title-bottom {
     position: fixed;
     bottom: 2rem;
@@ -1476,5 +1553,17 @@ body::after {
     
     .realm-card {
         min-width: 280px;
+    }
+    
+    .hi-button-container {
+        top: 1rem;
+        right: 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .hi-button, .website-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
     }
 }
