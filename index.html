@@ -1,59 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sameerai Universe</title>
-    <link rel="stylesheet" href="assets/styles/styles.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap"
-        rel="stylesheet">
-
+    <title>✨ Sameerai Universe ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <div class="portal-container">
-        <!-- Background particles -->
-        <div class="particles" id="particles"></div>
-
-
-
-        <!-- Main portal -->
-        <div class="game-layout">
-            <!-- Work Section -->
-            <div class="realm-section work-section" data-realm="ai">
-                <div class="realm-icon">🤖</div>
-                <div class="realm-title">WORK</div>
-                <div class="realm-subtitle">AI & Technology</div>
-                <div class="enter-btn">Enter Realm</div>
+<body style="background: #000; color: #fff; font-family: 'Orbitron', monospace; height: 100vh; margin: 0; padding: 0; position: relative; overflow: hidden;">
+    <!-- Animated starfield background -->
+    <div id="stars" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></div>
+    
+    <!-- Top navigation links -->
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 10; display: flex; gap: 20px;">
+        <a href="pages/morethangood.html" style="color: #888; text-decoration: none; font-size: 0.9rem;">Hi</a>
+        <a href="https://www.sameer-goel.com" style="color: #888; text-decoration: none; font-size: 0.9rem;" target="_blank">sameer-goel.com</a>
+    </div>
+    
+    <!-- Main content area with icons -->
+    <div style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <div style="display: flex; gap: 100px; align-items: center; justify-content: center;">
+            
+            <!-- Work/AI Icon with sub-spheres -->
+            <div class="icon-container work-icon" onclick="window.location.href='pages/work.html'">
+                <img src="assets/icons/workicon.gif" alt="Work" style="width: 350px; height: 350px;">
+                <div class="hover-text">Artificial Intelligence</div>
+                <!-- Work sub-spheres positioned on left side -->
+                <div class="sub-sphere" data-label="GenAI" style="--angle: 135deg;"></div>
+                <div class="sub-sphere" data-label="AgenticAI" style="--angle: 180deg;"></div>
+                <div class="sub-sphere" data-label="Cloud" style="--angle: 225deg;"></div>
             </div>
-
-            <!-- Life Section -->
-            <div class="realm-section life-section" data-realm="soul">
-                <div class="realm-icon">❤️</div>
-                <div class="realm-title">LIFE</div>
-                <div class="realm-subtitle">Growth & Balance</div>
-                <div class="enter-btn">Enter Realm</div>
+            
+            <!-- Life/Inner Intelligence Icon with sub-spheres -->
+            <div class="icon-container life-icon" onclick="window.location.href='pages/life.html'">
+                <img src="assets/icons/lifeicon.gif" alt="Life" style="width: 350px; height: 350px;">
+                <div class="hover-text">Inner Intelligence</div>
+                <!-- Life sub-spheres positioned on right side -->
+                <div class="sub-sphere" data-label="Mind" style="--angle: 45deg;"></div>
+                <div class="sub-sphere" data-label="Body" style="--angle: 0deg;"></div>
+                <div class="sub-sphere" data-label="Soul" style="--angle: 315deg;"></div>
             </div>
         </div>
-
-        <!-- Hi Button -->
-        <div class="hi-button-container">
-            <a href="pages/morethangood.html" class="hi-button">Hi</a>
-            <a href="https://www.sameer-goel.com" class="website-button" target="_blank">sameer-goel.com</a>
-        </div>
-
-        <!-- Universe Title at Bottom -->
-        <div class="universe-title-bottom">
-            <h1 class="brand-name">Sameerai Universe</h1>
-            <div class="stars">✦✧✦✧</div>
-        </div>
-
-
+    </div>
+    
+    <!-- Footer title -->
+    <div style="position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 10;">
+        <h1 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 10px; background: linear-gradient(45deg, #00d4ff, #ff00ff, #ffff00, #00ff00); background-size: 400% 400%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: galaxyGlow 3s ease-in-out infinite; text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);">Sameerai Universe</h1>
+        <div style="font-size: 1rem; color: #00d4ff; font-weight: 600; letter-spacing: 1px; text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);">✦✧ Where Artificial Intelligence meets Inner Intelligence ✧✦</div>
     </div>
 
-    <script src="assets/scripts/script.js"></script>
+    <script>
+        // Create animated starfield background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 200;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.background = '#fff';
+                star.style.borderRadius = '50%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.opacity = Math.random() * 0.8 + 0.2;
+                star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite alternate`;
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Add CSS styles dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            /* Star twinkling animation */
+            @keyframes twinkle {
+                0% { opacity: 0.2; transform: scale(1); }
+                100% { opacity: 1; transform: scale(1.2); }
+            }
+            
+            /* Galaxy gradient animation for title */
+            @keyframes galaxyGlow {
+                0%, 100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+            }
+            
+            /* Main icon container styling */
+            .icon-container {
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.4s ease;
+                border-radius: 50%;
+                position: relative;
+            }
+            
+            /* Icon hover effects - scale and glow */
+            .icon-container:hover {
+                transform: scale(1.15);
+                filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.8)) drop-shadow(0 0 80px rgba(0, 212, 255, 0.4));
+            }
+            
+            /* Hover text that appears in center of icons */
+            .hover-text {
+                position: absolute;
+                top: 175px; /* Center of 350px icon */
+                left: 175px; /* Center of 350px icon */
+                transform: translate(-50%, -50%);
+                font-family: 'Orbitron', monospace;
+                font-size: 1.2rem;
+                font-weight: 700;
+                color: #fff;
+                text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+                opacity: 0;
+                transition: opacity 0.4s ease;
+                pointer-events: none;
+                text-align: center;
+                z-index: 10;
+            }
+            
+            /* Show hover text on icon hover */
+            .icon-container:hover .hover-text {
+                opacity: 1;
+            }
+            
+            /* Sub-sphere styling - hidden by default */
+            .sub-sphere {
+                position: absolute;
+                width: 80px;
+                height: 80px;
+                background: radial-gradient(circle, rgba(0, 212, 255, 0.3), rgba(0, 212, 255, 0.1));
+                border: 2px solid rgba(0, 212, 255, 0.6);
+                border-radius: 50%;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 0;
+                transition: all 0.4s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: #fff;
+                text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+                cursor: pointer;
+                z-index: 5;
+            }
+            
+            /* Sub-spheres pop out radially on hover using trigonometry */
+            .icon-container:hover .sub-sphere {
+                opacity: 1;
+                transform: translate(-50%, -50%) translate(
+                    calc(cos(var(--angle)) * 240px),
+                    calc(sin(var(--angle)) * 240px)
+                );
+            }
+            
+            /* Display sub-sphere labels */
+            .sub-sphere::before {
+                content: attr(data-label);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialize starfield on page load
+        createStars();
+    </script>
 </body>
-
 </html>

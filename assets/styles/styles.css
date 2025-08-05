@@ -1484,12 +1484,12 @@ body::after {
     backdrop-filter: blur(15px);
     border: none;
     border-radius: 50%;
-    padding: 4rem 3rem;
+    padding: 0;
     text-align: center;
     cursor: pointer;
     transition: all 0.4s ease;
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
