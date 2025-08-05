@@ -39,9 +39,9 @@ function setupEventListeners() {
         section.addEventListener('click', function() {
             const realm = this.dataset.realm;
             if (realm === 'ai') {
-                window.location.href = 'work.html';
+                window.location.href = 'pages/work.html';
             } else if (realm === 'soul') {
-                window.location.href = 'life.html';
+                window.location.href = 'pages/life.html';
             }
         });
     });
