@@ -1,3 +1,0 @@
-TheEyeOpenersBookCover
-
-CultivateInerIntelleigenceUsingAI-cover
