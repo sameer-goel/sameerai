@@ -1,0 +1,14 @@
+# Test files
+testsound.html
+newindex.html
+index-backup.html
+index-before-refactor.html
+
+# Development files
+*.tmp
+*.log
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
