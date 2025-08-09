@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ego Death Visualization</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000000;
+            font-family: 'Inter', sans-serif;
+            color: white;
+        }
+        canvas {
+            display: block;
+        }
+        .info-box {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 14px;
+            pointer-events: none;
+            transition: opacity 1s ease-in-out;
+            max-width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #info {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        #info p {
+            margin: 4px 0;
+        }
+        #info .insight {
+            font-style: italic;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        #ego-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25vw;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            transition: opacity 2s ease-out;
+        }
+        #phases-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #phases-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+        }
+        #phases-container li {
+            padding: 5px 10px;
+            margin: 2px 0;
+            border-radius: 5px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: background-color 0.5s, color 0.5s;
+        }
+        #phases-container li.active-phase {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: bold;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="info" class="info-box">
+        <!-- Content is now managed by JavaScript -->
+    </div>
+    <div id="phases-container">
+        <ul>
+            <li id="phase-1">Phase 1: Stable Ego</li>
+            <li id="phase-2">Phase 2: Dissolution</li>
+            <li id="phase-3">Phase 3: Ego Death</li>
+            <li id="phase-4">Phase 4: Reintegration</li>
+        </ul>
+    </div>
+    <div id="ego-text">EGO</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // --- SCENE SETUP ---
+        let scene, camera, renderer, particleSystem;
+        let mouse = new THREE.Vector2();
+        let targetRotation = 0;
+        let currentRotation = 0;
+
+        // --- DOM ELEMENTS ---
+        const infoElement = document.getElementById('info');
+        const egoTextElement = document.getElementById('ego-text');
+
+        // --- STATE MANAGEMENT ---
+        const STAGES = {
+            STABLE_EGO: 'STABLE_EGO',
+            DISSOLVING: 'DISSOLVING',
+            EGO_DEATH: 'EGO_DEATH',
+            REINTEGRATION: 'REINTEGRATION'
+        };
+        let currentState = STAGES.STABLE_EGO;
+        let transitionProgress = 0;
+        
+        // --- PARTICLE CONSTANTS ---
+        const PARTICLE_COUNT = 3000;
+        const EGO_RADIUS = 100;
+
+        // --- HARD-CODED INSIGHTS ---
+        const INSIGHTS = {
+            [STAGES.STABLE_EGO]: "The self is a structure, a familiar pattern held together by belief.",
+            [STAGES.DISSOLVING]: "What happens when the walls that define the self begin to soften and blur?",
+            [STAGES.EGO_DEATH]: "In the absence of a center, every point becomes the center.",
+            [STAGES.REINTEGRATION]: "The ocean does not fight the waves; it is the waves."
+        };
+
+
+        function init() {
+            // Scene
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x000000, 0.001);
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 400;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // --- PARTICLE CREATION ---
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(PARTICLE_COUNT * 3);
+            const colors = new Float32Array(PARTICLE_COUNT * 3);
+            const velocities = new Float32Array(PARTICLE_COUNT * 3);
+            const initialPositions = new Float32Array(PARTICLE_COUNT * 3);
+
+            const color = new THREE.Color();
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const phi = Math.acos(-1 + (2 * i) / PARTICLE_COUNT);
+                const theta = Math.sqrt(PARTICLE_COUNT * Math.PI) * phi;
+
+                const x = EGO_RADIUS * Math.cos(theta) * Math.sin(phi);
+                const y = EGO_RADIUS * Math.sin(theta) * Math.sin(phi);
+                const z = EGO_RADIUS * Math.cos(phi);
+
+                positions[i * 3] = x;
+                positions[i * 3 + 1] = y;
+                positions[i * 3 + 2] = z;
+
+                initialPositions[i * 3] = x;
+                initialPositions[i * 3 + 1] = y;
+                initialPositions[i * 3 + 2] = z;
+
+                color.setHSL(0.6, 0.9, 0.8);
+                colors[i * 3] = color.r;
+                colors[i * 3 + 1] = color.g;
+                colors[i * 3 + 2] = color.b;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.setAttribute('velocity', new THREE.BufferAttribute(velocities, 3));
+            geometry.setAttribute('initialPosition', new THREE.BufferAttribute(initialPositions, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 3,
+                vertexColors: true,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                opacity: 0.8,
+                depthWrite: false
+            });
+
+            particleSystem = new THREE.Points(geometry, material);
+            scene.add(particleSystem);
+
+            // --- EVENT LISTENERS ---
+            window.addEventListener('resize', onWindowResize, false);
+            document.addEventListener('mousemove', onMouseMove, false);
+            document.addEventListener('click', onClick, false);
+
+            updateUI(STAGES.STABLE_EGO); // Initial UI setup
+            animate();
+        }
+
+        function updateUI(stage) {
+            infoElement.style.opacity = 1;
+            let title, description, insight;
+
+            switch (stage) {
+                case STAGES.STABLE_EGO:
+                    title = "Phase 1: The Stable Ego";
+                    description = "Move mouse to rotate. Click to begin dissolution.";
+                    break;
+                case STAGES.DISSOLVING:
+                    title = "Phase 2: Dissolution";
+                    description = "The self begins to fragment. Click to accelerate.";
+                    break;
+                case STAGES.EGO_DEATH:
+                    title = "Phase 3: Ego Death";
+                    description = "The structure dissolves into a unified field.";
+                    setTimeout(() => { infoElement.style.opacity = 0; }, 5000);
+                    break;
+                case STAGES.REINTEGRATION:
+                     title = "Phase 4: Reintegration";
+                     description = "A new, unified consciousness emerges. Click to restart.";
+                     break;
+            }
+
+            insight = INSIGHTS[stage];
+            infoElement.innerHTML = `<p><strong>${title}</strong></p><p>${description}</p><p class="insight">"${insight}"</p>`;
+            
+            // Update phase list highlighting
+            document.querySelectorAll('#phases-container li').forEach(li => {
+                li.classList.remove('active-phase');
+            });
+
+            let activePhaseId;
+            switch (stage) {
+                case STAGES.STABLE_EGO: activePhaseId = 'phase-1'; break;
+                case STAGES.DISSOLVING: activePhaseId = 'phase-2'; break;
+                case STAGES.EGO_DEATH: activePhaseId = 'phase-3'; break;
+                case STAGES.REINTEGRATION: activePhaseId = 'phase-4'; break;
+            }
+            if (activePhaseId) {
+                document.getElementById(activePhaseId).classList.add('active-phase');
+            }
+        }
+
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onMouseMove(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            targetRotation = mouse.x * 2;
+        }
+
+        function onClick() {
+            switch (currentState) {
+                case STAGES.STABLE_EGO:
+                    currentState = STAGES.DISSOLVING;
+                    updateUI(STAGES.DISSOLVING);
+                    break;
+                case STAGES.DISSOLVING:
+                    transitionProgress += 0.2; // Accelerate dissolution
+                    break;
+                case STAGES.REINTEGRATION:
+                    // Reset the simulation
+                    currentState = STAGES.STABLE_EGO;
+                    transitionProgress = 0;
+                    const initialPositions = particleSystem.geometry.attributes.initialPosition;
+                    particleSystem.geometry.setAttribute('position', initialPositions.clone());
+                    particleSystem.geometry.attributes.position.needsUpdate = true;
+                    updateUI(STAGES.STABLE_EGO);
+                    egoTextElement.style.opacity = '1'; // Make EGO text reappear
+                    break;
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = Date.now() * 0.0005;
+            const positions = particleSystem.geometry.attributes.position;
+            const colors = particleSystem.geometry.attributes.color;
+            const velocities = particleSystem.geometry.attributes.velocity;
+
+            currentRotation += (targetRotation - currentRotation) * 0.05;
+            particleSystem.rotation.y = currentRotation;
+            particleSystem.rotation.x = mouse.y * 0.5;
+
+            switch (currentState) {
+                case STAGES.STABLE_EGO:
+                    // The ego text is visible by default
+                    break;
+
+                case STAGES.DISSOLVING:
+                    transitionProgress += 0.002;
+                    // Dissolve the EGO text along with the particles
+                    egoTextElement.style.opacity = Math.max(0, 1 - transitionProgress);
+
+                    if (transitionProgress >= 1) {
+                        transitionProgress = 1;
+                        currentState = STAGES.EGO_DEATH;
+                        updateUI(STAGES.EGO_DEATH);
+                    }
+                    for (let i = 0; i < PARTICLE_COUNT; i++) {
+                        positions.array[i * 3] += (Math.random() - 0.5) * 0.5 * transitionProgress;
+                        positions.array[i * 3 + 1] += (Math.random() - 0.5) * 0.5 * transitionProgress;
+                        positions.array[i * 3 + 2] += (Math.random() - 0.5) * 0.5 * transitionProgress;
+                        const hue = 0.6 + (0.4 * transitionProgress);
+                        const lightness = 0.8 - (0.2 * transitionProgress);
+                        const color = new THREE.Color();
+                        color.setHSL(hue, 0.9, lightness);
+                        colors.array[i * 3] = color.r;
+                        colors.array[i * 3 + 1] = color.g;
+                        colors.array[i * 3 + 2] = color.b;
+                    }
+                    break;
+
+                case STAGES.EGO_DEATH:
+                    egoTextElement.style.opacity = '0'; // Ensure it's hidden
+                    if (transitionProgress < 2) {
+                        transitionProgress += 0.01;
+                    } else {
+                        currentState = STAGES.REINTEGRATION;
+                        updateUI(STAGES.REINTEGRATION);
+                    }
+                    for (let i = 0; i < PARTICLE_COUNT; i++) {
+                        if (transitionProgress <= 1.01) {
+                            const p = new THREE.Vector3(positions.array[i * 3], positions.array[i * 3 + 1], positions.array[i * 3 + 2]);
+                            p.normalize().multiplyScalar(Math.random() * 5 + 2);
+                            velocities.array[i * 3] = p.x;
+                            velocities.array[i * 3 + 1] = p.y;
+                            velocities.array[i * 3 + 2] = p.z;
+                        }
+                        positions.array[i * 3] += velocities.array[i * 3];
+                        positions.array[i * 3 + 1] += velocities.array[i * 3 + 1];
+                        positions.array[i * 3 + 2] += velocities.array[i * 3 + 2];
+                        velocities.array[i * 3] *= 0.98;
+                        velocities.array[i * 3 + 1] *= 0.98;
+                        velocities.array[i * 3 + 2] *= 0.98;
+                        const hue = (time + i / PARTICLE_COUNT) % 1.0;
+                        const color = new THREE.Color();
+                        color.setHSL(hue, 1.0, 0.6);
+                        colors.array[i * 3] = color.r;
+                        colors.array[i * 3 + 1] = color.g;
+                        colors.array[i * 3 + 2] = color.b;
+                    }
+                    camera.position.z += (800 - camera.position.z) * 0.01;
+                    break;
+
+                case STAGES.REINTEGRATION:
+                     for (let i = 0; i < PARTICLE_COUNT; i++) {
+                        const hue = (time * 0.1 + 0.7) % 1.0;
+                        const color = new THREE.Color();
+                        color.setHSL(hue, 0.8, 0.6);
+                        colors.array[i * 3] += (color.r - colors.array[i * 3]) * 0.01;
+                        colors.array[i * 3 + 1] += (color.g - colors.array[i * 3 + 1]) * 0.01;
+                        colors.array[i * 3 + 2] += (color.b - colors.array[i * 3 + 2]) * 0.01;
+                        const p = new THREE.Vector3(positions.array[i*3], positions.array[i*3+1], positions.array[i*3+2]);
+                        const noiseFactor = 0.002;
+                        positions.array[i*3] += Math.sin(p.y * noiseFactor + time) * 0.1;
+                        positions.array[i*3+1] += Math.cos(p.z * noiseFactor + time) * 0.1;
+                        positions.array[i*3+2] += Math.sin(p.x * noiseFactor + time) * 0.1;
+                     }
+                     camera.position.z += (400 - camera.position.z) * 0.01;
+                    break;
+            }
+
+            positions.needsUpdate = true;
+            colors.needsUpdate = true;
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
+</body>
+</html>

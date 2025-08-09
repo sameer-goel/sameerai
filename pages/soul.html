@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Soul - Spiritual Consciousness ✨</title>
+    <link rel="icon" type="image/gif" href="../favicon.gif">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Spiritual starfield background with golden accents */
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            transition: opacity 0.8s ease;
+        }
+
+        #landing-screen {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #universe-screen {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .universe-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .content-container {
+            display: flex;
+            gap: 120px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Central Soul GIF styling */
+        #entry-gif {
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        #main-gif {
+            width: 400px;
+            height: 400px;
+            filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.6));
+            transition: all 0.8s ease;
+        }
+
+        /* Spiritual content spheres */
+        .content-sphere {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .sphere-gif {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.4));
+            transition: all 0.4s ease;
+        }
+
+        .content-sphere:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8));
+        }
+
+        .content-sphere:hover .sphere-gif {
+            filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.9));
+        }
+
+        /* Sphere labels */
+        .sphere-label {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .content-sphere:hover .sphere-label {
+            opacity: 1;
+        }
+
+        /* Collapsible Navigation Sidebar */
+        .nav-sidebar {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 320px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            transition: left 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .nav-sidebar.open {
+            left: 0;
+        }
+
+        .nav-toggle {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ffd700;
+            font-size: 1.2rem;
+            z-index: 1001;
+        }
+
+        .nav-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .nav-toggle.open {
+            left: 340px;
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+        }
+
+        /* Navigation Header */
+        .nav-header {
+            padding: 2rem 1.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3), rgba(0, 212, 255, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .nav-logo-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .nav-subtitle {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 300;
+            text-align: center;
+        }
+
+        /* Navigation Sections */
+        .nav-section {
+            padding: 1rem 1.5rem;
+        }
+
+        .nav-section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-realm {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-realm-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            padding: 0.5rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-realm-header:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-realm-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .nav-realm-icon.ai {
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(0, 212, 255, 0.4);
+            color: #00d4ff;
+        }
+
+        .nav-realm-icon.inner {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #ffd700;
+        }
+
+        .nav-realm-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Sub-sphere Navigation */
+        .nav-spheres {
+            margin-left: 1rem;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding-left: 1rem;
+        }
+
+        .nav-sphere {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 0.8rem;
+            margin-bottom: 0.3rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-sphere:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            transform: translateX(5px);
+        }
+
+        .nav-sphere.active {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+        }
+
+        .nav-sphere-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-sphere.active .nav-sphere-icon {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: #ffd700;
+            color: #ffd700;
+        }
+
+        .nav-sphere-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Overlay for mobile */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .nav-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Page title */
+        .page-title {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffd700, #ff6b6b, #ffd700);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            z-index: 100;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Footer subtitle */
+        .footer-subtitle {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 1rem;
+            color: #ffd700;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        /* Spiritual animations */
+        @keyframes twinkle {
+            0% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes spiritualGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .content-container {
+                flex-direction: column;
+                gap: 60px;
+            }
+
+            #main-gif {
+                width: 300px;
+                height: 300px;
+            }
+
+            .sphere-gif {
+                width: 150px;
+                height: 150px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+                top: 1rem;
+            }
+
+            .nav-sidebar {
+                width: 280px;
+                left: -280px;
+            }
+
+            .nav-toggle.open {
+                left: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-container {
+                gap: 40px;
+            }
+
+            #main-gif {
+                width: 250px;
+                height: 250px;
+            }
+
+            .sphere-gif {
+                width: 120px;
+                height: 120px;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .nav-sidebar {
+                width: 260px;
+                left: -260px;
+            }
+
+            .nav-toggle.open {
+                left: 280px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Spiritual starfield background -->
+    <div id="stars"></div>
+
+    <!-- Navigation Toggle -->
+    <div class="nav-toggle" onclick="toggleNavigation()">☰</div>
+
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay" onclick="closeNavigation()"></div>
+
+    <!-- Collapsible Navigation Sidebar -->
+    <nav class="nav-sidebar">
+        <div class="nav-header">
+            <div class="nav-logo">
+                <div class="nav-logo-icon" onclick="goHome()">🌌</div>
+                <div class="nav-logo-text">Digital Consciousness</div>
+            </div>
+            <div class="nav-subtitle">Navigate the Cosmic Realms</div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Realms</div>
+
+            <!-- AI Realm -->
+            <div class="nav-realm">
+                <div class="nav-realm-header" onclick="toggleRealm('ai')">
+                    <div class="nav-realm-icon ai">AI</div>
+                    <div class="nav-realm-title">Artificial Intelligence</div>
+                </div>
+                <div class="nav-spheres" id="ai-spheres">
+                    <a href="research.html" class="nav-sphere">
+                        <div class="nav-sphere-icon">R</div>
+                        <div class="nav-sphere-name">Research</div>
+                    </a>
+                    <a href="dev.html" class="nav-sphere">
+                        <div class="nav-sphere-icon">D</div>
+                        <div class="nav-sphere-name">Development</div>
+                    </a>
+                    <a href="ethics.html" class="nav-sphere">
+                        <div class="nav-sphere-icon">E</div>
+                        <div class="nav-sphere-name">Ethics</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Inner Intelligence Realm -->
+            <div class="nav-realm">
+                <div class="nav-realm-header" onclick="toggleRealm('inner')">
+                    <div class="nav-realm-icon inner">II</div>
+                    <div class="nav-realm-title">Inner Intelligence</div>
+                </div>
+                <div class="nav-spheres" id="inner-spheres">
+                    <a href="mind.html" class="nav-sphere">
+                        <div class="nav-sphere-icon">M</div>
+                        <div class="nav-sphere-name">Mind</div>
+                    </a>
+                    <a href="body.html" class="nav-sphere">
+                        <div class="nav-sphere-icon">B</div>
+                        <div class="nav-sphere-name">Body</div>
+                    </a>
+                    <a href="soul.html" class="nav-sphere active">
+                        <div class="nav-sphere-icon">S</div>
+                        <div class="nav-sphere-name">Soul</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-title">SOUL</div>
+
+    <!-- Initial landing screen with central Soul GIF -->
+    <div id="landing-screen" class="screen">
+        <div id="entry-gif" onclick="enterSoulRealm()">
+            <img id="main-gif" src="../assets/icons/inner-soul.gif" alt="Soul Consciousness">
+        </div>
+    </div>
+
+    <!-- Soul content screen with spiritual spheres -->
+    <div id="universe-screen" class="screen">
+        <div class="universe-container">
+            <div class="content-container">
+
+                <!-- Sacred Geometry Sphere -->
+                <div class="content-sphere"
+                    onclick="openPresentation('https://www.canva.com/design/DAGvAqrXyfc/kOPbnTa-OWCgiixZguBImw/view')">
+                    <img src="../assets/icons/inner-soul.gif" alt="Sacred Geometry" class="sphere-gif">
+                    <div class="sphere-label">Sacred Geometry</div>
+                </div>
+
+                <!-- Ego Death Visualization Sphere -->
+                <div class="content-sphere" onclick="openEgoDeathVisualization()">
+                    <img src="../assets/icons/inner-soul.gif" alt="Ego Death" class="sphere-gif">
+                    <div class="sphere-label">Ego Death Journey</div>
+                </div>
+
+                <!-- Consciousness Studies Sphere -->
+                <div class="content-sphere"
+                    onclick="openPresentation('https://www.canva.com/design/DAGjs21lux8/iYE5dm3C1AlfNZxlAqFZZA/view')">
+                    <img src="../assets/icons/inner-soul.gif" alt="Consciousness" class="sphere-gif">
+                    <div class="sphere-label">Universal Consciousness</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer subtitle -->
+        <div class="footer-subtitle">
+            ✦✧ Journey into the depths of spiritual consciousness ✧✦
+        </div>
+    </div>
+
+    <script>
+        // ===== SPIRITUAL STARFIELD ANIMATION =====
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 300;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                const size = Math.random() * 4 + 1;
+
+                // Create golden and white stars for spiritual vibe
+                const isGolden = Math.random() > 0.7;
+                const color = isGolden ? '#ffd700' : '#fff';
+
+                Object.assign(star.style, {
+                    position: 'absolute',
+                    width: size + 'px',
+                    height: size + 'px',
+                    background: color,
+                    borderRadius: '50%',
+                    left: Math.random() * 100 + '%',
+                    top: Math.random() * 100 + '%',
+                    opacity: Math.random() * 0.8 + 0.2,
+                    animation: `twinkle ${Math.random() * 4 + 3}s infinite alternate`,
+                    boxShadow: isGolden ? '0 0 10px rgba(255, 215, 0, 0.5)' : '0 0 5px rgba(255, 255, 255, 0.3)'
+                });
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+
+
+        // ===== SCREEN TRANSITIONS =====
+        function enterSoulRealm() {
+            const mainGif = document.getElementById('main-gif');
+            const landingScreen = document.getElementById('landing-screen');
+            const universeScreen = document.getElementById('universe-screen');
+
+            // Shrink and fade main GIF
+            mainGif.style.transform = 'scale(0.01)';
+            mainGif.style.opacity = '0';
+
+            // Transition screens with staggered timing
+            setTimeout(() => {
+                landingScreen.style.opacity = '0';
+                landingScreen.style.pointerEvents = 'none';
+
+                setTimeout(() => {
+                    universeScreen.style.opacity = '1';
+                    universeScreen.style.pointerEvents = 'auto';
+                }, 200);
+            }, 400);
+        }
+
+        // ===== NAVIGATION FUNCTIONS =====
+        function toggleNavigation() {
+            const sidebar = document.querySelector('.nav-sidebar');
+            const toggle = document.querySelector('.nav-toggle');
+            const overlay = document.querySelector('.nav-overlay');
+
+            sidebar.classList.toggle('open');
+            toggle.classList.toggle('open');
+            overlay.classList.toggle('show');
+        }
+
+        function closeNavigation() {
+            const sidebar = document.querySelector('.nav-sidebar');
+            const toggle = document.querySelector('.nav-toggle');
+            const overlay = document.querySelector('.nav-overlay');
+
+            sidebar.classList.remove('open');
+            toggle.classList.remove('open');
+            overlay.classList.remove('show');
+        }
+
+        function toggleRealm(realmId) {
+            const spheres = document.getElementById(realmId + '-spheres');
+            const isVisible = spheres.style.display !== 'none';
+
+            // Hide all realm spheres first
+            document.querySelectorAll('.nav-spheres').forEach(sphere => {
+                sphere.style.display = 'none';
+            });
+
+            // Show clicked realm if it was hidden
+            if (!isVisible) {
+                spheres.style.display = 'block';
+            }
+        }
+
+        function goHome() {
+            window.location.href = '../index.html';
+        }
+
+        // ===== CONTENT FUNCTIONS =====
+        function openPresentation(url) {
+            window.open(url, '_blank');
+        }
+
+        function openEgoDeathVisualization() {
+            window.open('../assets/inner-intelligence/ego-death.html', '_blank');
+        }
+
+        // ===== EVENT LISTENERS =====
+        function initializeEventListeners() {
+            const entryGif = document.getElementById('entry-gif');
+
+            entryGif.addEventListener('mouseenter', function () {
+                this.style.transform = 'scale(1.1)';
+                this.style.filter = 'drop-shadow(0 0 60px rgba(255, 215, 0, 0.9))';
+            });
+
+            entryGif.addEventListener('mouseleave', function () {
+                this.style.transform = 'scale(1)';
+                this.style.filter = 'drop-shadow(0 0 50px rgba(255, 215, 0, 0.6))';
+            });
+        }
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function () {
+            createStars();
+            initializeEventListeners();
+        });
+    </script>
+</body>
+
+</html>
