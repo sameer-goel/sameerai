@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solfeggio Frequency Player</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for the app */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e14, #101827, #0a0e14); /* Darker, more atmospheric gradient */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e2e8f0;
+        }
+
+        /* Main container gradient and border */
+        .main-container {
+            background: linear-gradient(180deg, #1b263b, #0d121c); /* Subtle top-to-bottom dark gradient */
+            border: 1px solid #2a3447; /* Slightly thicker, more defined border */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(58, 182, 248, 0.2); /* Enhanced shadow with subtle blue glow */
+        }
+
+        /* Styling for range input (sliders) */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            background: #2a3340; /* Darker track */
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.9;
+            transition: opacity .2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #38bdf8; /* Electric blue thumb */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 8px #38bdf8, 0 0 2px rgba(0, 0, 0, 0.4); /* Glow effect */
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #22d3ee; /* Lighter blue on hover */
+            box-shadow: 0 0 12px #22d3ee, 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #38bdf8;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 8px #38bdf8, 0 0 2px rgba(0, 0, 0, 0.4);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            background: #22d3ee;
+            box-shadow: 0 0 12px #22d3ee, 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Button primary styling */
+        .btn-primary {
+            background: linear-gradient(45deg, #3b82f6, #6366f1); /* Blue to Indigo gradient */
+            transition: all 0.3s ease-in-out;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #60a5fa, #818cf8);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+            border-color: #a78bfa;
+        }
+
+        /* Frequency item styling */
+        .freq-item {
+            background: linear-gradient(180deg, #1f2a3a, #101827); /* Subtle internal gradient */
+            border: 1px solid #2a3447;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 5px rgba(58, 182, 248, 0.1);
+        }
+
+        .freq-play-button {
+            background: linear-gradient(45deg, #22c55e, #16a34a); /* Green gradient */
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .freq-play-button:hover {
+            background: linear-gradient(45deg, #22d3ee, #10b981); /* Lighter green on hover */
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Info box styling */
+        .info-box {
+            background: linear-gradient(180deg, #1f2a3a, #101827); /* Subtle internal gradient */
+            border: 1px solid #2a3447;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 5px rgba(58, 182, 248, 0.1);
+        }
+        .image-container {
+            width: 100%;
+            max-width: 500px; /* Adjust as needed */
+            margin: 1.5rem auto; /* mt-6 and center */
+            border-radius: 0.5rem; /* rounded-lg */
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Ambient control specific styles */
+        .ambient-control-box {
+            background: linear-gradient(180deg, #1f2a3a, #101827);
+            border: 1px solid #2a3447;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 5px rgba(58, 182, 248, 0.1);
+        }
+        .ambient-toggle-label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .ambient-slider-container {
+            margin-top: 10px;
+        }
+        .ambient-on-off-toggle {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 28px;
+        }
+        .ambient-on-off-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .ambient-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .ambient-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .ambient-slider {
+            background-color: #2196F3;
+        }
+        input:focus + .ambient-slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        input:checked + .ambient-slider:before {
+            -webkit-transform: translateX(20px);
+            -ms-transform: translateX(20px);
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-4xl w-full rounded-xl shadow-2xl p-8 space-y-8 main-container">
+        <h1 class="text-4xl font-extrabold text-center text-blue-400 mb-8 tracking-wide">Solfeggio Frequency Player 🎶</h1>
+
+        <!-- Introduction to Solfeggio Frequencies -->
+        <div class="p-6 rounded-xl info-box">
+            <h2 class="text-xl font-semibold text-blue-300 mb-3 flex items-center"><i class="fas fa-music mr-2"></i> What are Solfeggio Frequencies?</h2>
+            <p class="text-gray-300 leading-relaxed">
+                Solfeggio frequencies are a set of ancient musical scales believed to have profound spiritual and physical healing properties. These unique frequencies were reportedly used in Gregorian chants and are said to promote balance, well-being, and consciousness transformation. Unlike binaural beats, Solfeggio frequencies are single, pure tones.
+            </p>
+            <div class="image-container">
+                <img src="https://images.squarespace-cdn.com/content/v1/5d024b03af21200001be2a0d/1565129784955-IE2SF8AHC932VGF7FOHT/sacredfreq.jpg" alt="The Solfeggio Scale and The Chakra System">
+            </div>
+            <p class="text-gray-300 leading-relaxed mt-4">
+                As depicted above, each Solfeggio frequency is often associated with specific chakras, which are believed energy centers in the body. Listening to these frequencies is thought by some to help align and balance these centers, promoting holistic well-being.
+            </p>
+        </div>
+
+        <!-- Ambient Soundscapes Section -->
+        <div class="p-6 rounded-xl ambient-control-box">
+            <h2 class="text-xl font-semibold text-blue-300 mb-4 flex items-center"><i class="fas fa-water mr-2"></i> Ambient Soundscapes</h2>
+            <p class="text-gray-400 text-sm mb-4">Enhance your experience with a calming background sound.</p>
+            <div class="flex items-center justify-between mt-4">
+                <label for="whiteNoiseToggle" class="ambient-toggle-label text-lg font-medium text-gray-200">
+                    White Noise
+                    <span class="ambient-on-off-toggle">
+                        <input type="checkbox" id="whiteNoiseToggle">
+                        <span class="ambient-slider"></span>
+                    </span>
+                </label>
+            </div>
+            <div id="whiteNoiseVolumeContainer" class="ambient-slider-container hidden">
+                <input type="range" id="whiteNoiseVolume" min="0" max="0.5" value="0.1" step="0.01">
+            </div>
+        </div>
+
+        <!-- Solfeggio Frequencies List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- 174 Hz -->
+            <div class="p-4 rounded-xl freq-item">
+                <h3 class="text-2xl font-bold text-green-400">174 Hz</h3>
+                <p class="text-md text-gray-300"><strong>Purpose:</strong> Pain Relief, Foundation</p>
+                <div class="flex items-center space-x-3 mt-4">
+                    <button data-freq="174" class="freq-play-button text-white px-4 py-2 rounded-full flex items-center justify-center">
+                        <i class="fas fa-play mr-2"></i> Play
+                    </button>
+                    <input type="range" min="0" max="1" value="0.5" step="0.01" class="freq-volume-slider flex-grow">
+                </div>
+            </div>
+
+            <!-- 285 Hz -->
+            <div class="p-4 rounded-xl freq-item">
+                <h3 class="text-2xl font-bold text-green-400">285 Hz</h3>
+                <p class="text-md text-gray-300"><strong>Purpose:</strong> Restoring Tissue, Energy</p>
+                <div class="flex items-center space-x-3 mt-4">
+                    <button data-freq="285" class="freq-play-button text-white px-4 py-2 rounded-full flex items-center justify-center">
+                        <i class="fas fa-play mr-2"></i> Play
+                    </button>
+                    <input type="range" min="0" max="1" value="0.5" step="0.01" class="freq-volume-slider flex-grow">
+                </div>
+            </div>
+
+            <!-- 396 Hz -->
+            <div class="p-4 rounded-xl freq-item">
+                <h3 class="text-2xl font-bold text-green-400">396 Hz</h3>
+                <p class="text-md text-gray-300"><strong>Purpose:</strong> Liberating Guilt & Fear</p>
+                <div class="flex items-center space-x-3 mt-4">
+                    <button data-freq="396" class="freq-play-button text-white px-4 py-2 rounded-full flex items-center justify-center">
+                        <i class="fas fa-play mr-2"></i> Play
+                    </button>
+                    <input type="range" min="0" max="1" value="0.5" step="0.01" class="freq-volume-slider flex-grow">
+                </div>
+            </div>
+
+            <!-- 417 Hz -->
+            <div class="p-4 rounded-xl freq-item">
+                <h3 class="text-2xl font-bold text-green-400">417 Hz</h3>
+                <p class="text-md text-gray-300"><strong>Purpose:</strong> Facilitating Change</p>
+                <div class="flex items-center space-x-3 mt-4">
+                    <button data-freq="417" class="freq-play-button text-white px-4 py-2 rounded-full flex items-center justify-center">
+                        <i class="fas fa-play mr-2"></i> Play
+                    </button>
+                    <input type="range" min="0" max="1" value="0.5" step="0.01" class="freq-volume-slider flex-grow">
+                </div>
+            </div>
+
+            <!-- 528 Hz -->
+            <div class="p-4 rounded-xl freq-item">
+                <h3 class="text-2xl font-bold text-green-400">528 Hz</h3>
+                <p class="text-md text-gray-300"><strong>Purpose:</strong> Transformation, DNA Repair</p>
+                <div class="flex items-center space-x-3 mt-4">
+                    <button data-freq="528" class="freq-play-button text-white px-4 py-2 rounded-full flex items-center justify-center">
+                        <i class="fas fa-play mr-2"></i> Play
+                    </button>
+                    <input type="range" min="0" max="1" value="0.5" step="0.01" class="freq-volume-slider flex-grow">
+                </div>
+            </div>
+
+            <!-- 639 Hz -->
+            <div class="p-4 rounded-xl freq-item">
+                <h3 class="text-2xl font-bold text-green-400">639 Hz</h3>
+                <p class="text-md text-gray-300"><strong>Purpose:</strong> Connecting Relationships</p>
+                <div class="flex items-center space-x-3 mt-4">
+                    <button data-freq="639" class="freq-play-button text-white px-4 py-2 rounded-full flex items-center justify-center">
+                        <i class="fas fa-play mr-2"></i> Play
+                    </button>
+                    <input type="range" min="0" max="1" value="0.5" step="0.01" class="freq-volume-slider flex-grow">
+                </div>
+            </div>
+
+            <!-- 741 Hz -->
+            <div class="p-4 rounded-xl freq-item">
+                <h3 class="text-2xl font-bold text-green-400">741 Hz</h3>
+                <p class="text-md text-gray-300"><strong>Purpose:</strong> Awakening Intuition</p>
+                <div class="flex items-center space-x-3 mt-4">
+                    <button data-freq="741" class="freq-play-button text-white px-4 py-2 rounded-full flex items-center justify-center">
+                        <i class="fas fa-play mr-2"></i> Play
+                    </button>
+                    <input type="range" min="0" max="1" value="0.5" step="0.01" class="freq-volume-slider flex-grow">
+                </div>
+            </div>
+
+            <!-- 852 Hz -->
+            <div class="p-4 rounded-xl freq-item">
+                <h3 class="text-2xl font-bold text-green-400">852 Hz</h3>
+                <p class="text-md text-gray-300"><strong>Purpose:</strong> Returning to Spiritual Order</p>
+                <div class="flex items-center space-x-3 mt-4">
+                    <button data-freq="852" class="freq-play-button text-white px-4 py-2 rounded-full flex items-center justify-center">
+                        <i class="fas fa-play mr-2"></i> Play
+                    </button>
+                    <input type="range" min="0" max="1" value="0.5" step="0.01" class="freq-volume-slider flex-grow">
+                </div>
+            </div>
+
+            <!-- 963 Hz -->
+            <div class="p-4 rounded-xl freq-item">
+                <h3 class="text-2xl font-bold text-green-400">963 Hz</h3>
+                <p class="text-md text-gray-300"><strong>Purpose:</strong> Divine Harmony, Enlightenment</p>
+                <div class="flex items-center space-x-3 mt-4">
+                    <button data-freq="963" class="freq-play-button text-white px-4 py-2 rounded-full flex items-center justify-center">
+                        <i class="fas fa-play mr-2"></i> Play
+                    </button>
+                    <input type="range" min="0" max="1" value="0.5" step="0.01" class="freq-volume-slider flex-grow">
+                </div>
+            </div>
+
+        </div> <!-- End of Solfeggio Frequencies List -->
+
+    </div>
+
+    <script>
+        let audioCtx;
+        const activeOscillators = {}; // Store active Solfeggio oscillators and their gain nodes by frequency
+
+        let whiteNoiseSource = null;
+        let whiteNoiseGain = null;
+
+        const whiteNoiseToggle = document.getElementById('whiteNoiseToggle');
+        const whiteNoiseVolume = document.getElementById('whiteNoiseVolume');
+        const whiteNoiseVolumeContainer = document.getElementById('whiteNoiseVolumeContainer');
+
+
+        // Initialize audio context
+        function initAudioContext() {
+            if (!audioCtx) {
+                try {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    console.error("Web Audio API is not supported in this browser or an error occurred:", e);
+                    const errorMessage = "Sorry, your browser does not support the Web Audio API, or there was an error initializing audio. Please try a different browser.";
+                    const errorDiv = document.createElement('div');
+                    errorDiv.style.cssText = `
+                        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                        background-color: #ef4444; color: white; padding: 20px; border-radius: 8px;
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 1000; text-align: center;
+                        font-family: 'Inter', sans-serif;
+                    `;
+                    errorDiv.innerHTML = `<p>${errorMessage}</p><button onclick="this.parentNode.remove()" style="margin-top: 15px; background-color: #dc2626; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Dismiss</button>`;
+                    document.body.appendChild(errorDiv);
+                }
+            }
+        }
+
+        // --- Solfeggio Frequency Functions ---
+
+        // Play a specific Solfeggio frequency
+        function playFrequency(freq, volume, buttonElement) {
+            initAudioContext();
+            if (!audioCtx) return;
+
+            // Stop any currently playing Solfeggio frequency
+            const currentlyPlaying = Object.values(activeOscillators);
+            for (const { oscillator, gainNode, button } of currentlyPlaying) {
+                if (oscillator) {
+                    oscillator.stop();
+                    oscillator.disconnect();
+                    gainNode.disconnect();
+                }
+                if (button) {
+                    button.innerHTML = '<i class="fas fa-play mr-2"></i> Play';
+                }
+            }
+            for (const key in activeOscillators) {
+                delete activeOscillators[key];
+            }
+
+            // Create new oscillator and gain node for the current frequency
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'sine'; // Pure sine wave
+            oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+
+            // Store the active oscillator and gain node
+            activeOscillators[freq] = { oscillator, gainNode, button: buttonElement };
+
+            // Update button UI for the currently playing button
+            buttonElement.innerHTML = '<i class="fas fa-pause mr-2"></i> Pause';
+        }
+
+        // Stop a specific Solfeggio frequency
+        function stopFrequency(freq, buttonElement) {
+            if (activeOscillators[freq] && activeOscillators[freq].oscillator) {
+                activeOscillators[freq].oscillator.stop();
+                activeOscillators[freq].oscillator.disconnect();
+                activeOscillators[freq].gainNode.disconnect();
+                delete activeOscillators[freq]; // Remove from active list
+
+                // Update button UI
+                buttonElement.innerHTML = '<i class="fas fa-play mr-2"></i> Play';
+            }
+        }
+
+        // Event listeners for each frequency's play button and volume slider
+        document.querySelectorAll('.freq-play-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const freq = parseFloat(button.dataset.freq);
+                const volumeSlider = button.parentNode.querySelector('.freq-volume-slider');
+                const volume = parseFloat(volumeSlider.value);
+
+                if (activeOscillators[freq]) {
+                    stopFrequency(freq, button);
+                } else {
+                    playFrequency(freq, volume, button);
+                }
+            });
+        });
+
+        document.querySelectorAll('.freq-volume-slider').forEach(slider => {
+            slider.addEventListener('input', () => {
+                const freq = parseFloat(slider.parentNode.querySelector('.freq-play-button').dataset.freq);
+                if (activeOscillators[freq]) {
+                    activeOscillators[freq].gainNode.gain.setValueAtTime(parseFloat(slider.value), audioCtx.currentTime);
+                }
+            });
+        });
+
+        // --- Ambient Sound Functions (White Noise) ---
+
+        function startWhiteNoise() {
+            initAudioContext();
+            if (!audioCtx) return;
+
+            // Create a buffer for white noise
+            const bufferSize = audioCtx.sampleRate * 2; // 2 seconds of noise
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1; // Generate random noise
+            }
+
+            whiteNoiseSource = audioCtx.createBufferSource();
+            whiteNoiseSource.buffer = buffer;
+            whiteNoiseSource.loop = true; // Loop the noise
+            
+            whiteNoiseGain = audioCtx.createGain();
+            whiteNoiseGain.gain.setValueAtTime(parseFloat(whiteNoiseVolume.value), audioCtx.currentTime);
+
+            whiteNoiseSource.connect(whiteNoiseGain);
+            whiteNoiseGain.connect(audioCtx.destination);
+
+            whiteNoiseSource.start();
+        }
+
+        function stopWhiteNoise() {
+            if (whiteNoiseSource) {
+                whiteNoiseSource.stop();
+                whiteNoiseSource.disconnect();
+                whiteNoiseSource = null;
+            }
+            if (whiteNoiseGain) {
+                whiteNoiseGain.disconnect();
+                whiteNoiseGain = null;
+            }
+        }
+
+        // Event listener for white noise toggle
+        whiteNoiseToggle.addEventListener('change', () => {
+            if (whiteNoiseToggle.checked) {
+                startWhiteNoise();
+                whiteNoiseVolumeContainer.classList.remove('hidden');
+            } else {
+                stopWhiteNoise();
+                whiteNoiseVolumeContainer.classList.add('hidden');
+            }
+        });
+
+        // Event listener for white noise volume slider
+        whiteNoiseVolume.addEventListener('input', () => {
+            if (whiteNoiseGain) {
+                whiteNoiseGain.gain.setValueAtTime(parseFloat(whiteNoiseVolume.value), audioCtx.currentTime);
+            }
+        });
+
+        // Initialize audio context on load (suspended state)
+        window.onload = function() {
+            initAudioContext();
+        };
+    </script>
+</body>
+</html>

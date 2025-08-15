@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binaural Beat Generator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for the app */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e14, #101827, #0a0e14); /* Darker, more atmospheric gradient */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e2e8f0;
+        }
+
+        /* Main container gradient and border */
+        .main-container {
+            background: linear-gradient(180deg, #1b263b, #0d121c); /* Subtle top-to-bottom dark gradient */
+            border: 1px solid #2a3447; /* Slightly thicker, more defined border */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(58, 182, 248, 0.2); /* Enhanced shadow with subtle blue glow */
+        }
+
+        /* Styling for range input (sliders) */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            background: #2a3340; /* Darker track */
+            border-radius: 5px;
+            outline: none;
+            opacity: 0.9;
+            transition: opacity .2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #38bdf8; /* Electric blue thumb */
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 8px #38bdf8, 0 0 2px rgba(0, 0, 0, 0.4); /* Glow effect */
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #22d3ee; /* Lighter blue on hover */
+            box-shadow: 0 0 12px #22d3ee, 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #38bdf8;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 8px #38bdf8, 0 0 2px rgba(0, 0, 0, 0.4);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            background: #22d3ee;
+            box-shadow: 0 0 12px #22d3ee, 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Button primary styling */
+        .btn-primary {
+            background: linear-gradient(45deg, #3b82f6, #6366f1); /* Blue to Indigo gradient */
+            transition: all 0.3s ease-in-out;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #60a5fa, #818cf8);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+            border-color: #a78bfa;
+        }
+
+        /* Preset button styling */
+        .btn-preset {
+            background: #2f3e5c; /* Slightly lighter dark blue for presets */
+            border: 1px solid #4a5c7f; /* Subtle border */
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100px;
+        }
+
+        .btn-preset:hover {
+            background: #3a4b6b; /* Lighter blue on hover */
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-color: #6a80ac;
+        }
+
+        /* Specific preset button colors for futuristic feel with more defined gradients */
+        .btn-preset[data-preset-delta] { background: linear-gradient(135deg, #6c2bd9, #4a148c); border-color: #a78bfa; }
+        .btn-preset[data-preset-delta]:hover { background: linear-gradient(135deg, #7e3bdc, #5c1ca0); }
+
+        .btn-preset[data-preset-theta] { background: linear-gradient(135deg, #4d44b9, #252277); border-color: #818cf8; }
+        .btn-preset[data-preset-theta]:hover { background: linear-gradient(135deg, #5a50cc, #312e99); }
+
+        .btn-preset[data-preset-alpha] { background: linear-gradient(135deg, #2b6cb0, #1a4d8c); border-color: #60a5fa; }
+        .btn-preset[data-preset-alpha]:hover { background: linear-gradient(135deg, #347ddf, #215eaf); }
+
+        .btn-preset[data-preset-beta] { background: linear-gradient(135deg, #38a169, #1c6a47); border-color: #4ade80; }
+        .btn-preset[data-preset-beta]:hover { background: linear-gradient(135deg, #48b47c, #268b5e); }
+
+        .btn-preset[data-preset-gamma] { background: linear-gradient(135deg, #d69e2e, #a06e1b); border-color: #facc15; }
+        .btn-preset[data-preset-gamma]:hover { background: linear-gradient(135deg, #e7af3b, #b98124); }
+
+        .preset-keywords {
+            font-size: 0.75rem; /* text-xs */
+            color: #cbd5e1; /* text-slate-300 */
+            margin-top: 0.25rem;
+            line-height: 1.2;
+        }
+
+        /* Input field container styling */
+        .freq-control-box {
+            background: linear-gradient(180deg, #1f2a3a, #101827); /* Subtle internal gradient */
+            border: 1px solid #2a3447;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 5px rgba(58, 182, 248, 0.1);
+        }
+
+        /* Binaural beat display styling */
+        .binaural-display-box {
+            background: linear-gradient(180deg, #1f2a3a, #101827); /* Subtle internal gradient */
+            border: 1px solid #2a3447;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 5px rgba(58, 182, 248, 0.1);
+        }
+
+        /* Information section styling */
+        .info-box {
+            background: linear-gradient(180deg, #1f2a3a, #101827); /* Subtle internal gradient */
+            border: 1px solid #2a3447;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 5px rgba(58, 182, 248, 0.1);
+        }
+
+        /* Responsive iframe container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.5rem; /* rounded-lg */
+            margin-top: 1.5rem; /* mt-6 */
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-4xl w-full rounded-xl shadow-2xl p-8 space-y-8 main-container">
+        <h1 class="text-4xl font-extrabold text-center text-blue-400 mb-8 tracking-wide">Binaural Beat Synthesizer ✨</h1>
+
+        <!-- Headphone Reminder -->
+        <div class="bg-blue-900 bg-opacity-40 border border-blue-700 rounded-lg p-4 text-blue-200 text-center text-lg shadow-xl animate-pulse-light">
+            <p><i class="fas fa-headphones-alt mr-2"></i><strong>For optimal effect, use stereo headphones!</strong></p>
+        </div>
+
+        <!-- Preset Buttons (Moved to top) -->
+        <div class="p-6 rounded-xl info-box">
+            <h2 class="text-xl font-semibold text-blue-300 mb-4 text-center flex items-center justify-center">
+                <i class="fas fa-brain mr-3 text-blue-400"></i> Neural Entrainment Presets
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                <button data-preset-delta class="btn-preset text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg">
+                    Delta <br> (0.5-4 Hz)
+                    <span class="preset-keywords">Deep Sleep, Healing, Relaxation</span>
+                </button>
+                <button data-preset-theta class="btn-preset text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg">
+                    Theta <br> (4-8 Hz)
+                    <span class="preset-keywords">Meditation, Creativity, Dreaming</span>
+                </button>
+                <button data-preset-alpha class="btn-preset text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg">
+                    Alpha <br> (8-13 Hz)
+                    <span class="preset-keywords">Relaxed Focus, Calm, Positivity</span>
+                </button>
+                <button data-preset-beta class="btn-preset text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg">
+                    Beta <br> (13-30 Hz)
+                    <span class="preset-keywords">Alertness, Concentration, Problem-Solving</span>
+                </button>
+                <button data-preset-gamma class="btn-preset text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg">
+                    Gamma <br> (30-50 Hz)
+                    <span class="preset-keywords">Learning, Cognition, Insight</span>
+                </button>
+            </div>
+            <p class="text-sm text-gray-400 mt-4 text-center">These presets align with desired brainwave states. Keep the beat difference under 35 Hz for best results.</p>
+        </div>
+
+        <!-- Master Controls (Moved here to be near presets for immediate play) -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8">
+            <button id="togglePlay" class="btn-primary text-white font-extrabold text-lg py-4 px-8 rounded-full transition-all duration-300 flex items-center justify-center">
+                <i class="fas fa-play mr-3"></i> Play Binaural Beat
+            </button>
+            <div class="flex items-center space-x-4 w-full sm:w-auto">
+                <label for="masterVolume" class="text-lg font-semibold whitespace-nowrap">Volume:</label>
+                <input type="range" id="masterVolume" min="0" max="1" value="0.5" step="0.01" class="flex-grow">
+            </div>
+        </div>
+
+        <!-- Frequency Controls Section (Moved below presets) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Left Ear Frequency -->
+            <div class="p-6 rounded-xl freq-control-box">
+                <label for="leftFrequency" class="block text-xl font-semibold mb-3 text-blue-300">Left Ear Frequency:</label>
+                <div class="flex items-center space-x-4">
+                    <input type="range" id="leftFrequency" min="100" max="1000" value="400" class="flex-grow">
+                    <span id="leftFreqValue" class="text-2xl font-bold text-green-400 w-28 text-right">400 Hz</span>
+                </div>
+                <p class="text-sm text-gray-400 mt-2">Set the primary tone for your left ear.</p>
+            </div>
+
+            <!-- Right Ear Frequency -->
+            <div class="p-6 rounded-xl freq-control-box">
+                <label for="rightFrequency" class="block text-xl font-semibold mb-3 text-blue-300">Right Ear Frequency:</label>
+                <div class="flex items-center space-x-4">
+                    <input type="range" id="rightFrequency" min="100" max="1000" value="410" class="flex-grow">
+                    <span id="rightFreqValue" class="text-2xl font-bold text-green-400 w-28 text-right">410 Hz</span>
+                </div>
+                <p class="text-sm text-gray-400 mt-2">Set the primary tone for your right ear.</p>
+            </div>
+        </div>
+
+        <!-- Binaural Beat Display -->
+        <div class="p-6 rounded-xl text-center binaural-display-box">
+            <p class="text-3xl font-bold text-yellow-400">
+                Perceived Beat: <span id="binauralBeatValue">10.0 Hz</span>
+            </p>
+            <p class="text-sm text-gray-400 mt-2">The difference frequency your brain will generate.</p>
+        </div>
+
+        <!-- Information Section -->
+        <div class="p-6 rounded-xl mt-8 info-box">
+            <h2 class="text-xl font-semibold text-blue-300 mb-3 flex items-center"><i class="fas fa-info-circle mr-2"></i> What are Binaural Beats?</h2>
+            <p class="text-gray-300 leading-relaxed">
+                Binaural beats are an auditory illusion that occurs when two slightly different frequency tones are presented to each ear separately through **headphones**. Your brain processes these distinct tones and creates a "third" perceived tone, which is the mathematical difference between the two input frequencies. This phenomenon is believed to influence brainwave activity, a process called brainwave entrainment. For optimal perception, each base frequency should typically be between 100-1000 Hz, and the perceived beat frequency (the difference) should be less than 35 Hz.
+            </p>
+            <p class="text-gray-300 leading-relaxed mt-2">
+                Different binaural beat frequencies are associated with various brainwave states, each linked to different mental effects:
+                <ul class="list-disc list-inside mt-2 ml-4 text-gray-400">
+                    <li><strong class="text-purple-300">Delta (0.5-4 Hz):</strong> Deep sleep, relaxation, and cellular regeneration.</li>
+                    <li><strong class="text-indigo-300">Theta (4-8 Hz):</strong> Deep relaxation, meditative states, and enhanced creativity.</li>
+                    <li><strong class="text-blue-300">Alpha (8-13 Hz):</strong> Relaxed alertness, calm focus, and positive mood.</li>
+                    <li><strong class="text-green-300">Beta (13-30 Hz):</strong> Active thinking, heightened concentration, and problem-solving.</li>
+                    <li><strong class="text-yellow-300">Gamma (30-50 Hz):</strong> High-level cognitive processing, memory recall, and peak performance (at the upper limits of binaural beat perception).</li>
+                </ul>
+            </p>
+
+            <h2 class="text-xl font-semibold text-blue-300 mb-3 mt-6 flex items-center"><i class="fas fa-video mr-2"></i> Visual Explanation</h2>
+            <p class="text-gray-300 leading-relaxed mb-4">
+                Watch this video to learn more about how binaural beats work and their potential effects:
+            </p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/iboQ7mmGGGU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let audioCtx;
+        let oscillatorL;
+        let oscillatorR;
+        let gainNodeL;
+        let gainNodeR;
+        let masterGainNode;
+        let isPlaying = false;
+
+        const leftFrequencySlider = document.getElementById('leftFrequency');
+        const rightFrequencySlider = document.getElementById('rightFrequency');
+        const leftFreqValueSpan = document.getElementById('leftFreqValue');
+        const rightFreqValueSpan = document.getElementById('rightFreqValue');
+        const binauralBeatValueSpan = document.getElementById('binauralBeatValue');
+        const togglePlayButton = document.getElementById('togglePlay');
+        const masterVolumeSlider = document.getElementById('masterVolume');
+
+        const BASE_CARRIER_FREQ = 400; // A good central frequency for the carrier tones
+
+        // Function to update the displayed frequencies and binaural beat
+        function updateFrequencies() {
+            const leftFreq = parseFloat(leftFrequencySlider.value);
+            const rightFreq = parseFloat(rightFrequencySlider.value);
+            const binauralBeat = Math.abs(leftFreq - rightFreq);
+
+            leftFreqValueSpan.textContent = `${leftFreq} Hz`;
+            rightFreqValueSpan.textContent = `${rightFreq} Hz`;
+            binauralBeatValueSpan.textContent = `${binauralBeat.toFixed(1)} Hz`;
+
+            if (isPlaying) {
+                if (oscillatorL) oscillatorL.frequency.setValueAtTime(leftFreq, audioCtx.currentTime);
+                if (oscillatorR) oscillatorR.frequency.setValueAtTime(rightFreq, audioCtx.currentTime);
+            }
+        }
+
+        // Initialize audio context and oscillators
+        function initAudio() {
+            if (audioCtx) return; // Already initialized
+
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+                // Create master gain node for overall volume control
+                masterGainNode = audioCtx.createGain();
+                masterGainNode.connect(audioCtx.destination);
+                masterGainNode.gain.setValueAtTime(parseFloat(masterVolumeSlider.value), audioCtx.currentTime);
+
+                // Create left oscillator and gain node
+                oscillatorL = audioCtx.createOscillator();
+                gainNodeL = audioCtx.createGain();
+                oscillatorL.type = 'sine'; // Pure sine wave
+                oscillatorL.frequency.setValueAtTime(parseFloat(leftFrequencySlider.value), audioCtx.currentTime);
+                oscillatorL.connect(gainNodeL);
+                gainNodeL.connect(masterGainNode); // Connect to master gain
+
+                // Create right oscillator and gain node
+                oscillatorR = audioCtx.createOscillator();
+                gainNodeR = audioCtx.createGain();
+                oscillatorR.type = 'sine'; // Pure sine wave
+                oscillatorR.frequency.setValueAtTime(parseFloat(rightFrequencySlider.value), audioCtx.currentTime);
+                oscillatorR.connect(gainNodeR);
+                gainNodeR.connect(masterGainNode); // Connect to master gain
+
+                // Start oscillators
+                oscillatorL.start();
+                oscillatorR.start();
+
+                // Set gain to 0 initially to avoid sudden loud sound
+                gainNodeL.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNodeR.gain.setValueAtTime(0, audioCtx.currentTime);
+
+            } catch (e) {
+                console.error("Web Audio API is not supported in this browser or an error occurred:", e);
+                // Using a custom message box instead of alert()
+                const errorMessage = "Sorry, your browser does not support the Web Audio API, or there was an error initializing audio. Please try a different browser.";
+                const errorDiv = document.createElement('div');
+                errorDiv.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background-color: #ef4444; color: white; padding: 20px; border-radius: 8px;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 1000; text-align: center;
+                    font-family: 'Inter', sans-serif;
+                `;
+                errorDiv.innerHTML = `<p>${errorMessage}</p><button onclick="this.parentNode.remove()" style="margin-top: 15px; background-color: #dc2626; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Dismiss</button>`;
+                document.body.appendChild(errorDiv);
+            }
+        }
+
+        // Toggle Play/Pause
+        togglePlayButton.addEventListener('click', () => {
+            if (!audioCtx) {
+                initAudio();
+                if (!audioCtx) return; // If initAudio failed, stop here.
+            }
+
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume().then(() => {
+                    isPlaying = true;
+                    gainNodeL.gain.setValueAtTime(1, audioCtx.currentTime);
+                    gainNodeR.gain.setValueAtTime(1, audioCtx.currentTime);
+                    togglePlayButton.innerHTML = '<i class="fas fa-pause mr-3"></i> Pause Binaural Beat';
+                    console.log('AudioContext resumed!');
+                });
+            } else if (isPlaying) {
+                gainNodeL.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNodeR.gain.setValueAtTime(0, audioCtx.currentTime);
+                isPlaying = false;
+                audioCtx.suspend().then(() => {
+                    togglePlayButton.innerHTML = '<i class="fas fa-play mr-3"></i> Play Binaural Beat';
+                    console.log('AudioContext suspended!');
+                });
+            } else { // This state is for when audioCtx is running but isPlaying is false (e.g., after suspension and before explicit play click)
+                isPlaying = true;
+                gainNodeL.gain.setValueAtTime(1, audioCtx.currentTime);
+                gainNodeR.gain.setValueAtTime(1, audioCtx.currentTime);
+                togglePlayButton.innerHTML = '<i class="fas fa-pause mr-3"></i> Pause Binaural Beat';
+            }
+        });
+
+        // Event listeners for frequency sliders
+        leftFrequencySlider.addEventListener('input', updateFrequencies);
+        rightFrequencySlider.addEventListener('input', updateFrequencies);
+
+        // Event listener for master volume
+        masterVolumeSlider.addEventListener('input', () => {
+            if (masterGainNode) {
+                masterGainNode.gain.setValueAtTime(parseFloat(masterVolumeSlider.value), audioCtx.currentTime);
+            }
+        });
+
+        // Preset button logic
+        document.querySelectorAll('[data-preset-delta]').forEach(button => {
+            button.addEventListener('click', () => setPreset(2, BASE_CARRIER_FREQ)); // Delta avg 2Hz
+        });
+        document.querySelectorAll('[data-preset-theta]').forEach(button => {
+            button.addEventListener('click', () => setPreset(6, BASE_CARRIER_FREQ)); // Theta avg 6Hz
+        });
+        document.querySelectorAll('[data-preset-alpha]').forEach(button => {
+            button.addEventListener('click', () => setPreset(10, BASE_CARRIER_FREQ)); // Alpha avg 10Hz
+        });
+        document.querySelectorAll('[data-preset-beta]').forEach(button => {
+            button.addEventListener('click', () => setPreset(20, BASE_CARRIER_FREQ)); // Beta avg 20Hz
+        });
+        document.querySelectorAll('[data-preset-gamma]').forEach(button => {
+            button.addEventListener('click', () => setPreset(35, BASE_CARRIER_FREQ)); // Gamma (at max limit for beat)
+        });
+
+        function setPreset(beatFrequency, carrierFrequency) {
+            // Set left ear to carrier frequency
+            leftFrequencySlider.value = carrierFrequency;
+            // Set right ear to carrier frequency + beat frequency
+            rightFrequencySlider.value = carrierFrequency + beatFrequency;
+            updateFrequencies();
+        }
+
+        // Initial update on page load
+        window.onload = function() {
+            updateFrequencies();
+            initAudio(); // Initialize AudioContext on load but keep suspended until play button is pressed.
+        };
+    </script>
+</body>
+</html>

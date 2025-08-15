@@ -1,0 +1,16 @@
+Development.html
+Menu
+1. Solutions Architect as a Service, 
+02development/SAaaS.html, SAaaSAppLogo.png
+2. GenAI Gym, 
+https://www.canva.com/design/DAGjGm-t5kk/Ndu7fQgbt2a_dUf7YY4KQw/view?utm_content=DAGjGm-t5kk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h49cf918239, genai-gym-for-employees-cover.png
+
+4. Vibe Coading, 
+https://sameerai.my.canva.site/vibe, 
+vibe-coding-cover.png
+
+5. Emotional Intelleigence at Workplace, 
+https://prezi.com/view/kSVzdmy1HMMAuoiY2rGx/, 
+emotiona-intelleigece-at-workplace.png
+
+6. add a page for blogs.html and link to development.html, refer developemtn-blogs.txt

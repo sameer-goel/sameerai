@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Enter Sameerai Universe ✨</title>
+    <link rel="icon" type="image/gif" href="favicon.gif">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background and layout */
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            transition: opacity 0.8s ease;
+        }
+
+        #landing-screen {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #universe-screen {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .universe-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .spheres-container {
+            display: flex;
+            gap: 100px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Entry GIF styling */
+        #entry-gif {
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        #main-gif {
+            width: 500px;
+            height: 500px;
+            filter: drop-shadow(0 0 50px rgba(0, 212, 255, 0.6));
+            transition: all 0.8s ease;
+        }
+
+        /* Main sphere styling */
+        .icon-container {
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .main-sphere {
+            width: 350px;
+            height: 350px;
+        }
+
+        .icon-container:hover {
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.8)) drop-shadow(0 0 80px rgba(0, 212, 255, 0.4));
+        }
+
+        /* Hover text styling */
+        .hover-text {
+            position: absolute;
+            top: 175px;
+            left: 175px;
+            transform: translate(-50%, -50%);
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .icon-container:hover .hover-text {
+            opacity: 1;
+        }
+
+        /* Sub-sphere styling */
+        .sub-sphere-gif {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .sub-sphere-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .icon-container:hover .sub-sphere-gif,
+        .icon-container.clicked .sub-sphere-gif {
+            opacity: 1;
+            transform: translate(-50%, -50%) translate(calc(cos(var(--angle)) * 260px),
+                    calc(sin(var(--angle)) * 260px)) scale(1);
+        }
+
+        /* Clicked state for main spheres */
+        .icon-container.clicked {
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.8)) drop-shadow(0 0 80px rgba(0, 212, 255, 0.4));
+        }
+
+        .icon-container.clicked.life-icon {
+            filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 80px rgba(255, 215, 0, 0.4));
+        }
+
+        /* Sub-sphere text labels */
+        .sub-sphere-text {
+            position: absolute;
+            top: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #00d4ff;
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .icon-container:hover .sub-sphere-text,
+        .icon-container.clicked .sub-sphere-text {
+            opacity: 1;
+        }
+
+        /* Different text color for Inner Intelligence sub-spheres */
+        .life-icon .sub-sphere-text {
+            color: #ffd700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+        }
+
+        /* Footer styling */
+        .footer-title {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 1rem;
+            color: #00d4ff;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        /* Animations */
+        @keyframes twinkle {
+            0% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .spheres-container {
+                gap: 50px;
+                flex-direction: column;
+            }
+
+            .main-sphere {
+                width: 280px;
+                height: 280px;
+            }
+
+            #main-gif {
+                width: 400px;
+                height: 400px;
+            }
+
+            .sub-sphere-gif {
+                width: 80px;
+                height: 80px;
+            }
+
+            .icon-container:hover .sub-sphere-gif,
+            .icon-container.clicked .sub-sphere-gif {
+                transform: translate(-50%, -50%) translate(calc(cos(var(--angle)) * 200px),
+                        calc(sin(var(--angle)) * 200px)) scale(1);
+            }
+
+            .hover-text {
+                top: 140px;
+                left: 140px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .spheres-container {
+                gap: 30px;
+            }
+
+            .main-sphere {
+                width: 250px;
+                height: 250px;
+            }
+
+            #main-gif {
+                width: 350px;
+                height: 350px;
+            }
+
+            .icon-container:hover .sub-sphere-gif,
+            .icon-container.clicked .sub-sphere-gif {
+                transform: translate(-50%, -50%) translate(calc(cos(var(--angle)) * 150px),
+                        calc(sin(var(--angle)) * 150px)) scale(1);
+            }
+
+            .hover-text {
+                top: 125px;
+                left: 125px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Animated starfield background -->
+    <div id="stars"></div>
+
+    <!-- Initial landing screen with central GIF -->
+    <div id="landing-screen" class="screen">
+        <div id="entry-gif" onclick="enterUniverse()">
+            <img id="main-gif" src="assets/icons/main-portal-entry.gif" alt="Digital Consciousness">
+        </div>
+    </div>
+
+    <!-- Main universe screen with two spheres -->
+    <div id="universe-screen" class="screen">
+        <div class="universe-container">
+            <div class="spheres-container">
+
+                <!-- Work/AI Sphere with sub-spheres -->
+                <div class="icon-container work-icon" onclick="toggleSubSpheres('work')">
+                    <img src="assets/icons/ai-sphere-main.gif" alt="AI Sphere" class="main-sphere">
+                    <div class="hover-text">Artificial Intelligence</div>
+
+                    <!-- AI sub-spheres -->
+                    <div class="sub-sphere-gif" style="--angle: 225deg;"
+                        onclick="event.stopPropagation(); window.location.href='pages/research.html';">
+                        <img src="assets/icons/ai-research.gif" alt="AI Research" class="sub-sphere-image">
+                        <div class="sub-sphere-text">Research</div>
+                    </div>
+                    <div class="sub-sphere-gif" style="--angle: 180deg;"
+                        onclick="event.stopPropagation(); window.location.href='pages/dev.html';">
+                        <img src="assets/icons/ai-development.gif" alt="AI Development" class="sub-sphere-image">
+                        <div class="sub-sphere-text">Development</div>
+                    </div>
+                    <div class="sub-sphere-gif" style="--angle: 135deg;"
+                        onclick="event.stopPropagation(); window.location.href='pages/ethics.html';">
+                        <img src="assets/icons/ai-ethics.gif" alt="AI Ethics" class="sub-sphere-image">
+                        <div class="sub-sphere-text">Ethics</div>
+                    </div>
+                </div>
+
+                <!-- Life/Inner Intelligence Sphere with sub-spheres -->
+                <div class="icon-container life-icon" onclick="toggleSubSpheres('life')">
+                    <img src="assets/icons/inner-intelligence-main.gif" alt="Inner Intelligence Sphere"
+                        class="main-sphere">
+                    <div class="hover-text">Inner Intelligence</div>
+
+                    <!-- Inner Intelligence sub-spheres -->
+                    <div class="sub-sphere-gif" style="--angle: 315deg;"
+                        onclick="event.stopPropagation(); window.location.href='pages/mind.html';">
+                        <img src="assets/icons/inner-mind.gif" alt="Inner Mind" class="sub-sphere-image">
+                        <div class="sub-sphere-text">Mind</div>
+                    </div>
+                    <div class="sub-sphere-gif" style="--angle: 0deg;"
+                        onclick="event.stopPropagation(); window.location.href='pages/body.html';">
+                        <img src="assets/icons/inner-body.gif" alt="Inner Body" class="sub-sphere-image">
+                        <div class="sub-sphere-text">Body</div>
+                    </div>
+                    <div class="sub-sphere-gif" style="--angle: 45deg;"
+                        onclick="event.stopPropagation(); window.location.href='pages/soul.html';">
+                        <img src="assets/icons/inner-soul.gif" alt="Inner Soul" class="sub-sphere-image">
+                        <div class="sub-sphere-text">Soul</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer title -->
+        <div class="footer-title">
+            ✦✧ Artificial Intelligence meets Inner Intelligence ✧✦
+        </div>
+    </div>
+
+    <script>
+        // ===== STARFIELD ANIMATION =====
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 200;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                const size = Math.random() * 3 + 1;
+
+                Object.assign(star.style, {
+                    position: 'absolute',
+                    width: size + 'px',
+                    height: size + 'px',
+                    background: '#fff',
+                    borderRadius: '50%',
+                    left: Math.random() * 100 + '%',
+                    top: Math.random() * 100 + '%',
+                    opacity: Math.random() * 0.8 + 0.2,
+                    animation: `twinkle ${Math.random() * 3 + 2}s infinite alternate`
+                });
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // ===== AUDIO SYSTEM =====
+        function playClickSound() {
+            const audio = new Audio('assets/clicksound/portal-entry-sound.mp3');
+            audio.volume = 0.7;
+            audio.play().catch(e => console.log('Audio play failed:', e));
+        }
+
+        // ===== SCREEN TRANSITIONS =====
+        function enterUniverse() {
+            playClickSound();
+
+            const mainGif = document.getElementById('main-gif');
+            const landingScreen = document.getElementById('landing-screen');
+            const universeScreen = document.getElementById('universe-screen');
+
+            // Shrink and fade main GIF
+            mainGif.style.transform = 'scale(0.01)';
+            mainGif.style.opacity = '0';
+
+            // Transition screens with staggered timing
+            setTimeout(() => {
+                landingScreen.style.opacity = '0';
+                landingScreen.style.pointerEvents = 'none';
+
+                setTimeout(() => {
+                    universeScreen.style.opacity = '1';
+                    universeScreen.style.pointerEvents = 'auto';
+                }, 200);
+            }, 400);
+        }
+
+        // ===== EVENT LISTENERS =====
+        function initializeEventListeners() {
+            const entryGif = document.getElementById('entry-gif');
+
+            entryGif.addEventListener('mouseenter', function () {
+                this.style.transform = 'scale(1.1)';
+                this.style.filter = 'drop-shadow(0 0 50px rgba(0, 212, 255, 0.8))';
+            });
+
+            entryGif.addEventListener('mouseleave', function () {
+                this.style.transform = 'scale(1)';
+                this.style.filter = 'drop-shadow(0 0 30px rgba(0, 212, 255, 0.6))';
+            });
+        }
+
+        // ===== SPHERE TOGGLE FUNCTIONALITY =====
+        function toggleSubSpheres(sphereType) {
+            const container = document.querySelector(`.${sphereType}-icon`);
+            const otherContainer = sphereType === 'work' ? 
+                document.querySelector('.life-icon') : 
+                document.querySelector('.work-icon');
+            
+            // Toggle clicked state
+            if (container.classList.contains('clicked')) {
+                container.classList.remove('clicked');
+            } else {
+                // Remove clicked state from other sphere
+                otherContainer.classList.remove('clicked');
+                // Add clicked state to current sphere
+                container.classList.add('clicked');
+            }
+        }
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function () {
+            createStars();
+            initializeEventListeners();
+        });
+    </script>
+</body>
+
+</html>

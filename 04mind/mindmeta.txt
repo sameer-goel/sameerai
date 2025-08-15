@@ -1,0 +1,12 @@
+Mind has apps to display first.
+
+Mind Apps
+BinuralBeatsAppLogo.png 4:4
+BinuralBeatsApp.html
+
+SolfeggioFrequencyAppLogo.png 4:4
+SolfeggioFrequencyApp.html
+
+Total Recall,
+book-quiz-game-cover.png 16:9
+https://sameer-goel.github.io/total-recall/

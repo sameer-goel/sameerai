@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Evolution Timeline | Digital Consciousness</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Animated background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #0a0a2e 0%, #000000 100%);
+            z-index: -2;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Main timeline container */
+        .timeline-wrapper {
+            position: relative;
+            min-height: 100vh;
+            padding: 100px 0;
+        }
+
+        .timeline-spine {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: linear-gradient(180deg,
+                    transparent 0%,
+                    #00ffff 10%,
+                    #ff00ff 25%,
+                    #ffff00 40%,
+                    #00ff88 55%,
+                    #ff6b6b 70%,
+                    #ffd700 85%,
+                    transparent 100%);
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            animation: spinePulse 4s ease-in-out infinite;
+        }
+
+        @keyframes spinePulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+                width: 6px;
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(0, 255, 255, 0.8);
+                width: 8px;
+            }
+        }
+
+        /* Timeline events */
+        .timeline-event {
+            position: relative;
+            margin: 150px 0;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .timeline-event.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-event:nth-child(odd).visible {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .timeline-event:nth-child(even).visible {
+            animation: slideInRight 1s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px) translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0) translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px) translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0) translateY(0);
+            }
+        }
+
+        .timeline-event:nth-child(odd) {
+            text-align: right;
+            padding-right: calc(50% + 60px);
+        }
+
+        .timeline-event:nth-child(even) {
+            text-align: left;
+            padding-left: calc(50% + 60px);
+        }
+
+        /* Event cards */
+        .event-card {
+            position: relative;
+            background: rgba(10, 10, 30, 0.9);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            backdrop-filter: blur(20px);
+            transition: all 0.5s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ff88);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .event-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .event-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.15);
+        }
+
+        /* Timeline dots */
+        .timeline-dot {
+            position: absolute;
+            top: 50%;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffffff 0%, #00ffff 100%);
+            border: 3px solid #000;
+            transform: translateY(-50%);
+            z-index: 10;
+            transition: all 0.5s ease;
+            animation: dotPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+
+            0%,
+            100% {
+                transform: translateY(-50%) scale(1);
+                box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            }
+
+            50% {
+                transform: translateY(-50%) scale(1.2);
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+            }
+        }
+
+        .timeline-event:nth-child(odd) .timeline-dot {
+            right: calc(50% - 12px);
+        }
+
+        .timeline-event:nth-child(even) .timeline-dot {
+            left: calc(50% - 12px);
+        }
+
+        .timeline-dot::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #00ffff, #ff00ff, #ffff00, #00ffff);
+            background-clip: border-box;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .timeline-event.visible .timeline-dot::after {
+            opacity: 0.6;
+        }
+
+        .event-card:hover+.timeline-dot::after {
+            opacity: 1;
+        }
+
+        /* Connecting lines from dots to cards */
+        .timeline-event::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .timeline-event:nth-child(odd)::before {
+            right: calc(50% + 15px);
+        }
+
+        .timeline-event:nth-child(even)::before {
+            left: calc(50% + 15px);
+        }
+
+        .timeline-event.visible::before {
+            opacity: 0.7;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Event content */
+        .event-year {
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .event-icon {
+            font-size: 32px;
+            opacity: 0.8;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .event-title {
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .event-description {
+            font-size: 15px;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .event-impact {
+            background: rgba(0, 255, 255, 0.1);
+            border-left: 4px solid #00ffff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-style: italic;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .event-impact::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 60px;
+            color: #00ffff;
+            opacity: 0.3;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ffff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) translateX(0px);
+                opacity: 0.3;
+            }
+
+            25% {
+                transform: translateY(-20px) translateX(10px);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-10px) translateX(-15px);
+                opacity: 0.7;
+            }
+
+            75% {
+                transform: translateY(-30px) translateX(5px);
+                opacity: 1;
+            }
+        }
+
+        /* Progress indicator */
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #ff00ff, #ffff00);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Header */
+        .timeline-header {
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .timeline-title {
+            font-size: 64px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 40px rgba(255, 0, 255, 0.8));
+            }
+        }
+
+        .timeline-subtitle {
+            font-size: 18px;
+            color: #cccccc;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .timeline-event {
+                margin: 100px 0;
+                padding: 0 20px;
+                text-align: center !important;
+            }
+
+            .timeline-event:nth-child(odd),
+            .timeline-event:nth-child(even) {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .event-card {
+                max-width: 100%;
+                padding: 30px 20px;
+            }
+
+            .timeline-dot {
+                left: calc(50% - 15px) !important;
+                right: auto !important;
+            }
+
+            .event-year {
+                font-size: 36px;
+            }
+
+            .event-title {
+                font-size: 20px;
+            }
+
+            .timeline-title {
+                font-size: 48px;
+            }
+        }
+
+        /* Special effects for different eras */
+        .event-card[data-era="theory"] {
+            border-color: #00ffff;
+        }
+
+        .event-card[data-era="foundation"] {
+            border-color: #ff00ff;
+        }
+
+        .event-card[data-era="learning"] {
+            border-color: #ffff00;
+        }
+
+        .event-card[data-era="networks"] {
+            border-color: #00ff88;
+        }
+
+        .event-card[data-era="creativity"] {
+            border-color: #ff6b6b;
+        }
+
+        .event-card[data-era="attention"] {
+            border-color: #ffd700;
+        }
+
+        .event-card[data-era="public"] {
+            border-color: #8a2be2;
+        }
+
+        .event-card[data-era="multimodal"] {
+            border-color: #00ced1;
+        }
+
+        .event-card[data-era="agents"] {
+            border-color: #32cd32;
+        }
+
+        /* Timeline Comparison Controls */
+        .timeline-controls {
+            margin: 40px auto;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .control-section {
+            background: rgba(10, 10, 30, 0.9);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 30px 25px;
+            backdrop-filter: blur(20px);
+            text-align: center;
+        }
+
+        .control-section h3 {
+            font-size: 20px;
+            color: #00ffff;
+            margin-bottom: 25px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            font-weight: 500;
+        }
+
+        .scenario-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .scenario-option {
+            position: relative;
+        }
+
+        .scenario-option input[type="checkbox"] {
+            display: none;
+        }
+
+        .scenario-option label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            min-height: 80px;
+        }
+
+        .scenario-option input:checked+label {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .scenario-option label:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(0, 255, 255, 0.1);
+        }
+
+        .scenario-icon {
+            font-size: 24px;
+            min-width: 35px;
+            text-align: center;
+        }
+
+        .scenario-info {
+            flex: 1;
+        }
+
+        .scenario-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .scenario-desc {
+            font-size: 12px;
+            color: #cccccc;
+            line-height: 1.3;
+        }
+
+        .view-controls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .view-btn {
+            padding: 10px 18px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .view-btn:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .view-btn.active {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            border-color: transparent;
+            color: #000;
+            font-weight: 600;
+        }
+
+        /* Comparison Timeline Styles */
+        .comparison-view {
+            display: none;
+        }
+
+        .comparison-view.active {
+            display: block;
+        }
+
+        .comparison-container {
+            display: grid;
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .comparison-container.two-scenarios {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .comparison-container.three-scenarios {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .comparison-container.four-scenarios {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .scenario-timeline {
+            background: rgba(10, 10, 30, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid transparent;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scenario-timeline.creative {
+            border-color: #00ff88;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .scenario-timeline.decentralized {
+            border-color: #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .scenario-timeline.cautious {
+            border-color: #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .scenario-timeline.hybrid {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.2);
+        }
+
+        .scenario-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .scenario-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .scenario-timeline.creative .scenario-title {
+            color: #00ff88;
+        }
+
+        .scenario-timeline.decentralized .scenario-title {
+            color: #00ffff;
+        }
+
+        .scenario-timeline.cautious .scenario-title {
+            color: #ffd700;
+        }
+
+        .scenario-timeline.hybrid .scenario-title {
+            color: #ff6b6b;
+        }
+
+        .scenario-probability {
+            font-size: 14px;
+            color: #cccccc;
+            font-style: italic;
+        }
+
+        .future-events {
+            position: relative;
+        }
+
+        .future-event {
+            position: relative;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+
+        .future-event:hover {
+            transform: translateX(5px);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .creative .future-event {
+            border-left-color: #00ff88;
+        }
+
+        .decentralized .future-event {
+            border-left-color: #00ffff;
+        }
+
+        .cautious .future-event {
+            border-left-color: #ffd700;
+        }
+
+        .hybrid .future-event {
+            border-left-color: #ff6b6b;
+        }
+
+        .future-year {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .future-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .future-desc {
+            font-size: 14px;
+            color: #cccccc;
+            line-height: 1.4;
+        }
+
+        .probability-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .creative .probability-indicator {
+            color: #00ff88;
+        }
+
+        .decentralized .probability-indicator {
+            color: #00ffff;
+        }
+
+        .cautious .probability-indicator {
+            color: #ffd700;
+        }
+
+        .hybrid .probability-indicator {
+            color: #ff6b6b;
+        }
+
+        /* Split View Styles */
+        .split-view {
+            display: none;
+        }
+
+        .split-view.active {
+            display: block;
+        }
+
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .historical-section {
+            background: rgba(10, 10, 30, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+        }
+
+        .future-section {
+            background: rgba(30, 10, 30, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            backdrop-filter: blur(20px);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .historical-section .section-title {
+            color: #00ffff;
+        }
+
+        .future-section .section-title {
+            color: #ff00ff;
+        }
+
+        /* Responsive Design for Comparison Views */
+        @media (max-width: 1200px) {
+
+            .comparison-container.three-scenarios,
+            .comparison-container.four-scenarios {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .timeline-controls {
+                margin: 30px auto;
+                padding: 0 15px;
+            }
+
+            .scenario-selector {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .scenario-option label {
+                padding: 14px;
+                min-height: 70px;
+            }
+
+            .scenario-name {
+                font-size: 14px;
+            }
+
+            .scenario-desc {
+                font-size: 11px;
+            }
+
+            .control-section h3 {
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+
+            .comparison-container,
+            .split-container {
+                grid-template-columns: 1fr;
+            }
+
+            .view-controls {
+                gap: 6px;
+            }
+
+            .view-btn {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .control-section {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cosmic-bg"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="progress-indicator">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="timeline-header">
+        <h1 class="timeline-title">AI EVOLUTION</h1>
+        <p class="timeline-subtitle">
+            Journey through the milestones that shaped artificial intelligence,
+            from theoretical foundations to the age of autonomous agents.
+        </p>
+
+        <!-- Timeline Comparison Controls -->
+        <div class="timeline-controls">
+            <div class="control-section">
+                <h3>Select timelines to compare different possibilities side by side</h3>
+
+                <div class="scenario-selector">
+                    <div class="scenario-option" data-scenario="creative">
+                        <input type="checkbox" id="creative" checked>
+                        <label for="creative">
+                            <div class="scenario-icon">🎨</div>
+                            <div class="scenario-name">Creative AI Renaissance</div>
+                            <div class="scenario-desc">The optimistic path of human-AI collaboration</div>
+                        </label>
+                    </div>
+
+                    <div class="scenario-option" data-scenario="cautious">
+                        <input type="checkbox" id="cautious" checked>
+                        <label for="cautious">
+                            <div class="scenario-icon">🛡️</div>
+                            <div class="scenario-name">The Cautious Path</div>
+                            <div class="scenario-desc">Safety-first approach with heavy regulation</div>
+                        </label>
+                    </div>
+
+                    <div class="scenario-option" data-scenario="decentralized">
+                        <input type="checkbox" id="decentralized">
+                        <label for="decentralized">
+                            <div class="scenario-icon">🌐</div>
+                            <div class="scenario-name">Decentralized Revolution</div>
+                            <div class="scenario-desc">Open-source, democratized AI future</div>
+                        </label>
+                    </div>
+
+                    <div class="scenario-option" data-scenario="hybrid">
+                        <input type="checkbox" id="hybrid">
+                        <label for="hybrid">
+                            <div class="scenario-icon">🤝</div>
+                            <div class="scenario-name">The Hybrid Reality</div>
+                            <div class="scenario-desc">Human-AI symbiotic evolution</div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="view-controls">
+                    <button class="view-btn active" data-view="historical">Historical Timeline</button>
+                    <button class="view-btn" data-view="comparison">Future Comparison</button>
+                    <button class="view-btn" data-view="split">Split View</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="timeline-wrapper">
+        <div class="timeline-spine"></div>
+
+        <!-- 1943: The Theoretical Neuron -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="theory">
+                <div class="event-year">1943</div>
+                <div class="event-title">McCulloch & Pitts publish "A Logical Calculus of Ideas Immanent in Nervous
+                    Activity"</div>
+                <div class="event-description">
+                    The first mathematical model of a neuron - proposing the foundational groundwork for neural
+                    networks.
+                </div>
+                <div class="event-impact">
+                    The birth of artificial neural networks through mathematical abstraction.
+                </div>
+                <div class="event-icon">🧠</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 1950: The Turing Test -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="theory">
+                <div class="event-year">1950</div>
+                <div class="event-title">The Turing Test</div>
+                <div class="event-description">
+                    Turing publishes "Computing Machinery and Intelligence," proposing the Turing Test as a way to
+                    measure a machine's ability to exhibit intelligent behavior.
+                </div>
+                <div class="event-impact">
+                    Defining machine intelligence through human evaluation rather than internal processes.
+                </div>
+                <div class="event-icon">💭</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 1956: Dartmouth Conference -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="foundation">
+                <div class="event-year">1956</div>
+                <div class="event-title">The Dartmouth Conference</div>
+                <div class="event-description">
+                    The Dartmouth Conference (organized by McCarthy, Minsky, Rochester, and Shannon) is held, marking
+                    the birth of AI as a field of study.
+                </div>
+                <div class="event-impact">
+                    The official birth of Artificial Intelligence as an academic discipline.
+                </div>
+                <div class="event-icon">🎓</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 1957: Perceptron -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="foundation">
+                <div class="event-year">1957</div>
+                <div class="event-title">Rosenblatt develops the Perceptron</div>
+                <div class="event-description">
+                    The first artificial neural network capable of learning, designed to recognize visual patterns.
+                </div>
+                <div class="event-impact">
+                    The foundation of machine learning through pattern recognition.
+                </div>
+                <div class="event-icon">👁️</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 1965: ELIZA -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="foundation">
+                <div class="event-year">1965</div>
+                <div class="event-title">Weizenbaum develops ELIZA</div>
+                <div class="event-description">
+                    A natural language processing program that simulates conversation, demonstrating how easily humans
+                    can be fooled into thinking they're talking to another human.
+                </div>
+                <div class="event-impact">
+                    The birth of conversational AI and natural language processing.
+                </div>
+                <div class="event-icon">💬</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 1974: AI Winter Begins -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="learning">
+                <div class="event-year">1974</div>
+                <div class="event-title">The First AI Winter begins</div>
+                <div class="event-description">
+                    Marked by a decline in funding and interest in AI research due to unrealistic expectations and
+                    limited progress.
+                </div>
+                <div class="event-impact">
+                    A period of reduced funding and skepticism about AI's potential.
+                </div>
+                <div class="event-icon">❄️</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 1980: Expert Systems -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="learning">
+                <div class="event-year">1980</div>
+                <div class="event-title">Expert systems gain traction</div>
+                <div class="event-description">
+                    Companies begin using them for financial forecasting and medical diagnoses, with companies investing
+                    heavily in AI.
+                </div>
+                <div class="event-impact">
+                    AI moves from research labs into commercial applications.
+                </div>
+                <div class="event-icon">🏢</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 1986: Backpropagation -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="networks">
+                <div class="event-year">1986</div>
+                <div class="event-title">Hinton, Rumelhart, and Williams publish "Learning representations by
+                    back-propagating errors"</div>
+                <div class="event-description">
+                    Allowing much deeper neural networks to be trained, paving the way for new drug discoveries and
+                    medical breakthroughs.
+                </div>
+                <div class="event-impact">
+                    The key algorithm that enables deep learning through error correction.
+                </div>
+                <div class="event-icon">🔄</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 1987: General Problem Solver -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="networks">
+                <div class="event-year">1987</div>
+                <div class="event-title">Newell and Simon develop the General Problem Solver (GPS)</div>
+                <div class="event-description">
+                    One of the first AI programs to separate human-like problem-solving.
+                </div>
+                <div class="event-impact">
+                    Early attempt at creating general-purpose AI problem-solving systems.
+                </div>
+                <div class="event-icon">🧩</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 1997: Deep Blue -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="networks">
+                <div class="event-year">1997</div>
+                <div class="event-title">IBM's Deep Blue defeats chess world champion Kasparov</div>
+                <div class="event-description">
+                    Marking the first time a computer beats a world champion in a complex game, changing the public
+                    perception of AI.
+                </div>
+                <div class="event-impact">
+                    AI demonstrates superiority over humans in strategic thinking.
+                </div>
+                <div class="event-icon">♟️</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2002: Roomba -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="networks">
+                <div class="event-year">2002</div>
+                <div class="event-title">iRobot introduces Roomba</div>
+                <div class="event-description">
+                    The first mass-produced domestic robot vacuum cleaner with an AI-powered navigation system.
+                </div>
+                <div class="event-impact">
+                    AI enters homes through practical robotic applications.
+                </div>
+                <div class="event-icon">🤖</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2011: IBM Watson -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="creativity">
+                <div class="event-year">2011</div>
+                <div class="event-title">IBM Watson defeats two former Jeopardy! champions</div>
+                <div class="event-description">
+                    Demonstrating advanced natural language understanding and use human-like reasoning techniques.
+                </div>
+                <div class="event-impact">
+                    AI masters natural language comprehension and reasoning.
+                </div>
+                <div class="event-icon">🧠</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2012: AlexNet -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="creativity">
+                <div class="event-year">2012</div>
+                <div class="event-title">AI startup DeepMind develops a deep neural network that can recognize cats in
+                    YouTube videos</div>
+                <div class="event-description">
+                    Marking a significant breakthrough in natural language processing.
+                </div>
+                <div class="event-impact">
+                    Deep learning achieves breakthrough performance in image recognition.
+                </div>
+                <div class="event-icon">🐱</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2014: GANs -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="creativity">
+                <div class="event-year">2014</div>
+                <div class="event-title">Facebook creates DeepFace</div>
+                <div class="event-description">
+                    A facial recognition system that can recognize faces with near-human accuracy.
+                </div>
+                <div class="event-impact">
+                    AI achieves human-level performance in facial recognition.
+                </div>
+                <div class="event-icon">👤</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2015: AlphaGo -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="creativity">
+                <div class="event-year">2015</div>
+                <div class="event-title">AlphaGo, developed by DeepMind</div>
+                <div class="event-description">
+                    Defeats world champion Lee Sedol in the game of Go in a series of matches.
+                </div>
+                <div class="event-impact">
+                    AI masters the most complex board game through deep reinforcement learning.
+                </div>
+                <div class="event-icon">⚫</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2017: Transformer Architecture -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="attention">
+                <div class="event-year">2017</div>
+                <div class="event-title">Google defeats the world's best Shogi engines</div>
+                <div class="event-description">
+                    AlphaZero defeats the world's best chess, shogi engines in a series of matches.
+                </div>
+                <div class="event-impact">
+                    AI achieves superhuman performance across multiple strategic games.
+                </div>
+                <div class="event-icon">🏆</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2020: GPT-3 -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="attention">
+                <div class="event-year">2020</div>
+                <div class="event-title">GPT-3 Released</div>
+                <div class="event-description">
+                    OpenAI releases GPT-3 with 175 billion parameters, demonstrating unprecedented language generation
+                    capabilities and sparking widespread interest in large language models.
+                </div>
+                <div class="event-impact">
+                    First LLM to show human-like text generation at scale.
+                </div>
+                <div class="event-icon">📝</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2020: AlphaFold2 -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="attention">
+                <div class="event-year">2020</div>
+                <div class="event-title">AlphaFold 2 Breakthrough</div>
+                <div class="event-description">
+                    DeepMind's AlphaFold 2 achieves a major breakthrough in protein structure prediction, solving a
+                    50-year-old scientific challenge.
+                </div>
+                <div class="event-impact">
+                    AI proves its potential for solving fundamental scientific problems.
+                </div>
+                <div class="event-icon">🧬</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2021: GitHub Copilot -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="public">
+                <div class="event-year">2021</div>
+                <div class="event-title">GitHub Copilot Launch</div>
+                <div class="event-description">
+                    GitHub launches Copilot, the first mainstream AI coding assistant, trained on billions of lines of
+                    public code.
+                </div>
+                <div class="event-impact">
+                    AI begins assisting developers in their daily work.
+                </div>
+                <div class="event-icon">💻</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2022: ChatGPT -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="public">
+                <div class="event-year">2022</div>
+                <div class="event-title">ChatGPT Goes Viral</div>
+                <div class="event-description">
+                    OpenAI releases ChatGPT to the public on November 30. It reaches 100 million users in 2 months,
+                    making AI accessible to mainstream users.
+                </div>
+                <div class="event-impact">
+                    AI moves from research labs to everyday consumer use.
+                </div>
+                <div class="event-icon">🚀</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2022: Stable Diffusion -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="public">
+                <div class="event-year">2022</div>
+                <div class="event-title">Stable Diffusion Open Source</div>
+                <div class="event-description">
+                    Stability AI releases Stable Diffusion as open source, democratizing high-quality image generation
+                    and sparking creativity tools boom.
+                </div>
+                <div class="event-impact">
+                    Open source AI enables widespread experimentation and innovation.
+                </div>
+                <div class="event-icon">🎨</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2023: GPT-4 -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="multimodal">
+                <div class="event-year">2023</div>
+                <div class="event-title">GPT-4 and AI Competition</div>
+                <div class="event-description">
+                    OpenAI releases GPT-4 with vision capabilities. Google launches Bard, Anthropic releases Claude 2,
+                    and the "AI race" intensifies.
+                </div>
+                <div class="event-impact">
+                    Competition drives rapid improvement in AI capabilities.
+                </div>
+                <div class="event-icon">👁️</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2024: Advanced Models -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="multimodal">
+                <div class="event-year">2024</div>
+                <div class="event-title">Advanced Reasoning Models</div>
+                <div class="event-description">
+                    Anthropic's Claude 3, Google's Gemini 1.5, and other models show improved reasoning, longer context
+                    windows, and better safety measures.
+                </div>
+                <div class="event-impact">
+                    AI systems become more reliable and capable of complex tasks.
+                </div>
+                <div class="event-icon">🧮</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2024: Video Generation -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="multimodal">
+                <div class="event-year">2024</div>
+                <div class="event-title">AI Video Generation</div>
+                <div class="event-description">
+                    OpenAI's Sora (limited release) and other models like Runway demonstrate high-quality video
+                    generation from text prompts.
+                </div>
+                <div class="event-impact">
+                    AI expands into video content creation, though still with limitations.
+                </div>
+                <div class="event-icon">🎬</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2025: Current Reality -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="agents">
+                <div class="event-year">2025</div>
+                <div class="event-title">AI Integration Phase</div>
+                <div class="event-description">
+                    AI tools become standard in many workflows. Early AI agents emerge but require significant human
+                    oversight. Legal and ethical frameworks develop.
+                </div>
+                <div class="event-impact">
+                    AI transitions from novelty to practical tool, with growing pains.
+                </div>
+                <div class="event-icon">⚙️</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2027: Projected -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="agents">
+                <div class="event-year">2027</div>
+                <div class="event-title">Reliable AI Agents (Projected)</div>
+                <div class="event-description">
+                    AI agents become more reliable for specific domains like customer service, data analysis, and
+                    content creation, though still limited in scope.
+                </div>
+                <div class="event-impact">
+                    AI handles routine tasks more autonomously in controlled environments.
+                </div>
+                <div class="event-icon">🤖</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+
+        <!-- 2030: Projected -->
+        <div class="timeline-event">
+            <div class="event-card" data-era="agents">
+                <div class="event-year">2030</div>
+                <div class="event-title">AI as Standard Tool (Projected)</div>
+                <div class="event-description">
+                    AI becomes as common as search engines today. Significant improvements in reasoning and reliability,
+                    but AGI remains elusive despite claims.
+                </div>
+                <div class="event-impact">
+                    AI matures into a reliable, regulated, and widely-adopted technology.
+                </div>
+                <div class="event-icon">🔧</div>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+    </div>
+
+    <!-- Comparison View -->
+    <div class="comparison-view" id="comparisonView">
+        <div class="comparison-container" id="comparisonContainer">
+            <!-- Scenarios will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <!-- Split View -->
+    <div class="split-view" id="splitView">
+        <div class="split-container">
+            <div class="historical-section">
+                <h3 class="section-title">🕰️ Historical Milestones</h3>
+                <div id="historicalSummary">
+                    <!-- Key historical events will be summarized here -->
+                </div>
+            </div>
+            <div class="future-section">
+                <h3 class="section-title">🔮 Future Scenarios</h3>
+                <div id="futureSummary">
+                    <!-- Selected future scenarios will be summarized here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Future scenario data
+        const FUTURE_SCENARIOS = {
+            creative: {
+                name: "Creative AI Renaissance",
+                icon: "🎨",
+                probability: "Estimated 20-30% likelihood",
+                color: "#00ff88",
+                events: [
+                    {
+                        year: "2025",
+                        title: "AI Creative Explosion",
+                        description: "AI-human collaboration produces breakthrough art, music, and literature. New creative industries emerge.",
+                        probability: "High"
+                    },
+                    {
+                        year: "2026",
+                        title: "Personalized Content Era",
+                        description: "AI creates custom entertainment, education, and media for each individual's preferences.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2027",
+                        title: "Scientific Discovery Acceleration",
+                        description: "AI-human teams make rapid breakthroughs in physics, biology, and materials science.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2028",
+                        title: "Universal Creative Tools",
+                        description: "Anyone can create professional-quality content with AI assistance. Democratized creativity.",
+                        probability: "High"
+                    },
+                    {
+                        year: "2029",
+                        title: "Collaborative Intelligence",
+                        description: "Seamless human-AI partnerships become the norm in most creative and intellectual work.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2030",
+                        title: "Renaissance 2.0",
+                        description: "A new golden age of human creativity enhanced by AI, solving major global challenges.",
+                        probability: "Medium"
+                    }
+                ]
+            },
+            decentralized: {
+                name: "Decentralized Revolution",
+                icon: "🌐",
+                probability: "Estimated 25-35% likelihood",
+                color: "#00ffff",
+                events: [
+                    {
+                        year: "2025",
+                        title: "Open Source AI Boom",
+                        description: "Powerful open-source models rival proprietary ones. Global collaboration accelerates.",
+                        probability: "High"
+                    },
+                    {
+                        year: "2026",
+                        title: "Decentralized AI Networks",
+                        description: "Blockchain-based AI networks enable distributed computing and model sharing.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2027",
+                        title: "Community-Driven Innovation",
+                        description: "Grassroots AI development outpaces corporate research. Local solutions emerge globally.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2028",
+                        title: "AI Commons Established",
+                        description: "Global AI knowledge commons provides free access to advanced AI for all humanity.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2029",
+                        title: "Democratized AI Creation",
+                        description: "Anyone can train and deploy AI models. Barriers to AI development eliminated.",
+                        probability: "High"
+                    },
+                    {
+                        year: "2030",
+                        title: "Post-Scarcity AI Economy",
+                        description: "Abundant, free AI services create new economic models based on collaboration.",
+                        probability: "Low"
+                    }
+                ]
+            },
+            cautious: {
+                name: "The Cautious Path",
+                icon: "🛡️",
+                probability: "Estimated 30-40% likelihood",
+                color: "#ffd700",
+                events: [
+                    {
+                        year: "2025",
+                        title: "Safety-First Approach",
+                        description: "Major focus on AI safety research. Development slows but becomes more secure.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2026",
+                        title: "Strict Regulations",
+                        description: "Heavy government oversight. AI development requires extensive safety testing.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2027",
+                        title: "Limited AI Deployment",
+                        description: "Only proven, safe AI systems allowed in critical applications.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2028",
+                        title: "Research Over Deployment",
+                        description: "Focus shifts to understanding AI behavior before widespread deployment.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2029",
+                        title: "Gradual Integration",
+                        description: "Slow but steady AI adoption with extensive human oversight required.",
+                        probability: "High"
+                    },
+                    {
+                        year: "2030",
+                        title: "Safe but Limited AI",
+                        description: "Highly reliable AI in specific domains. AGI development deliberately slowed.",
+                        probability: "Medium"
+                    }
+                ]
+            },
+            hybrid: {
+                name: "The Hybrid Reality",
+                icon: "🤝",
+                probability: "Estimated 15-25% likelihood",
+                color: "#ff6b6b",
+                events: [
+                    {
+                        year: "2025",
+                        title: "Human-AI Integration",
+                        description: "Brain-computer interfaces enable direct human-AI collaboration. Augmented cognition begins.",
+                        probability: "Low"
+                    },
+                    {
+                        year: "2026",
+                        title: "Symbiotic Workflows",
+                        description: "Humans and AI develop complementary roles. Neither replaces the other completely.",
+                        probability: "High"
+                    },
+                    {
+                        year: "2027",
+                        title: "Cognitive Enhancement",
+                        description: "AI augments human memory, reasoning, and creativity without replacing human judgment.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2028",
+                        title: "Hybrid Intelligence Networks",
+                        description: "Connected human-AI teams solve complex problems through distributed intelligence.",
+                        probability: "Medium"
+                    },
+                    {
+                        year: "2029",
+                        title: "Enhanced Human Potential",
+                        description: "AI amplifies human capabilities while preserving human agency and creativity.",
+                        probability: "High"
+                    },
+                    {
+                        year: "2030",
+                        title: "Symbiotic Society",
+                        description: "Humans and AI coevolve, creating new forms of intelligence and social organization.",
+                        probability: "Medium"
+                    }
+                ]
+            }
+        };
+
+        // Historical summary data
+        const HISTORICAL_SUMMARY = [
+            { year: "1943-1956", title: "Theoretical Foundations", desc: "Neural networks and AI as a field established" },
+            { year: "1957-1974", title: "Early Optimism", desc: "First AI programs and pattern recognition" },
+            { year: "1974-1980", title: "First AI Winter", desc: "Funding cuts due to unmet expectations" },
+            { year: "1980-1987", title: "Expert Systems Era", desc: "Commercial AI applications emerge" },
+            { year: "1986-2010", title: "Neural Network Revival", desc: "Backpropagation enables deeper networks" },
+            { year: "2010-2020", title: "Deep Learning Boom", desc: "Breakthrough performance in vision and games" },
+            { year: "2020-2024", title: "LLM Revolution", desc: "Language models transform AI landscape" },
+            { year: "2025", title: "Current Reality", desc: "AI tools becoming standard in many workflows" }
+        ];
+        // Timeline comparison functionality
+        let selectedScenarios = new Set(['creative', 'cautious']);
+        let currentView = 'historical';
+
+        function initTimelineComparison() {
+            // Handle scenario selection
+            const scenarioOptions = document.querySelectorAll('.scenario-option input');
+            scenarioOptions.forEach(option => {
+                option.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        selectedScenarios.add(e.target.id);
+                    } else {
+                        selectedScenarios.delete(e.target.id);
+                    }
+                    updateComparisonView();
+                    updateSplitView();
+                });
+            });
+
+            // Handle view switching
+            const viewBtns = document.querySelectorAll('.view-btn');
+            viewBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    viewBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+
+                    const view = e.target.dataset.view;
+                    switchView(view);
+                });
+            });
+
+            // Initialize views
+            updateComparisonView();
+            updateSplitView();
+        }
+
+        function switchView(view) {
+            currentView = view;
+
+            // Hide all views
+            document.querySelector('.timeline-wrapper').style.display = 'none';
+            document.getElementById('comparisonView').classList.remove('active');
+            document.getElementById('splitView').classList.remove('active');
+
+            // Show selected view
+            switch (view) {
+                case 'historical':
+                    document.querySelector('.timeline-wrapper').style.display = 'block';
+                    break;
+                case 'comparison':
+                    document.getElementById('comparisonView').classList.add('active');
+                    break;
+                case 'split':
+                    document.getElementById('splitView').classList.add('active');
+                    break;
+            }
+        }
+
+        function updateComparisonView() {
+            const container = document.getElementById('comparisonContainer');
+            const scenarios = Array.from(selectedScenarios);
+
+            // Update container class based on number of scenarios
+            container.className = 'comparison-container';
+            if (scenarios.length === 2) container.classList.add('two-scenarios');
+            else if (scenarios.length === 3) container.classList.add('three-scenarios');
+            else if (scenarios.length === 4) container.classList.add('four-scenarios');
+
+            // Clear and rebuild
+            container.innerHTML = '';
+
+            scenarios.forEach(scenarioKey => {
+                const scenario = FUTURE_SCENARIOS[scenarioKey];
+                if (!scenario) return;
+
+                const scenarioDiv = document.createElement('div');
+                scenarioDiv.className = `scenario-timeline ${scenarioKey}`;
+
+                scenarioDiv.innerHTML = `
+                    <div class="scenario-header">
+                        <div class="scenario-title">
+                            <span>${scenario.icon}</span>
+                            <span>${scenario.name}</span>
+                        </div>
+                        <div class="scenario-probability">${scenario.probability}</div>
+                    </div>
+                    <div class="future-events">
+                        ${scenario.events.map(event => `
+                            <div class="future-event">
+                                <div class="probability-indicator">${event.probability}</div>
+                                <div class="future-year">${event.year}</div>
+                                <div class="future-title">${event.title}</div>
+                                <div class="future-desc">${event.description}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                container.appendChild(scenarioDiv);
+            });
+        }
+
+        function updateSplitView() {
+            // Update historical summary
+            const historicalDiv = document.getElementById('historicalSummary');
+            historicalDiv.innerHTML = HISTORICAL_SUMMARY.map(item => `
+                <div class="future-event" style="border-left-color: #00ffff;">
+                    <div class="future-year">${item.year}</div>
+                    <div class="future-title">${item.title}</div>
+                    <div class="future-desc">${item.desc}</div>
+                </div>
+            `).join('');
+
+            // Update future summary with selected scenarios
+            const futureDiv = document.getElementById('futureSummary');
+            const scenarios = Array.from(selectedScenarios);
+
+            futureDiv.innerHTML = scenarios.map(scenarioKey => {
+                const scenario = FUTURE_SCENARIOS[scenarioKey];
+                if (!scenario) return '';
+
+                return `
+                    <div class="scenario-timeline ${scenarioKey}" style="margin-bottom: 30px; padding: 20px;">
+                        <div class="scenario-header">
+                            <div class="scenario-title">
+                                <span>${scenario.icon}</span>
+                                <span>${scenario.name}</span>
+                            </div>
+                        </div>
+                        <div class="future-events">
+                            ${scenario.events.slice(0, 3).map(event => `
+                                <div class="future-event">
+                                    <div class="future-year">${event.year}</div>
+                                    <div class="future-title">${event.title}</div>
+                                    <div class="future-desc">${event.description}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Enhanced card interactions for comparison view
+        function initComparisonInteractions() {
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('.future-event')) {
+                    const event = e.target.closest('.future-event');
+                    event.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        event.style.transform = '';
+                    }, 200);
+                }
+            });
+        }
+
+        // Create animated stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 100;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (2 + Math.random() * 4) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const events = document.querySelectorAll('.event-card');
+
+            events.forEach(event => {
+                for (let i = 0; i < 5; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 6 + 's';
+                    particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+                    event.appendChild(particle);
+                }
+            });
+        }
+
+        // Intersection Observer for scroll animations
+        function initScrollAnimations() {
+            const events = document.querySelectorAll('.timeline-event');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            });
+
+            events.forEach(event => {
+                observer.observe(event);
+            });
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+
+            progressBar.style.width = scrollPercent + '%';
+        }
+
+        // Parallax effect for timeline spine and dynamic background
+        function updateParallax() {
+            const spine = document.querySelector('.timeline-spine');
+            const cosmicBg = document.querySelector('.cosmic-bg');
+            const scrollTop = window.pageYOffset;
+            const parallaxSpeed = 0.3;
+            const bgParallaxSpeed = 0.1;
+
+            spine.style.transform = `translateX(-50%) translateY(${scrollTop * parallaxSpeed}px)`;
+
+            // Dynamic background color shift based on scroll
+            const scrollPercent = scrollTop / (document.body.scrollHeight - window.innerHeight);
+            const hue = scrollPercent * 360;
+            cosmicBg.style.background = `radial-gradient(ellipse at center, hsl(${hue}, 70%, 10%) 0%, #000000 100%)`;
+        }
+
+        // Enhanced card interactions
+        function initCardInteractions() {
+            const cards = document.querySelectorAll('.event-card');
+
+            cards.forEach((card, index) => {
+                card.addEventListener('mouseenter', () => {
+                    // Add subtle ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.style.position = 'absolute';
+                    ripple.style.top = '50%';
+                    ripple.style.left = '50%';
+                    ripple.style.width = '0';
+                    ripple.style.height = '0';
+                    ripple.style.background = 'rgba(0, 255, 255, 0.1)';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.transform = 'translate(-50%, -50%)';
+                    ripple.style.animation = 'ripple 1s ease-out';
+                    ripple.style.pointerEvents = 'none';
+
+                    card.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 1000);
+                });
+
+                // Add click sound effect (optional)
+                card.addEventListener('click', () => {
+                    // Uncomment the next line if you want to add click sound
+                    // playClickSound();
+
+                    // Add visual feedback
+                    card.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        card.style.transform = '';
+                    }, 150);
+                });
+            });
+        }
+
+        // Optional click sound function
+        function playClickSound() {
+            const audio = new Audio('assets/clicksound/portal-entry-sound.mp3');
+            audio.volume = 0.3;
+            audio.play().catch(e => console.log('Audio play failed:', e));
+        }
+
+        // Add subtle ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    width: 200px;
+                    height: 200px;
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Smooth scroll to sections
+        function initSmoothScroll() {
+            const cards = document.querySelectorAll('.event-card');
+
+            cards.forEach((card, index) => {
+                card.addEventListener('click', () => {
+                    const nextCard = cards[index + 1];
+                    if (nextCard) {
+                        nextCard.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Typing animation for title
+        function initTypingAnimation() {
+            const title = document.querySelector('.timeline-title');
+            const text = 'AI EVOLUTION';
+            title.textContent = '';
+
+            let i = 0;
+            const typeInterval = setInterval(() => {
+                title.textContent += text[i];
+                i++;
+                if (i >= text.length) {
+                    clearInterval(typeInterval);
+                }
+            }, 150);
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            createParticles();
+            initScrollAnimations();
+            initCardInteractions();
+            initSmoothScroll();
+            initTypingAnimation();
+            initTimelineComparison();
+            initComparisonInteractions();
+
+            // Update progress and parallax on scroll
+            window.addEventListener('scroll', () => {
+                updateProgressBar();
+                updateParallax();
+            });
+
+            // Initial progress bar update
+            updateProgressBar();
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const visibleEvents = document.querySelectorAll('.timeline-event.visible');
+
+            if (e.key === 'ArrowDown' && visibleEvents.length > 0) {
+                const lastVisible = visibleEvents[visibleEvents.length - 1];
+                const nextEvent = lastVisible.nextElementSibling;
+
+                if (nextEvent && nextEvent.classList.contains('timeline-event')) {
+                    nextEvent.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            if (e.key === 'ArrowUp' && visibleEvents.length > 0) {
+                const firstVisible = visibleEvents[0];
+                const prevEvent = firstVisible.previousElementSibling;
+
+                if (prevEvent && prevEvent.classList.contains('timeline-event')) {
+                    prevEvent.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

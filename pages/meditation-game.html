@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Anchor - Meditation Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .meditation-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .meditating-person {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            z-index: 10;
+            transition: all 3s ease;
+        }
+
+        .meditation-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            position: relative;
+            transition: all 3s ease;
+            background: #222;
+            overflow: hidden;
+            border: 3px solid #444;
+        }
+
+        .chaos-patterns {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            transition: opacity 3s ease;
+        }
+
+        .chaos-patterns svg {
+            width: 100%;
+            height: 100%;
+            animation: chaosRotate 8s linear infinite;
+        }
+
+        @keyframes chaosRotate {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+
+            25% {
+                transform: rotate(90deg) scale(1.1);
+            }
+
+            50% {
+                transform: rotate(180deg) scale(0.9);
+            }
+
+            75% {
+                transform: rotate(270deg) scale(1.05);
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
+        }
+
+        .clean-circle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            opacity: 0;
+            transition: opacity 3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 50px rgba(102, 126, 234, 0.5);
+        }
+
+        .clean-circle::before {
+            content: '';
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            position: absolute;
+        }
+
+        .anchored .chaos-patterns {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        .anchored .clean-circle {
+            opacity: 1;
+            animation: peacefulGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes peacefulGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 60px rgba(102, 126, 234, 0.8);
+                transform: scale(1.02);
+            }
+        }
+
+        .thought-cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid #333;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            animation: float 4s ease-in-out infinite;
+            cursor: default;
+            transition: all 1.5s ease;
+        }
+
+        .thought-cloud::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 30px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid #333;
+            border-radius: 50%;
+        }
+
+        .thought-cloud::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 20px;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #333;
+            border-radius: 50%;
+        }
+
+        .cloud-1 {
+            top: 10%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+
+        .cloud-2 {
+            top: 20%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+
+        .cloud-3 {
+            bottom: 30%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+
+        .cloud-4 {
+            top: 50%;
+            right: 20%;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            25% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+
+            50% {
+                transform: translateY(-5px) rotate(-1deg);
+            }
+
+            75% {
+                transform: translateY(-15px) rotate(0.5deg);
+            }
+        }
+
+        .anchor {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 3px solid #333;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+        }
+
+        .anchor:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .anchor-breath {
+            top: 40%;
+            left: 20%;
+        }
+
+        .anchor-sound {
+            top: 60%;
+            left: 15%;
+        }
+
+        .anchor-sight {
+            top: 40%;
+            right: 20%;
+        }
+
+        .anchor-mind {
+            top: 60%;
+            right: 15%;
+        }
+
+        .hint {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 30;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+                transform: translateX(-50%) scale(1.05);
+            }
+        }
+
+        .meditation-state {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            opacity: 0;
+            transition: all 3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            pointer-events: none;
+        }
+
+        .meditation-text {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin-top: 50px;
+            opacity: 0;
+            transition: opacity 2s ease 1s;
+        }
+
+        .fade-out {
+            opacity: 0 !important;
+            transform: scale(0.5) !important;
+        }
+
+        .meditation-active {
+            opacity: 1 !important;
+            pointer-events: all;
+        }
+
+        .meditation-active .meditation-text {
+            opacity: 1;
+        }
+
+        .reset-btn {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #333;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 40;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="meditation-container">
+        <div class="hint" id="hint">Find your anchor to quiet the mind</div>
+
+        <div class="meditating-person" id="person">
+            <div class="meditation-circle">
+                <div class="chaos-patterns">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Chaotic patterns representing mental noise -->
+                        <defs>
+                            <pattern id="chaosPattern" patternUnits="userSpaceOnUse" width="20" height="20">
+                                <rect width="20" height="20" fill="#ff6b6b" />
+                                <circle cx="10" cy="10" r="3" fill="#4ecdc4" />
+                                <line x1="0" y1="0" x2="20" y2="20" stroke="#ffe66d" stroke-width="2" />
+                                <line x1="20" y1="0" x2="0" y2="20" stroke="#a8e6cf" stroke-width="1" />
+                            </pattern>
+                        </defs>
+
+                        <!-- Chaotic shapes and lines -->
+                        <circle cx="100" cy="100" r="90" fill="url(#chaosPattern)" opacity="0.8" />
+
+                        <!-- Random zigzag lines -->
+                        <path d="M20,50 L40,30 L60,70 L80,20 L100,60 L120,10 L140,50 L160,30 L180,60" stroke="#ff4757"
+                            stroke-width="3" fill="none" opacity="0.7" />
+                        <path d="M30,150 L50,130 L70,170 L90,120 L110,160 L130,110 L150,150 L170,130" stroke="#3742fa"
+                            stroke-width="2" fill="none" opacity="0.6" />
+
+                        <!-- Scattered dots representing scattered thoughts -->
+                        <circle cx="40" cy="60" r="4" fill="#ff3838" opacity="0.8" />
+                        <circle cx="160" cy="80" r="3" fill="#2ed573" opacity="0.7" />
+                        <circle cx="70" cy="140" r="5" fill="#ffa502" opacity="0.9" />
+                        <circle cx="130" cy="160" r="3" fill="#5352ed" opacity="0.6" />
+                        <circle cx="50" cy="120" r="4" fill="#ff4757" opacity="0.8" />
+                        <circle cx="150" cy="40" r="3" fill="#2f3542" opacity="0.7" />
+
+                        <!-- Spiral representing mental loops -->
+                        <path d="M100,100 Q120,80 140,100 Q160,120 140,140 Q120,160 100,140 Q80,120 100,100"
+                            stroke="#ff6348" stroke-width="2" fill="none" opacity="0.5" />
+
+                        <!-- More chaotic elements -->
+                        <polygon points="60,80 80,60 100,80 80,100" fill="#ff7675" opacity="0.6" />
+                        <polygon points="120,120 140,100 160,120 140,140" fill="#74b9ff" opacity="0.5" />
+                    </svg>
+                </div>
+
+                <div class="clean-circle">
+                    <!-- Clean, peaceful circle - will appear when anchored -->
+                </div>
+            </div>
+        </div>
+
+        <div class="thought-cloud cloud-1" id="cloud1">In the past, that... happened</div>
+        <div class="thought-cloud cloud-2" id="cloud2">No Time for this crap</div>
+        <div class="thought-cloud cloud-3" id="cloud3">In the future this might happen</div>
+        <div class="thought-cloud cloud-4" id="cloud4">What if...</div>
+
+        <div class="anchor anchor-breath" id="breath" onclick="selectAnchor('breath')">🫁</div>
+        <div class="anchor anchor-sound" id="sound" onclick="selectAnchor('sound')">👂</div>
+        <div class="anchor anchor-sight" id="sight" onclick="selectAnchor('sight')">👁️</div>
+        <div class="anchor anchor-mind" id="mind" onclick="selectAnchor('mind')">🧠</div>
+
+        <div class="meditation-state" id="meditationState">
+            <div class="meditating-person">
+                <div class="meditation-circle anchored">
+                    <div class="chaos-patterns">
+                        <!-- Same chaos patterns but will be hidden -->
+                    </div>
+                    <div class="clean-circle">
+                        <!-- Pure, peaceful circle -->
+                    </div>
+                </div>
+            </div>
+            <div class="meditation-text">
+                You have found your anchor.<br>
+                Welcome to the present moment.<br>
+                <em>Peace. Stillness. Now.</em>
+            </div>
+        </div>
+
+        <div class="reset-btn" onclick="resetGame()">Reset</div>
+    </div>
+
+    <script>
+        let gameActive = true;
+
+        function selectAnchor(anchorType) {
+            if (!gameActive) return;
+
+            gameActive = false;
+
+            // Hide hint
+            document.getElementById('hint').style.opacity = '0';
+
+            // Start transforming the circle
+            const meditationCircle = document.querySelector('#person .meditation-circle');
+            setTimeout(() => {
+                meditationCircle.classList.add('anchored');
+            }, 500);
+
+            // Fade out all thought clouds
+            const clouds = document.querySelectorAll('.thought-cloud');
+            clouds.forEach((cloud, index) => {
+                setTimeout(() => {
+                    cloud.classList.add('fade-out');
+                }, index * 300 + 1000);
+            });
+
+            // Hide anchors
+            const anchors = document.querySelectorAll('.anchor');
+            anchors.forEach((anchor, index) => {
+                setTimeout(() => {
+                    anchor.style.opacity = '0';
+                }, index * 200 + 800);
+            });
+
+            // Show meditation state
+            setTimeout(() => {
+                document.getElementById('meditationState').classList.add('meditation-active');
+            }, 4000);
+        }
+
+        function resetGame() {
+            gameActive = true;
+
+            // Reset hint
+            document.getElementById('hint').style.opacity = '1';
+
+            // Reset the circle to chaotic state
+            const meditationCircle = document.querySelector('#person .meditation-circle');
+            meditationCircle.classList.remove('anchored');
+
+            // Reset clouds
+            const clouds = document.querySelectorAll('.thought-cloud');
+            clouds.forEach(cloud => {
+                cloud.classList.remove('fade-out');
+            });
+
+            // Reset anchors
+            const anchors = document.querySelectorAll('.anchor');
+            anchors.forEach(anchor => {
+                anchor.style.opacity = '1';
+            });
+
+            // Hide meditation state
+            document.getElementById('meditationState').classList.remove('meditation-active');
+        }
+
+        // Add some random movement to clouds
+        setInterval(() => {
+            if (gameActive) {
+                const clouds = document.querySelectorAll('.thought-cloud:not(.fade-out)');
+                clouds.forEach(cloud => {
+                    const randomX = (Math.random() - 0.5) * 20;
+                    const randomY = (Math.random() - 0.5) * 20;
+                    cloud.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                });
+            }
+        }, 3000);
+    </script>
+</body>
+
+</html>

@@ -1,6 +1,9 @@
 # Ignore pagesmeta folder
 pagesmeta/
 
+# Ignore test and development files
+ignoregit/
+
 # Ignore system files
 .DS_Store
 .DS_Store?

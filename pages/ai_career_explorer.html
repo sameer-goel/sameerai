@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Future Jobs Dashboard</title>
+  <meta name="description" content="Explore the future of work with this interactive job dashboard." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .job-card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+    }
+    /* Modal styles */
+    .modal {
+        transition: opacity 0.25s ease;
+    }
+    .modal-content {
+        transition: transform 0.25s ease;
+    }
+    /* Animations for cards */
+    .card-enter {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    .card-enter-active {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        transition: opacity 300ms, transform 300ms;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-200 overflow-hidden">
+
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-80 bg-gray-900 border-r border-gray-700/50 p-6 flex-shrink-0 overflow-y-auto">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M10.5 7.5 12 2l1.5 5.5L22 12l-8.5 1.5L12 22l-1.5-8.5L2 12l8.5-4.5Z"/></svg>
+            </div>
+            <h1 class="text-xl font-bold text-white">Future Jobs</h1>
+        </div>
+
+        <h2 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Filters</h2>
+        <div class="space-y-6" id="controls">
+            <div>
+                <label for="handsLeadership" class="text-sm font-medium text-gray-300 block mb-2">Hands‑on vs. Leadership</label>
+                <input id="handsLeadership" type="range" min="0" max="100" value="50" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                <div class="text-xs text-gray-400 mt-1 text-center" id="handsLeadershipLabel">Balanced</div>
+            </div>
+             <div>
+                <label for="client" class="text-sm font-medium text-gray-300 block mb-2">Client-Facing Appetite</label>
+                <input id="client" type="range" min="0" max="100" value="60" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+            </div>
+             <div>
+                <label for="travel" class="text-sm font-medium text-gray-300 block mb-2">Travel Appetite</label>
+                <input id="travel" type="range" min="0" max="100" value="40" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+            </div>
+             <div>
+                <label for="regTolerance" class="text-sm font-medium text-gray-300 block mb-2">Regulation Tolerance</label>
+                <input id="regTolerance" type="range" min="0" max="10" value="6" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                 <div class="text-xs text-gray-400 mt-1 text-center" id="regLabel">Moderate</div>
+            </div>
+             <div>
+                <label for="salaryMission" class="text-sm font-medium text-gray-300 block mb-2">Salary vs. Mission</label>
+                <input id="salaryMission" type="range" min="0" max="100" value="55" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                 <div class="text-xs text-gray-400 mt-1 text-center" id="salaryMissionLabel">Balanced</div>
+            </div>
+            <div>
+                 <h3 class="text-sm font-medium text-gray-300 mb-2">Domains</h3>
+                 <div class="flex flex-wrap gap-2" id="domainFilters">
+                 </div>
+            </div>
+            <div class="flex items-center">
+                <input id="remoteOnly" type="checkbox" class="h-4 w-4 rounded border-gray-600 bg-gray-800 text-indigo-600 focus:ring-indigo-500">
+                <label for="remoteOnly" class="ml-2 block text-sm text-gray-300">Remote-Friendly Only</label>
+            </div>
+            <button id="resetBtn" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">Reset Filters</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col overflow-hidden">
+        <header class="bg-gray-900/50 backdrop-blur-sm border-b border-gray-700/50 px-6 py-4 flex-shrink-0">
+            <div class="flex items-center justify-between">
+                <div class="relative w-full max-w-md">
+                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input id="q" type="search" placeholder="Search by title, tag, or description..." class="w-full bg-gray-800 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div class="flex items-center gap-4">
+                    <button id="shareBtn" class="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                        Share
+                    </button>
+                    <select id="sortBy" class="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="score">Sort by: Best Match</option>
+                        <option value="title">Sort by: Title (A-Z)</option>
+                        <option value="category">Sort by: Category</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-6">
+            <div class="mb-4">
+                <p id="count" class="text-gray-400"></p>
+            </div>
+            <div id="cardsView" class="job-card-grid">
+            </div>
+        </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+    <div id="modal-content" class="modal-content bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95">
+        <!-- Modal content will be injected here -->
+    </div>
+  </div>
+
+
+  <script>
+    const ROLES = [
+      {
+        title: "LLM Application Architect / LLMOps Engineer",
+        category: "Builder",
+        description: "Design and ship reliable, secure LLM apps (RAG, guardrails, evals) on AWS.",
+        why: "AWS + data engineering + system thinking",
+        bridge: [
+          "Build 2 portfolio apps: RAG on Bedrock + eval suite; policy‑guarded agents",
+          "Add tracing, cost/latency knobs, red‑teaming docs",
+        ],
+        tags: ["enterprise","platform","product"],
+        handsOn: 80, leadership: 40, client: 50, travel: 30, regulation: 4,
+        salaryTier: 4, missionImpact: 3, remote: true
+      },
+      {
+        title: "ML Platform Lead / MLOps Architect",
+        category: "Builder",
+        description: "Own the paved‑road: feature store, model registry, CI/CD, governance.",
+        why: "Platform mindset + AWS infra",
+        bridge: [
+          "Blueprint a multi‑tenant platform with data contracts",
+          "Show cost governance and lineage end‑to‑end",
+        ],
+        tags: ["platform","enterprise"],
+        handsOn: 65, leadership: 60, client: 35, travel: 20, regulation: 5,
+        salaryTier: 5, missionImpact: 3, remote: true
+      },
+      {
+        title: "GenAI Solutions Principal (Pre‑sales / Architecture)",
+        category: "Builder",
+        description: "Win deals by de‑risking GenAI architectures and quantifying ROI.",
+        why: "Whiteboard + persuasion",
+        bridge: [
+          "3 industry patterns: knowledge copilot, claims summarization, code assist",
+          "ROI calculators and reference architectures",
+        ],
+        tags: ["enterprise","product"],
+        handsOn: 40, leadership: 70, client: 85, travel: 60, regulation: 3,
+        salaryTier: 5, missionImpact: 3, remote: true
+      },
+      {
+        title: "AI Product Manager (Platform/DevEx)",
+        category: "Translator",
+        description: "Turn models into value: SDKs, golden paths, SLAs, evals.",
+        why: "Infra fluency + UX empathy",
+        bridge: [
+          "Define platform roadmap & success metrics",
+          "Ship a dev portal with quickstarts and guardrails",
+        ],
+        tags: ["product","platform","enterprise"],
+        handsOn: 30, leadership: 70, client: 60, travel: 40, regulation: 4,
+        salaryTier: 4, missionImpact: 3, remote: true
+      },
+      {
+        title: "AI Strategy Consultant / Innovation Lead",
+        category: "Translator",
+        description: "Identify high‑ROI use cases, run pilots, scale responsibly.",
+        why: "Innovation + exec comms",
+        bridge: [
+          "12‑week adoption playbook (triage, TCO, change mgmt)",
+          "2 case‑study mockups with measured outcomes",
+        ],
+        tags: ["enterprise","governance","product"],
+        handsOn: 25, leadership: 80, client: 85, travel: 50, regulation: 5,
+        salaryTier: 5, missionImpact: 4, remote: true
+      },
+      {
+        title: "Developer Relations (AI/Cloud)",
+        category: "Translator",
+        description: "Teach, demo, and grow ecosystems with credible code and content.",
+        why: "Teacher‑builder vibe",
+        bridge: [
+          "2 talks: cost control for GenAI on AWS; evals that matter",
+          "Open‑source reference architectures",
+        ],
+        tags: ["product","platform"],
+        handsOn: 50, leadership: 45, client: 70, travel: 55, regulation: 2,
+        salaryTier: 4, missionImpact: 4, remote: true
+      },
+      {
+        title: "Responsible AI Lead / AI Governance Manager (EU AI Act)",
+        category: "Guardian",
+        description: "Operationalize trustworthy AI: risk, documentation, oversight.",
+        why: "Values + systems + EU context",
+        bridge: [
+          "AI Act readiness kit: classification, datasheets, incident response",
+          "Map policy to pipelines and controls",
+        ],
+        tags: ["governance","enterprise"],
+        handsOn: 25, leadership: 75, client: 65, travel: 35, regulation: 9,
+        salaryTier: 4, missionImpact: 5, remote: true
+      },
+      {
+        title: "Model Risk & Validation Lead (Financial Services)",
+        category: "Guardian",
+        description: "Independent validation: stress tests, fairness, robustness, SLAs.",
+        why: "Analytical + structured",
+        bridge: [
+          "IVU framework for LLMs (adversarial prompts, drift, bias)",
+          "Governance dashboards & sign‑off process",
+        ],
+        tags: ["governance","finserv"],
+        handsOn: 35, leadership: 65, client: 55, travel: 25, regulation: 10,
+        salaryTier: 5, missionImpact: 4, remote: true
+      },
+      {
+        title: "Wellbeing & Digital Therapeutics. Product/Platform Lead",
+        category: "Purpose",
+        description: "AI‑augmented coaching (yoga, breathwork) with ethics and privacy.",
+        why: "Mission + personalization",
+        bridge: [
+          "Prototype an AI coach; consent & privacy notes",
+          "Outcome tracking and safety guardrails",
+        ],
+        tags: ["wellbeing","product"],
+        handsOn: 55, leadership: 55, client: 60, travel: 20, regulation: 6,
+        salaryTier: 3, missionImpact: 5, remote: true
+      },
+      {
+        title: "AI for Education. Personal Tutoring/Assessment Lead",
+        category: "Purpose",
+        description: "Personalized tutoring with citations & policy‑aligned assessment.",
+        why: "Empower learners",
+        bridge: [
+          "Build a citing tutor; align to school policy",
+          "Design anti‑cheating & oral assessment modes",
+        ],
+        tags: ["edtech","product"],
+        handsOn: 50, leadership: 55, client: 45, travel: 15, regulation: 5,
+        salaryTier: 3, missionImpact: 5, remote: true
+      },
+      {
+        title: "AI for Climate/Energy — Grid/Forecasting Architect",
+        category: "Purpose",
+        description: "Forecast demand, optimize grid, quantify emissions savings.",
+        why: "High‑impact infra",
+        bridge: [
+          "Demand forecasting demo on public grid data",
+          "Optimization model with emissions & cost KPIs",
+        ],
+        tags: ["climate","platform","enterprise"],
+        handsOn: 65, leadership: 50, client: 40, travel: 25, regulation: 6,
+        salaryTier: 4, missionImpact: 5, remote: true
+      }
+    ];
+
+    const ALL_DOMAINS = [...new Set(ROLES.flatMap(r => r.tags))];
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+    const state = {
+      q: '',
+      domains: new Set(),
+      handsLeadership: 50,
+      client: 60,
+      travel: 40,
+      regTolerance: 6,
+      salaryMission: 55,
+      remoteOnly: false,
+      sortBy: 'score',
+    };
+
+    function bindControls(){
+      $('#q').addEventListener('input', e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+      
+      const domainContainer = $('#domainFilters');
+      ALL_DOMAINS.forEach(domain => {
+          const label = document.createElement('label');
+          label.className = 'flex items-center space-x-2 cursor-pointer px-3 py-1 bg-gray-800 rounded-full text-sm hover:bg-gray-700 transition-colors';
+          label.innerHTML = `<input type="checkbox" name="domain" value="${domain}" class="hidden"><span class="domain-name">${domain.charAt(0).toUpperCase() + domain.slice(1)}</span>`;
+          domainContainer.appendChild(label);
+          const checkbox = label.querySelector('input');
+          checkbox.addEventListener('change', e => {
+              if(e.target.checked) {
+                  state.domains.add(e.target.value);
+                  label.classList.add('bg-indigo-600', 'text-white');
+                  label.classList.remove('bg-gray-800');
+              } else {
+                  state.domains.delete(e.target.value);
+                  label.classList.remove('bg-indigo-600', 'text-white');
+                  label.classList.add('bg-gray-800');
+              }
+              render();
+          });
+      });
+
+      $('#handsLeadership').addEventListener('input', e => { state.handsLeadership = +e.target.value; updateHandsLabel(); render(); });
+      $('#client').addEventListener('input', e => { state.client = +e.target.value; render(); });
+      $('#travel').addEventListener('input', e => { state.travel = +e.target.value; render(); });
+      $('#regTolerance').addEventListener('input', e => { state.regTolerance = +e.target.value; updateRegLabel(); render(); });
+      $('#salaryMission').addEventListener('input', e => { state.salaryMission = +e.target.value; updateSalaryLabel(); render(); });
+      $('#remoteOnly').addEventListener('change', e => { state.remoteOnly = e.target.checked; render(); });
+      $('#sortBy').addEventListener('change', e => { state.sortBy = e.target.value; render(); });
+      
+      $('#resetBtn').addEventListener('click', () => {
+        state.q = ''; $('#q').value = '';
+        state.domains.clear(); 
+        $$('input[name="domain"]').forEach(cb => {
+            cb.checked=false;
+            cb.parentElement.classList.remove('bg-indigo-600', 'text-white');
+            cb.parentElement.classList.add('bg-gray-800');
+        });
+        state.handsLeadership=50; $('#handsLeadership').value=50; updateHandsLabel();
+        state.client=60; $('#client').value=60;
+        state.travel=40; $('#travel').value=40;
+        state.regTolerance=6; $('#regTolerance').value=6; updateRegLabel();
+        state.salaryMission=55; $('#salaryMission').value=55; updateSalaryLabel();
+        state.remoteOnly=false; $('#remoteOnly').checked=false;
+        state.sortBy='score'; $('#sortBy').value='score';
+        try { history.replaceState({},'',location.pathname); } catch (e) { console.warn("Cannot reset history state."); }
+        render();
+      });
+
+      $('#shareBtn').addEventListener('click', shareView);
+      const modal = $('#modal');
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.closest('#closeModalBtn')) {
+            closeModal();
+        }
+      });
+    }
+
+    function updateHandsLabel(){
+      const v = state.handsLeadership;
+      const label = v < 35 ? 'Hands‑on Focus' : v > 65 ? 'Leadership Focus' : 'Balanced';
+      $('#handsLeadershipLabel').textContent = label;
+    }
+    function updateRegLabel(){
+      const v = state.regTolerance; const map = ['None','Low','Low‑Mid','Moderate','Moderate','Moderate‑High','Moderate‑High','High','High','Very High','Very High'];
+      $('#regLabel').textContent = map[v] || 'Moderate';
+    }
+    function updateSalaryLabel(){
+      const v = state.salaryMission; const label = v < 40 ? 'Mission-First' : v > 60 ? 'Salary-First' : 'Balanced';
+      $('#salaryMissionLabel').textContent = label;
+    }
+
+    function normalize(x, min, max){ return Math.max(0, Math.min(1, (x-min)/(max-min))); }
+    function scoreRole(r){
+      const desiredHands = 100 - state.handsLeadership;
+      const handsScore = 1 - Math.abs(r.handsOn - desiredHands)/100;
+      const leadScore = 1 - Math.abs(r.leadership - state.handsLeadership)/100;
+      const balance = 0.6*handsScore + 0.4*leadScore;
+      const clientMatch = 1 - Math.abs(r.client - state.client)/100;
+      const travelMatch = 1 - Math.abs(r.travel - state.travel)/100;
+      const regMatch = 1 - Math.abs(r.regulation - state.regTolerance)/10;
+      const salaryBias = state.salaryMission/100;
+      const salaryScore = normalize(r.salaryTier,1,5);
+      const missionScore = normalize(r.missionImpact,1,5);
+      const compMission = salaryBias*salaryScore + (1-salaryBias)*missionScore;
+      let domainBonus = 0;
+      if(state.domains.size){
+        const matches = [...state.domains].filter(d=>r.tags.includes(d)).length;
+        domainBonus = Math.min(0.2, matches * 0.1);
+      }
+      if(state.remoteOnly && !r.remote) return 0;
+      const score = 100 * (0.30*balance + 0.18*clientMatch + 0.12*travelMatch + 0.18*regMatch + 0.17*compMission + domainBonus);
+      return Math.round(score);
+    }
+
+    function filterAndSort(){
+      const q = state.q;
+      let list = ROLES.map(r=>({ ...r, score: scoreRole(r) }))
+        .filter(r=> r.score > 10)
+        .filter(r=> {
+          if(!q) return true;
+          const hay = (r.title + ' ' + r.category + ' ' + r.description + ' ' + r.tags.join(' ') + ' ' + r.why + ' ' + r.bridge.join(' ')).toLowerCase();
+          return hay.includes(q);
+        })
+        .filter(r=> state.domains.size ? r.tags.some(t => state.domains.has(t)) : true);
+
+      if(state.sortBy==='score') list.sort((a,b)=> b.score - a.score || a.title.localeCompare(b.title));
+      if(state.sortBy==='title') list.sort((a,b)=> a.title.localeCompare(b.title));
+      if(state.sortBy==='category') list.sort((a,b)=> a.category.localeCompare(b.category) || b.score - a.score);
+
+      return list;
+    }
+
+    function render(){
+      const list = filterAndSort();
+      $('#count').textContent = `Showing ${list.length} of ${ROLES.length} roles.`;
+
+      const host = $('#cardsView');
+      host.innerHTML='';
+      if (list.length === 0) {
+          host.innerHTML = `<div class="text-center py-12 col-span-full"><h3 class="text-xl font-medium text-white">No roles match your criteria</h3><p class="text-gray-400 mt-2">Try adjusting your filters or clearing your search.</p></div>`;
+          return;
+      }
+
+      list.forEach((r, i) => {
+        const el = document.createElement('div');
+        el.className = 'bg-gray-800/50 border border-gray-700/50 rounded-xl p-6 flex flex-col transition-all duration-300 hover:border-indigo-500/50 hover:shadow-2xl hover:shadow-indigo-900/20 card-enter';
+        
+        el.innerHTML = `
+            <div class="flex-grow">
+                <div class="flex justify-between items-start mb-3">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">${r.category}</span>
+                    <div class="flex items-center gap-2">
+                        <span class="score-value text-sm font-bold text-white" data-score="${r.score}">${r.score}%</span>
+                        <span class="text-xs text-gray-400">Match</span>
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">${r.title}</h3>
+                <p class="text-sm text-gray-400 mb-4">${r.description}</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    ${r.tags.map(t=>`<span class="text-xs font-medium px-2 py-1 bg-gray-700 text-gray-300 rounded-full">${t}</span>`).join('')}
+                </div>
+            </div>
+            <div class="mt-auto pt-4 border-t border-gray-700/50">
+                 <button class="view-details-btn w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                    View Details
+                </button>
+            </div>
+        `;
+        el.querySelector('.view-details-btn').addEventListener('click', () => showModal(r));
+        host.appendChild(el);
+        
+        setTimeout(() => el.classList.add('card-enter-active'), i * 50);
+      });
+
+      try {
+        const params = new URLSearchParams(serializeState());
+        history.replaceState({},'',`${location.pathname}?${params.toString()}`);
+      } catch (e) {
+        console.warn("Could not update history state.");
+      }
+    }
+    
+    function showModal(role) {
+        const modal = $('#modal');
+        const modalContent = $('#modal-content');
+        modalContent.innerHTML = `
+            <div class="p-8">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="text-sm font-semibold uppercase tracking-wider text-indigo-400">${role.category}</span>
+                        <h2 class="text-2xl font-bold text-white mt-1 mb-2">${role.title}</h2>
+                    </div>
+                    <button id="closeModalBtn" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+                </div>
+                <p class="text-gray-300 mt-2 mb-6">${role.description}</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-gray-700/50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-white mb-2">Why It's a Good Fit</h4>
+                        <p class="text-sm text-gray-300">${role.why}</p>
+                    </div>
+                    <div class="bg-gray-700/50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-white mb-2">How to Bridge the Gap</h4>
+                        <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                            ${role.bridge.map(b => `<li>${b}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+
+                <h4 class="font-semibold text-white mb-3">Role Attributes</h4>
+                <div class="flex flex-wrap gap-3">
+                    <span class="flex items-center gap-2 text-sm px-3 py-1 bg-gray-700 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm-9 9a9 9 0 0 1 18 0H3Z"/></svg> ${role.leadership}% Leadership</span>
+                    <span class="flex items-center gap-2 text-sm px-3 py-1 bg-gray-700 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm8 9H4a2 2 0 0 1-2-2v-3a6 6 0 0 1 6-6h8a6 6 0 0 1 6 6v3a2 2 0 0 1-2 2Z"/></svg> ${role.client}% Client-Facing</span>
+                    <span class="flex items-center gap-2 text-sm px-3 py-1 bg-gray-700 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 7.5 12 2l1.5 5.5L22 12l-8.5 1.5L12 22l-1.5-8.5L2 12l8.5-4.5Z"/></svg> ${role.travel}% Travel</span>
+                    <span class="flex items-center gap-2 text-sm px-3 py-1 bg-gray-700 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3Z"/></svg> ${role.regulation}/10 Regulation</span>
+                </div>
+            </div>
+        `;
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modalContent.classList.remove('scale-95');
+        document.body.classList.add('overflow-hidden');
+    }
+
+    function closeModal() {
+        const modal = $('#modal');
+        const modalContent = $('#modal-content');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modalContent.classList.add('scale-95');
+        document.body.classList.remove('overflow-hidden');
+    }
+
+
+    function serializeState(){
+      return {
+        q: state.q || '', dom: [...state.domains].join(','), hl: state.handsLeadership, cl: state.client,
+        tr: state.travel, rg: state.regTolerance, sm: state.salaryMission, ro: state.remoteOnly?1:0, sb: state.sortBy
+      };
+    }
+    function hydrateFromParams(){
+      try {
+        const p = new URLSearchParams(location.search);
+        if (p.toString() === '') return;
+        const getNum = (k, def)=> p.has(k)? +p.get(k) : def;
+        state.q = p.get('q')||''; $('#q').value = state.q;
+        const dom = (p.get('dom')||'').split(',').filter(Boolean);
+        state.domains = new Set(dom);
+        $$('input[name="domain"]').forEach(cb=>{ 
+            const isChecked = dom.includes(cb.value);
+            cb.checked = isChecked;
+            if (isChecked) {
+                cb.parentElement.classList.add('bg-indigo-600', 'text-white');
+                cb.parentElement.classList.remove('bg-gray-800');
+            }
+        });
+        state.handsLeadership = getNum('hl',50); $('#handsLeadership').value=state.handsLeadership; updateHandsLabel();
+        state.client = getNum('cl',60); $('#client').value=state.client;
+        state.travel = getNum('tr',40); $('#travel').value=state.travel;
+        state.regTolerance = getNum('rg',6); $('#regTolerance').value=state.regTolerance; updateRegLabel();
+        state.salaryMission = getNum('sm',55); $('#salaryMission').value=state.salaryMission; updateSalaryLabel();
+        state.remoteOnly = getNum('ro',0)===1; $('#remoteOnly').checked=state.remoteOnly;
+        state.sortBy = p.get('sb')||'score'; $('#sortBy').value=state.sortBy;
+      } catch (e) {
+          console.warn("Could not hydrate from params.");
+      }
+    }
+
+    async function shareView(){
+      const url = new URL(location.href);
+      url.search = new URLSearchParams(serializeState()).toString();
+      const btn = $('#shareBtn');
+      const originalText = btn.innerHTML;
+      try{ if(navigator.share){ await navigator.share({ title: 'Future Jobs Dashboard View', url: url.toString() }); return; } }catch(_e){}
+      try {
+        await navigator.clipboard.writeText(url.toString());
+        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><polyline points="20 6 9 17 4 12"></polyline></svg>Copied!`;
+        setTimeout(()=> btn.innerHTML = originalText, 2000);
+      } catch(e) {
+        console.error("Clipboard write failed", e);
+        btn.innerHTML = `Failed to copy`;
+        setTimeout(()=> btn.innerHTML = originalText, 2000);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        bindControls();
+        hydrateFromParams();
+        render();
+    });
+  </script>
+</body>
+</html>

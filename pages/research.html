@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Research Hub | Sameerai Universe</title>
+    <link rel="icon" type="image/gif" href="../favicon.gif">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Stars background matching index.html */
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .research-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .research-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+            margin-bottom: 1rem;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(0, 212, 255, 0.8); }
+            50% { text-shadow: 0 0 40px rgba(0, 212, 255, 1), 0 0 60px rgba(0, 212, 255, 0.6); }
+        }
+
+        .research-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        /* Netflix-inspired Research Sections */
+        .research-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+        }
+
+        .research-row {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 0 1rem 1rem;
+            scroll-behavior: smooth;
+        }
+
+        .research-row::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .research-row::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .research-row::-webkit-scrollbar-thumb {
+            background: rgba(0, 212, 255, 0.5);
+            border-radius: 4px;
+        }
+
+        .research-card {
+            min-width: 280px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .research-card:hover {
+            transform: scale(1.05);
+            border-color: #00d4ff;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+            z-index: 10;
+        }
+
+        .research-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .book-card .research-image {
+            height: 200px;
+            object-fit: contain;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 2rem 1rem 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .research-card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .research-card:hover .card-content {
+            opacity: 1;
+        }
+
+        .research-card h3 {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .research-card p {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .book-card h3 {
+            color: #00d4ff;
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+        }
+
+        /* Industry Trends Section */
+        .trends-section {
+            background: rgba(0, 212, 255, 0.03);
+            border: 2px solid rgba(0, 212, 255, 0.15);
+            border-radius: 25px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .trends-title {
+            font-size: 2rem;
+            color: #00d4ff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
+        }
+
+        .trends-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: linear-gradient(45deg, #00d4ff, #4de6ff);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .trends-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+        }
+
+        .trends-icon {
+            width: 24px;
+            height: 24px;
+            background: #000;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Cosmic Navigation Menu */
+        .cosmic-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .nav-toggle {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            color: #00d4ff;
+            font-size: 1.5rem;
+        }
+
+        .nav-toggle:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .nav-menu {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 1rem;
+            min-width: 250px;
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .nav-section-title {
+            color: #00d4ff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+        }
+
+        .nav-item {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            margin-bottom: 0.2rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+        }
+
+        .nav-home {
+            color: #ffd700;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-home:hover {
+            color: #fff;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        /* Animations */
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .research-title {
+                font-size: 2rem;
+            }
+            
+            .research-row {
+                padding: 0 0.5rem 1rem;
+            }
+            
+            .research-card {
+                min-width: 250px;
+            }
+            
+            .back-button {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.8rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Stars background -->
+    <div id="stars"></div>
+
+    <!-- Cosmic Navigation Menu -->
+    <div class="cosmic-nav">
+        <div class="nav-toggle" onclick="toggleNavMenu()">☰</div>
+        <div class="nav-menu" id="navMenu">
+            <a href="../index.html" class="nav-item nav-home">Digital Consciousness</a>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">AI - Artificial Intelligence</div>
+                <a href="research.html" class="nav-item active">R - Research</a>
+                <a href="development.html" class="nav-item">D - Development</a>
+                <a href="ethics.html" class="nav-item">E - Ethics</a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Inner Intelligence</div>
+                <a href="mind.html" class="nav-item">Mind</a>
+                <a href="body.html" class="nav-item">B - Body</a>
+                <a href="soul.html" class="nav-item">Soul</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="research-header">
+            <h1 class="research-title">AI Research Hub</h1>
+            <p class="research-subtitle">Exploring the frontiers of artificial intelligence and machine consciousness</p>
+        </div>
+
+        <!-- Featured Book -->
+        <div class="research-section">
+            <h2 class="section-title">Featured Publication</h2>
+            <div class="research-row">
+                <div class="research-card book-card" onclick="window.open('https://updatemind.space/bookreader.html', '_blank')">
+                    <img src="../01research/CultivateInerIntelleigenceUsingAI-cover.png" alt="Cultivate Inner Intelligence Using AI" class="research-image">
+                    <div class="card-content">
+                        <h3>Cultivate Inner Intelligence Using AI</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Research Projects -->
+        <div class="research-section">
+            <h2 class="section-title">Active Research</h2>
+            <div class="research-row">
+                <div class="research-card" onclick="window.open('https://sameerai.my.canva.site/biocomputing', '_blank')">
+                    <img src="../01research/bio-comuting-cover.png" alt="Bio Computing Research" class="research-image">
+                    <div class="card-content">
+                        <h3>Bio Computing Research</h3>
+                        <p>Biological systems and computational intelligence</p>
+                    </div>
+                </div>
+
+                <div class="research-card" onclick="window.open('https://www.canva.com/design/DAFf1YZAEas/f4onYbk7YGrTy_yMIOLaYA/view?utm_content=DAFf1YZAEas&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h00d2c24cc5', '_blank')">
+                    <img src="../01research/Generative-Agents-Cover.png" alt="Generative Agents Research" class="research-image">
+                    <div class="card-content">
+                        <h3>Agentic AI Systems</h3>
+                        <p>Autonomous AI agents and adaptive behavior</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications -->
+        <div class="research-section">
+            <h2 class="section-title">AI Applications</h2>
+            <div class="research-row">
+                <div class="research-card" onclick="window.open('https://www.canva.com/design/DAGjGm-t5kk/Ndu7fQgbt2a_dUf7YY4KQw/view?utm_content=DAGjGm-t5kk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h49cf918239', '_blank')">
+                    <img src="../02development/genai-gym-for-employees-cover.png" alt="Gen AI Gym for Employees" class="research-image">
+                    <div class="card-content">
+                        <h3>Gen AI Gym for Employees</h3>
+                        <p>Workplace AI training and productivity</p>
+                    </div>
+                </div>
+
+                <div class="research-card" onclick="window.open('https://prezi.com/view/dkW0nrmdDtLgaxlBJgCR/', '_blank')">
+                    <img src="../02development/saving-earth-from-invasive-species-cover.png" alt="Saving Earth from Invasive Species" class="research-image">
+                    <div class="card-content">
+                        <h3>Saving Earth from Invasive Species</h3>
+                        <p>AI solutions for biodiversity protection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Industry Trends -->
+        <div class="trends-section">
+            <h2 class="trends-title">Industry Trends & Insights</h2>
+            <p style="font-family: 'Inter', sans-serif; color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem;">
+                Stay updated with the latest industry trends and developer insights from the global tech community.
+            </p>
+            <a href="https://survey.stackoverflow.co/2025/" target="_blank" class="trends-link">
+                <span class="trends-icon">□</span>
+                Stack Overflow Developer Survey 2025
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Create stars animation matching index.html
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 200;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                const size = Math.random() * 3 + 1;
+
+                Object.assign(star.style, {
+                    position: 'absolute',
+                    width: size + 'px',
+                    height: size + 'px',
+                    background: '#fff',
+                    borderRadius: '50%',
+                    left: Math.random() * 100 + '%',
+                    top: Math.random() * 100 + '%',
+                    opacity: Math.random() * 0.8 + 0.2,
+                    animation: `twinkle ${Math.random() * 3 + 2}s infinite alternate`
+                });
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Navigation Menu Toggle
+        function toggleNavMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('.cosmic-nav');
+            const menu = document.getElementById('navMenu');
+            
+            if (!nav.contains(event.target) && menu.classList.contains('active')) {
+                menu.classList.remove('active');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+        });
+    </script>
+</body>
+
+</html>

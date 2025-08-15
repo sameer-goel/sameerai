@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Future Predictions | Neural Timeline</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0f;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Neural network background */
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0, 245, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 150, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(150, 255, 0, 0.03) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 100%);
+            z-index: -2;
+        }
+
+        .neural-nodes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .neural-node {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #00f5ff;
+            border-radius: 50%;
+            animation: neuralPulse 4s ease-in-out infinite;
+        }
+
+        .neural-connection {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00f5ff, transparent);
+            animation: dataFlow 3s linear infinite;
+        }
+
+        @keyframes neuralPulse {
+
+            0%,
+            100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(2);
+            }
+        }
+
+        @keyframes dataFlow {
+            0% {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+        }
+
+        /* Compact header */
+        .compact-header {
+            padding: 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00f5ff 0%, #ff0080 50%, #8000ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+
+        @keyframes holoFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotateX(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotateX(2deg);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Quantum timeline container */
+        .quantum-timeline {
+            position: relative;
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Quantum branches */
+        .quantum-branches {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            width: 100%;
+            max-width: 1400px;
+            margin: 4rem 0;
+        }
+
+        .quantum-branch {
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .quantum-branch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .quantum-branch:hover::before {
+            opacity: 1;
+        }
+
+        .quantum-branch:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--branch-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px var(--branch-glow);
+        }
+
+        .branch-renaissance {
+            --branch-color: #00f5ff;
+            --branch-glow: rgba(0, 245, 255, 0.3);
+        }
+
+        .branch-cautious {
+            --branch-color: #ff0080;
+            --branch-glow: rgba(255, 0, 128, 0.3);
+        }
+
+        .branch-decentralized {
+            --branch-color: #8000ff;
+            --branch-glow: rgba(128, 0, 255, 0.3);
+        }
+
+        .branch-hybrid {
+            --branch-color: #00ff80;
+            --branch-glow: rgba(0, 255, 128, 0.3);
+        }
+
+        .branch-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .branch-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, var(--branch-color), transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .branch-icon::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: rgba(10, 10, 15, 0.9);
+            border-radius: 13px;
+        }
+
+        .branch-icon span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .branch-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--branch-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .branch-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 300;
+        }
+
+        .timeline-events {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .quantum-branch:hover .timeline-events {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-event {
+            position: relative;
+            padding: 1rem;
+            border-left: 2px solid var(--branch-color);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0 10px 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-event:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .event-year {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--branch-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-year::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--branch-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--branch-glow);
+        }
+
+        .event-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .event-description {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        /* Main CTA Button */
+        .main-cta {
+            margin-top: 3rem;
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+
+        .futures-button {
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(255, 0, 128, 0.1));
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            border-radius: 50px;
+            padding: 1.5rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            cursor: pointer;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .futures-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: #00f5ff;
+            box-shadow: 0 20px 40px rgba(0, 245, 255, 0.2);
+        }
+
+        .button-glow {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .futures-button:hover .button-glow {
+            left: 100%;
+        }
+
+        .button-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Timeline Selector */
+        .timeline-selector {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+        }
+
+        .timeline-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline-option {
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            backdrop-filter: blur(20px);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.6rem;
+            min-height: 120px;
+        }
+
+        .timeline-option:hover {
+            transform: translateY(-3px);
+            border-color: var(--option-color);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-option.selected {
+            border-color: var(--option-color);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .timeline-option[data-timeline="renaissance"] {
+            --option-color: #00f5ff;
+        }
+
+        .timeline-option[data-timeline="cautious"] {
+            --option-color: #ff0080;
+        }
+
+        .timeline-option[data-timeline="decentralized"] {
+            --option-color: #8000ff;
+        }
+
+        .timeline-option[data-timeline="hybrid"] {
+            --option-color: #00ff80;
+        }
+
+        .option-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--option-color), transparent);
+            border-radius: 10px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .option-icon::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: rgba(10, 10, 15, 0.9);
+            border-radius: 8px;
+        }
+
+        .option-icon::after {
+            content: '';
+            position: relative;
+            z-index: 1;
+            width: 20px;
+            height: 20px;
+            background: var(--option-color);
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+        }
+
+        /* CSS Icon Masks */
+        .timeline-option[data-timeline="renaissance"] .option-icon::after {
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z'/%3E%3Cpath d='M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z'/%3E%3C/svg%3E");
+        }
+
+        .timeline-option[data-timeline="cautious"] .option-icon::after {
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3C/svg%3E");
+        }
+
+        .timeline-option[data-timeline="decentralized"] .option-icon::after {
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='2' y1='12' x2='22' y2='12'/%3E%3Cpath d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/%3E%3C/svg%3E");
+        }
+
+        .timeline-option[data-timeline="hybrid"] .option-icon::after {
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M22 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .option-content h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--option-color);
+            margin-bottom: 0.3rem;
+            line-height: 1.1;
+        }
+
+        .option-content p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.65rem;
+            line-height: 1.2;
+        }
+
+        .option-select {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--option-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--option-color);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .timeline-option.selected .option-select {
+            background: var(--option-color);
+            color: #000;
+            transform: rotate(45deg);
+        }
+
+        /* All Timelines Display */
+        .all-timelines {
+            padding: 2rem;
+        }
+
+        .timelines-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Vertical Timeline */
+        .vertical-timeline {
+            background: rgba(255, 255, 255, 0.02);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.5;
+        }
+
+        .vertical-timeline.selected {
+            opacity: 1;
+            border-color: var(--timeline-color);
+            box-shadow: 0 0 30px var(--timeline-glow);
+            transform: scale(1.02);
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--timeline-color), transparent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .timeline-icon::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: rgba(10, 10, 15, 0.9);
+            border-radius: 10px;
+        }
+
+        .timeline-icon::after {
+            content: '';
+            position: relative;
+            z-index: 1;
+            width: 24px;
+            height: 24px;
+            background: var(--timeline-color);
+            mask-size: contain;
+            mask-repeat: no-repeat;
+            mask-position: center;
+        }
+
+        /* Timeline Icon Masks */
+        .vertical-timeline.renaissance .timeline-icon::after {
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z'/%3E%3Cpath d='M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z'/%3E%3C/svg%3E");
+        }
+
+        .vertical-timeline.cautious .timeline-icon::after {
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3C/svg%3E");
+        }
+
+        .vertical-timeline.decentralized .timeline-icon::after {
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='2' y1='12' x2='22' y2='12'/%3E%3Cpath d='M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z'/%3E%3C/svg%3E");
+        }
+
+        .vertical-timeline.hybrid .timeline-icon::after {
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M22 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--timeline-color);
+        }
+
+        .timeline-events-vertical {
+            position: relative;
+        }
+
+        .timeline-events-vertical::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--timeline-color), transparent);
+        }
+
+        .timeline-event-vertical {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 3rem;
+        }
+
+        .timeline-event-vertical::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 8px;
+            width: 14px;
+            height: 14px;
+            background: var(--timeline-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--timeline-glow);
+        }
+
+        .event-year-vertical {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--timeline-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .event-title-vertical {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .event-description-vertical {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        /* Timeline Colors */
+        .vertical-timeline.renaissance {
+            --timeline-color: #00f5ff;
+            --timeline-glow: rgba(0, 245, 255, 0.3);
+        }
+
+        .vertical-timeline.cautious {
+            --timeline-color: #ff0080;
+            --timeline-glow: rgba(255, 0, 128, 0.3);
+        }
+
+        .vertical-timeline.decentralized {
+            --timeline-color: #8000ff;
+            --timeline-glow: rgba(128, 0, 255, 0.3);
+        }
+
+        .vertical-timeline.hybrid {
+            --timeline-color: #00ff80;
+            --timeline-glow: rgba(0, 255, 128, 0.3);
+        }
+
+        /* Quantum particles */
+        .quantum-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--branch-color);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes particleFloat {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateY(0px) translateX(0px) scale(1);
+            }
+
+            25% {
+                opacity: 1;
+                transform: translateY(-20px) translateX(10px) scale(1.5);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: translateY(-40px) translateX(-5px) scale(1);
+            }
+
+            75% {
+                opacity: 1;
+                transform: translateY(-60px) translateX(15px) scale(1.2);
+            }
+        }
+
+        .quantum-branch:hover .quantum-particle {
+            animation-duration: 2s;
+        }
+
+        /* Responsive design */
+        @media (max-width: 1200px) {
+            .quantum-branches {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .timelines-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.2rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .timeline-options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+                max-width: 600px;
+            }
+
+            .timeline-option {
+                min-height: 110px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+
+            .compact-header {
+                padding: 1.5rem;
+            }
+
+            .timeline-selector {
+                padding: 1.5rem 1rem;
+            }
+
+            .timeline-options {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+                max-width: 400px;
+            }
+
+            .timeline-option {
+                padding: 0.8rem;
+                min-height: 100px;
+                gap: 0.5rem;
+            }
+
+            .option-icon {
+                width: 35px;
+                height: 35px;
+            }
+
+            .option-icon::after {
+                width: 18px;
+                height: 18px;
+            }
+
+            .option-content h3 {
+                font-size: 0.85rem;
+            }
+
+            .option-content p {
+                font-size: 0.65rem;
+            }
+
+            .option-select {
+                width: 20px;
+                height: 20px;
+                font-size: 0.8rem;
+            }
+
+            .timelines-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .all-timelines {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .timeline-options {
+                grid-template-columns: 1fr;
+                gap: 0.6rem;
+                max-width: 280px;
+            }
+
+            .timeline-option {
+                padding: 0.6rem;
+                min-height: 80px;
+                gap: 0.4rem;
+            }
+
+            .option-icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            .option-icon::after {
+                width: 15px;
+                height: 15px;
+            }
+
+            .option-content h3 {
+                font-size: 0.75rem;
+            }
+
+            .option-content p {
+                font-size: 0.6rem;
+            }
+
+            .option-select {
+                width: 18px;
+                height: 18px;
+                font-size: 0.7rem;
+            }
+
+            .futures-button {
+                padding: 1.2rem 2rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="neural-bg"></div>
+    <div class="neural-nodes" id="neuralNodes"></div>
+
+    <!-- Compact Header -->
+    <div class="compact-header">
+        <h1 class="page-title">AI Future Timelines</h1>
+        <p class="page-subtitle">Select timelines to compare different possibilities side by side</p>
+    </div>
+
+    <!-- Timeline Selection Interface -->
+    <div class="timeline-selector" id="timelineSelector">
+        <div class="timeline-options">
+            <div class="timeline-option" data-timeline="renaissance">
+                <div class="option-icon"></div>
+                <div class="option-content">
+                    <h3>Creative AI Renaissance</h3>
+                    <p>The optimistic path of human-AI collaboration</p>
+                </div>
+                <div class="option-select">+</div>
+            </div>
+
+            <div class="timeline-option" data-timeline="cautious">
+                <div class="option-icon"></div>
+                <div class="option-content">
+                    <h3>The Cautious Path</h3>
+                    <p>Safety-first approach with heavy regulation</p>
+                </div>
+                <div class="option-select">+</div>
+            </div>
+
+            <div class="timeline-option" data-timeline="decentralized">
+                <div class="option-icon"></div>
+                <div class="option-content">
+                    <h3>Decentralized Revolution</h3>
+                    <p>Open-source, democratized AI future</p>
+                </div>
+                <div class="option-select">+</div>
+            </div>
+
+            <div class="timeline-option" data-timeline="hybrid">
+                <div class="option-icon"></div>
+                <div class="option-content">
+                    <h3>The Hybrid Reality</h3>
+                    <p>Human-AI symbiotic evolution</p>
+                </div>
+                <div class="option-select">+</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Timelines Display -->
+    <div class="all-timelines" id="allTimelines">
+        <div class="timelines-container" id="timelinesContainer">
+            <!-- All 4 timelines will be displayed here -->
+            <div class="vertical-timeline renaissance" data-timeline="renaissance">
+                <div class="timeline-header">
+                    <div class="timeline-icon"></div>
+                    <div class="timeline-title">Creative AI Renaissance</div>
+                </div>
+                <div class="timeline-events-vertical" id="renaissance-events">
+                    <!-- Events will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="vertical-timeline cautious" data-timeline="cautious">
+                <div class="timeline-header">
+                    <div class="timeline-icon"></div>
+                    <div class="timeline-title">The Cautious Path</div>
+                </div>
+                <div class="timeline-events-vertical" id="cautious-events">
+                    <!-- Events will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="vertical-timeline decentralized" data-timeline="decentralized">
+                <div class="timeline-header">
+                    <div class="timeline-icon"></div>
+                    <div class="timeline-title">Decentralized Revolution</div>
+                </div>
+                <div class="timeline-events-vertical" id="decentralized-events">
+                    <!-- Events will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="vertical-timeline hybrid" data-timeline="hybrid">
+                <div class="timeline-header">
+                    <div class="timeline-icon"></div>
+                    <div class="timeline-title">The Hybrid Reality</div>
+                </div>
+                <div class="timeline-events-vertical" id="hybrid-events">
+                    <!-- Events will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timeline data
+        const timelineData = {
+            renaissance: {
+                title: "Creative AI Renaissance",
+                icon: "",
+                events: [
+                    {
+                        year: "2026",
+                        title: "AI Agents & VIBE Coding",
+                        description: "AI agents run coordinated tasks, VIBE Coding emerges, AI Architects become mainstream"
+                    },
+                    {
+                        year: "2027",
+                        title: "Personal AI Partners",
+                        description: "Every individual has a personal AI partner, AI integrated into every system and workflow"
+                    },
+                    {
+                        year: "2028",
+                        title: "AI+Human Creativity",
+                        description: "Bio computing with brain cells, AI-human collaborative creativity reaches new heights"
+                    },
+                    {
+                        year: "2029",
+                        title: "Bio AI Interface",
+                        description: "Direct bio-AI interfaces, liquid chips enable seamless human-AI integration"
+                    },
+                    {
+                        year: "2030",
+                        title: "Advanced Civilization",
+                        description: "Advanced human civilization with AI as creative partners in all endeavors"
+                    }
+                ]
+            },
+            cautious: {
+                title: "The Cautious Path",
+                icon: "",
+                events: [
+                    {
+                        year: "2026",
+                        title: "AI Regulation Era",
+                        description: "AI regulation slows development, focus shifts to safety and ethics frameworks"
+                    },
+                    {
+                        year: "2027",
+                        title: "Controlled Deployment",
+                        description: "Limited AI deployment due to legal frameworks, human oversight required for all AI systems"
+                    },
+                    {
+                        year: "2028",
+                        title: "Transparent Integration",
+                        description: "Steady but controlled AI integration, emphasis on transparency and explainable AI"
+                    },
+                    {
+                        year: "2029",
+                        title: "Trusted Systems",
+                        description: "Mature regulatory environment enables trusted AI systems with proven safety records"
+                    },
+                    {
+                        year: "2030",
+                        title: "Constrained Service",
+                        description: "Reliable but constrained AI serves humanity within strict ethical and legal boundaries"
+                    }
+                ]
+            },
+            decentralized: {
+                title: "Decentralized Revolution",
+                icon: "",
+                events: [
+                    {
+                        year: "2026",
+                        title: "Open Source Dominance",
+                        description: "Open-source AI models dominate, breaking big tech monopolies and democratizing AI"
+                    },
+                    {
+                        year: "2027",
+                        title: "Local Quantum AI",
+                        description: "Personal AI runs locally on quantum-enhanced devices, reducing cloud dependency"
+                    },
+                    {
+                        year: "2028",
+                        title: "Decentralized Networks",
+                        description: "Decentralized AI networks replace centralized cloud services, peer-to-peer AI emerges"
+                    },
+                    {
+                        year: "2029",
+                        title: "Individual AI Control",
+                        description: "AI becomes truly democratized, every individual controls their own AI systems"
+                    },
+                    {
+                        year: "2030",
+                        title: "Post-Corporate AI",
+                        description: "Post-corporate AI ecosystem emerges with community-driven development and governance"
+                    }
+                ]
+            },
+            hybrid: {
+                title: "The Hybrid Reality",
+                icon: "",
+                events: [
+                    {
+                        year: "2026",
+                        title: "Seamless Collaboration",
+                        description: "AI-human collaboration becomes seamless in professional settings across all industries"
+                    },
+                    {
+                        year: "2027",
+                        title: "Mixed Reality AI",
+                        description: "Mixed reality with AI creates new forms of digital-physical interaction and experiences"
+                    },
+                    {
+                        year: "2028",
+                        title: "AI Rights Movement",
+                        description: "AI consciousness debate leads to AI rights movements and new legal frameworks"
+                    },
+                    {
+                        year: "2029",
+                        title: "Human-AI Societies",
+                        description: "Human-AI societies emerge with new social structures and governance models"
+                    },
+                    {
+                        year: "2030",
+                        title: "Symbiotic Civilization",
+                        description: "Symbiotic civilization where AI and humans are indistinguishable partners in society"
+                    }
+                ]
+            }
+        };
+
+        let selectedTimelines = [];
+
+        // Create neural network background
+        function createNeuralNetwork() {
+            const container = document.getElementById('neuralNodes');
+            const numNodes = 50;
+            const nodes = [];
+
+            // Create nodes
+            for (let i = 0; i < numNodes; i++) {
+                const node = document.createElement('div');
+                node.className = 'neural-node';
+                node.style.left = Math.random() * 100 + '%';
+                node.style.top = Math.random() * 100 + '%';
+                node.style.animationDelay = Math.random() * 4 + 's';
+                container.appendChild(node);
+                nodes.push(node);
+            }
+
+            // Create connections
+            for (let i = 0; i < numNodes / 3; i++) {
+                const connection = document.createElement('div');
+                connection.className = 'neural-connection';
+
+                const startNode = nodes[Math.floor(Math.random() * nodes.length)];
+                const endNode = nodes[Math.floor(Math.random() * nodes.length)];
+
+                const startRect = startNode.getBoundingClientRect();
+                const endRect = endNode.getBoundingClientRect();
+
+                const distance = Math.sqrt(
+                    Math.pow(endRect.left - startRect.left, 2) +
+                    Math.pow(endRect.top - startRect.top, 2)
+                );
+
+                const angle = Math.atan2(
+                    endRect.top - startRect.top,
+                    endRect.left - startRect.left
+                ) * 180 / Math.PI;
+
+                connection.style.width = distance + 'px';
+                connection.style.left = startRect.left + 'px';
+                connection.style.top = startRect.top + 'px';
+                connection.style.transform = `rotate(${angle}deg)`;
+                connection.style.animationDelay = Math.random() * 3 + 's';
+
+                container.appendChild(connection);
+            }
+        }
+
+        // Populate timeline events
+        function populateTimelineEvents(timelineKey) {
+            const timeline = timelineData[timelineKey];
+            const eventsContainer = document.getElementById(`${timelineKey}-events`);
+
+            eventsContainer.innerHTML = timeline.events.map(event => `
+                <div class="timeline-event-vertical">
+                    <div class="event-year-vertical">${event.year}</div>
+                    <div class="event-title-vertical">${event.title}</div>
+                    <div class="event-description-vertical">${event.description}</div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle timeline selection
+        function toggleTimeline(timelineKey) {
+            const option = document.querySelector(`[data-timeline="${timelineKey}"]`);
+            const timelineElement = document.querySelector(`.vertical-timeline[data-timeline="${timelineKey}"]`);
+            const selectButton = option.querySelector('.option-select');
+
+            if (selectedTimelines.includes(timelineKey)) {
+                // Deselect timeline
+                selectedTimelines = selectedTimelines.filter(t => t !== timelineKey);
+                option.classList.remove('selected');
+                timelineElement.classList.remove('selected');
+                selectButton.textContent = '+';
+            } else {
+                // Select timeline
+                selectedTimelines.push(timelineKey);
+                option.classList.add('selected');
+                timelineElement.classList.add('selected');
+                selectButton.textContent = '✓';
+            }
+        }
+
+        // Initialize all timelines
+        function initializeTimelines() {
+            // Populate all timeline events
+            Object.keys(timelineData).forEach(timelineKey => {
+                populateTimelineEvents(timelineKey);
+            });
+
+            // Set up click handlers for timeline options
+            document.querySelectorAll('.timeline-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const timelineKey = option.dataset.timeline;
+                    toggleTimeline(timelineKey);
+                });
+            });
+
+            // Initially select first two timelines
+            toggleTimeline('renaissance');
+            toggleTimeline('cautious');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function () {
+            createNeuralNetwork();
+            initializeTimelines();
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Consciousness - The Evolution of Human Expression</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .slide h1 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #00d4ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #00d4ff;
+        }
+
+        .slide p {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: #e0e0e0;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+            margin: 2rem 0;
+        }
+
+        .timeline-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .timeline-year {
+            font-size: 2rem;
+            color: #ff00ff;
+            font-weight: bold;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .scroll-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-dot.active {
+            background: #00d4ff;
+            transform: scale(1.5);
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .slide h1 { font-size: 2.5rem; }
+            .slide h2 { font-size: 2rem; }
+            .slide p { font-size: 1.2rem; }
+            .scroll-indicator { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator">
+        <div class="scroll-dot active" data-slide="0"></div>
+        <div class="scroll-dot" data-slide="1"></div>
+        <div class="scroll-dot" data-slide="2"></div>
+        <div class="scroll-dot" data-slide="3"></div>
+        <div class="scroll-dot" data-slide="4"></div>
+        <div class="scroll-dot" data-slide="5"></div>
+    </div>
+
+    <div class="floating-elements">
+        <div class="floating-element" style="left: 10%; top: 20%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="left: 80%; top: 30%; animation-delay: 2s;"></div>
+        <div class="floating-element" style="left: 60%; top: 70%; animation-delay: 4s;"></div>
+        <div class="floating-element" style="left: 20%; top: 80%; animation-delay: 1s;"></div>
+        <div class="floating-element" style="left: 90%; top: 10%; animation-delay: 3s;"></div>
+    </div>
+
+    <!-- Slide 1: Hero -->
+    <section class="slide active">
+        <div class="slide-content">
+            <h1>Digital Consciousness</h1>
+            <p>The Evolution of Human Expression</p>
+            <img src="digital-consciousness.png" alt="Digital Consciousness Interaction" class="hero-image">
+            <p>From ancient scrolls to digital souls - witness the transformation of how we share our human experience</p>
+        </div>
+    </section>
+
+    <!-- Slide 2: The Beginning - Books -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2>The Written Word</h2>
+            <div class="timeline-item">
+                <div class="timeline-year">3000 BCE - 1990s</div>
+                <p>For millennia, humans captured their thoughts, stories, and experiences through the written word. Books became the vessels of knowledge, wisdom, and personal narratives.</p>
+                <p>Authors poured their consciousness onto pages, creating immortal connections with readers across time and space.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: The Visual Revolution - YouTube -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2>The Visual Revolution</h2>
+            <div class="timeline-item">
+                <div class="timeline-year">2005 - Present</div>
+                <p>YouTube democratized storytelling. Suddenly, anyone could share their experiences through video - more personal, more immediate, more human.</p>
+                <p>Vlogs, tutorials, and personal stories created intimate connections between creators and audiences worldwide.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: The Digital Leap -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2>The Digital Leap</h2>
+            <div class="timeline-item">
+                <div class="timeline-year">2020s - Today</div>
+                <p>Social media, podcasts, and digital platforms expanded our ability to share experiences. But something was still missing...</p>
+                <p>The full depth of human consciousness - our emotions, thoughts, and complete life experiences - remained fragmented across platforms.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Digital Consciousness -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2>Digital Consciousness</h2>
+            <div class="timeline-item">
+                <div class="timeline-year">The Future - Now</div>
+                <p>Imagine uploading your complete life experiences - not just stories, but the full spectrum of your consciousness.</p>
+                <p>Your thoughts, emotions, decisions, and wisdom become accessible to yourself and others, creating a new form of human connection and learning.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: The Vision -->
+    <section class="slide">
+        <div class="slide-content">
+            <h2>A New Era of Human Connection</h2>
+            <p>Digital Consciousness represents the ultimate evolution of human expression - where individuals can upload and share their complete life experiences.</p>
+            <p>This isn't just content creation; it's consciousness preservation and sharing for personal growth and collective wisdom.</p>
+            <p>The future of human storytelling is here.</p>
+        </div>
+    </section>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.scroll-dot');
+        let isScrolling = false;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        // Scroll event handling
+        window.addEventListener('wheel', (e) => {
+            if (isScrolling) return;
+            
+            isScrolling = true;
+            setTimeout(() => isScrolling = false, 800);
+
+            if (e.deltaY > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        });
+
+        // Dot navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+
+        // Keyboard navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // Touch support for mobile
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        window.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const diff = touchStartY - touchEndY;
+
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
