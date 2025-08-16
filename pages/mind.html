@@ -114,7 +114,6 @@
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            height: 180px;
         }
 
         .research-card:hover {
@@ -122,11 +121,15 @@
             z-index: 10;
         }
 
+        .image-container {
+            height: 160px;
+            overflow: hidden;
+        }
+
         .app-image {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            background: rgba(255, 215, 0, 0.1);
         }
 
         .app-image.square {
@@ -140,18 +143,22 @@
         }
 
         .card-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            padding: 2rem 1rem 1rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            padding: 1rem;
         }
 
-        .research-card:hover .card-content {
+        .card-overlay {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 215, 0, 0.1);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .research-card:hover .card-overlay {
             opacity: 1;
+            max-height: 100px;
         }
 
         .research-card h3 {
@@ -329,7 +336,7 @@
     <div class="container">
         <!-- Header -->
         <div class="research-header">
-            <h1 class="research-title">Mind Portal</h1>
+            <h1 class="research-title">Mind Apps</h1>
             <p class="research-subtitle">Explore consciousness, mental transformation, and inner awareness through sound and frequency</p>
         </div>
 
@@ -338,26 +345,50 @@
             <h2 class="section-title">Consciousness Apps</h2>
             <div class="research-row">
                 <div class="research-card" onclick="window.open('../04mind/BinuralBeatsApp.html', '_blank')">
-                    <img src="../04mind/BinuralBeatsAppLogo.png" alt="Binaural Beats App" class="app-image square">
+                    <div class="image-container">
+                        <img src="../04mind/BinuralBeatsAppLogo.png" alt="Binaural Beats App" class="app-image square">
+                    </div>
                     <div class="card-content">
-                        <h3>Binaural Beats Generator</h3>
+                        <h3>Binural Beats For Meditation</h3>
+                    </div>
+                    <div class="card-overlay">
                         <p>Advanced binaural beats for meditation, focus, and brainwave entrainment</p>
                     </div>
                 </div>
 
                 <div class="research-card" onclick="window.open('../04mind/SolfeggioFrequencyApp.html', '_blank')">
-                    <img src="../04mind/SolfeggioFrequencyAppLogo.png" alt="Solfeggio Frequency App" class="app-image square">
+                    <div class="image-container">
+                        <img src="../04mind/SolfeggioFrequencyAppLogo.png" alt="Solfeggio Frequency App" class="app-image square">
+                    </div>
                     <div class="card-content">
-                        <h3>Solfeggio Frequency Healing</h3>
+                        <h3>SolfeggioFrequency For Meditation</h3>
+                    </div>
+                    <div class="card-overlay">
                         <p>Sacred frequencies for healing, transformation, and spiritual awakening</p>
                     </div>
                 </div>
 
                 <div class="research-card" onclick="window.open('https://sameer-goel.github.io/total-recall/', '_blank')">
-                    <img src="../04mind/book-quiz-game-cover.png" alt="Total Recall" class="app-image widescreen">
+                    <div class="image-container">
+                        <img src="../04mind/book-quiz-game-cover.png" alt="Total Recall" class="app-image widescreen">
+                    </div>
                     <div class="card-content">
-                        <h3>Total Recall</h3>
+                        <h3>Total Recall Your Wisdom</h3>
+                    </div>
+                    <div class="card-overlay">
                         <p>Interactive book quiz game for memory enhancement and knowledge retention</p>
+                    </div>
+                </div>
+
+                <div class="research-card" onclick="window.open('https://www.youtube.com/watch?v=bgTbvyKyPCE', '_blank')">
+                    <div class="image-container">
+                        <img src="https://img.youtube.com/vi/bgTbvyKyPCE/maxresdefault.jpg" alt="Left Brain Right Brain" class="app-image widescreen">
+                    </div>
+                    <div class="card-content">
+                        <h3>Left Brain Right Brain</h3>
+                    </div>
+                    <div class="card-overlay">
+                        <p>Exploring the fascinating differences between left and right brain thinking patterns</p>
                     </div>
                 </div>
             </div>
