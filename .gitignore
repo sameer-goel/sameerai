@@ -1,6 +1,16 @@
 # Ignore pagesmeta folder
 pagesmeta/
 
+# Meta txt files for local HTML generation
+*meta.txt
+*.txt
+researchmeta.txt
+developmentmeta.txt
+mindmeta.txt
+developemtn-blogs.txt
+myagenticarmymeta.txt
+personalblogs.txt
+
 # Ignore test and development files
 ignoregit/
 
