@@ -106,10 +106,10 @@
         }
 
         .research-card {
-            min-width: 280px;
+            min-width: 300px;
             background: rgba(0, 212, 255, 0.05);
             border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 12px;
+            border-radius: 15px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -123,56 +123,71 @@
             z-index: 10;
         }
 
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 169px;
+            overflow: hidden;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .book-card .image-container {
+            height: 220px;
+        }
+
+        .book-card .research-image {
+            object-fit: contain;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
         .research-image {
             width: 100%;
-            height: 160px;
+            height: 100%;
             object-fit: cover;
             transition: all 0.3s ease;
         }
 
-        .book-card .research-image {
-            height: 200px;
-            object-fit: contain;
-            background: rgba(0, 0, 0, 0.2);
+        .research-card:hover .research-image {
+            filter: blur(3px);
         }
 
-        .card-content {
+        .card-overlay {
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            padding: 2rem 1rem 1rem;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        .research-card:hover {
-            transform: scale(1.05);
-            z-index: 10;
-        }
-
-        .research-card:hover .card-content {
+        .research-card:hover .card-overlay {
             opacity: 1;
         }
 
-        .research-card h3 {
-            font-size: 1.1rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .research-card p {
+        .overlay-text {
             font-family: 'Inter', sans-serif;
-            color: rgba(255, 255, 255, 0.9);
+            color: #fff;
             font-size: 0.9rem;
             line-height: 1.4;
-            margin: 0;
+            text-align: center;
         }
 
-        .book-card h3 {
+        .card-title {
+            padding: 1rem;
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .card-title h3 {
+            font-size: 1.1rem;
             color: #00d4ff;
+            margin: 0;
+            font-weight: 600;
             text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
         }
 
@@ -394,14 +409,31 @@
             <p class="research-subtitle">Exploring the frontiers of artificial intelligence and machine consciousness</p>
         </div>
 
-        <!-- Featured Book -->
+        <!-- Active Research -->
         <div class="research-section">
-            <h2 class="section-title">Featured Publication</h2>
+            <h2 class="section-title">Active Research</h2>
             <div class="research-row">
                 <div class="research-card book-card" onclick="window.open('https://updatemind.space/bookreader.html', '_blank')">
-                    <img src="../01research/CultivateInerIntelleigenceUsingAI-cover.png" alt="Cultivate Inner Intelligence Using AI" class="research-image">
-                    <div class="card-content">
+                    <div class="image-container">
+                        <img src="../01research/CultivateInerIntelleigenceUsingAI-cover.png" alt="Cultivate Inner Intelligence Using AI" class="research-image">
+                        <div class="card-overlay">
+                            <div class="overlay-text">A comprehensive guide to enhancing human consciousness through artificial intelligence integration</div>
+                        </div>
+                    </div>
+                    <div class="card-title">
                         <h3>Cultivate Inner Intelligence Using AI</h3>
+                    </div>
+                </div>
+
+                <div class="research-card" onclick="window.open('https://sameerai.my.canva.site/biocomputing', '_blank')">
+                    <div class="image-container">
+                        <img src="../01research/bio-comuting-cover.png" alt="Bio Computing Research" class="research-image">
+                        <div class="card-overlay">
+                            <div class="overlay-text">Exploring the intersection of biological systems and computational intelligence</div>
+                        </div>
+                    </div>
+                    <div class="card-title">
+                        <h3>Bio Computing Research</h3>
                     </div>
                 </div>
             </div>
@@ -409,58 +441,74 @@
 
         <!-- Research Projects -->
         <div class="research-section">
-            <h2 class="section-title">Active Research</h2>
+            <h2 class="section-title">Research Projects</h2>
             <div class="research-row">
-                <div class="research-card" onclick="window.open('https://sameerai.my.canva.site/biocomputing', '_blank')">
-                    <img src="../01research/bio-comuting-cover.png" alt="Bio Computing Research" class="research-image">
-                    <div class="card-content">
-                        <h3>Bio Computing Research</h3>
-                        <p>Biological systems and computational intelligence</p>
-                    </div>
-                </div>
-
                 <div class="research-card" onclick="window.open('https://www.canva.com/design/DAFf1YZAEas/f4onYbk7YGrTy_yMIOLaYA/view?utm_content=DAFf1YZAEas&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h00d2c24cc5', '_blank')">
-                    <img src="../01research/Generative-Agents-Cover.png" alt="Generative Agents Research" class="research-image">
-                    <div class="card-content">
+                    <div class="image-container">
+                        <img src="../01research/Generative-Agents-Cover.png" alt="Generative Agents Research" class="research-image">
+                        <div class="card-overlay">
+                            <div class="overlay-text">Research into autonomous AI agents and adaptive behavioral systems</div>
+                        </div>
+                    </div>
+                    <div class="card-title">
                         <h3>Agentic AI Systems</h3>
-                        <p>Autonomous AI agents and adaptive behavior</p>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Applications -->
-        <div class="research-section">
-            <h2 class="section-title">AI Applications</h2>
-            <div class="research-row">
+                <div class="research-card" onclick="window.open('https://www.canva.com/design/DAGv-_RUo00/1gnZCngGrjGoM70sciYgoA/view?utm_content=DAGv-_RUo00&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3a930e238d', '_blank')">
+                    <div class="image-container">
+                        <img src="../01research/human_evolution.png" alt="Human Evolution" class="research-image">
+                        <div class="card-overlay">
+                            <div class="overlay-text">Exploring the future of human development and AI integration in evolutionary context</div>
+                        </div>
+                    </div>
+                    <div class="card-title">
+                        <h3>Human Evolution</h3>
+                    </div>
+                </div>
+
                 <div class="research-card" onclick="window.open('https://www.canva.com/design/DAGjGm-t5kk/Ndu7fQgbt2a_dUf7YY4KQw/view?utm_content=DAGjGm-t5kk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h49cf918239', '_blank')">
-                    <img src="../02development/genai-gym-for-employees-cover.png" alt="Gen AI Gym for Employees" class="research-image">
-                    <div class="card-content">
-                        <h3>Gen AI Gym for Employees</h3>
-                        <p>Workplace AI training and productivity</p>
+                    <div class="image-container">
+                        <img src="../02development/genai-gym-for-employees-cover.png" alt="Gen AI Gym for Employees" class="research-image">
+                        <div class="card-overlay">
+                            <div class="overlay-text">Comprehensive workplace AI training programs for enhanced productivity</div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="research-card" onclick="window.open('https://prezi.com/view/dkW0nrmdDtLgaxlBJgCR/', '_blank')">
-                    <img src="../02development/saving-earth-from-invasive-species-cover.png" alt="Saving Earth from Invasive Species" class="research-image">
-                    <div class="card-content">
-                        <h3>Saving Earth from Invasive Species</h3>
-                        <p>AI solutions for biodiversity protection</p>
+                    <div class="card-title">
+                        <h3>Gen AI Gym for Employees</h3>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Industry Trends -->
+        <!-- Market Research -->
         <div class="trends-section">
-            <h2 class="trends-title">Industry Trends & Insights</h2>
+            <h2 class="trends-title">Market Research</h2>
             <p style="font-family: 'Inter', sans-serif; color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem;">
-                Stay updated with the latest industry trends and developer insights from the global tech community.
+                Key published reports and research papers shaping the AI industry landscape.
             </p>
-            <a href="https://survey.stackoverflow.co/2025/" target="_blank" class="trends-link">
-                <span class="trends-icon">□</span>
-                Stack Overflow Developer Survey 2025
-            </a>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                <a href="https://research.google/pubs/attention-is-all-you-need/" target="_blank" class="trends-link">
+                    <span class="trends-icon">📄</span>
+                    Attention Is All You Need - Google Research
+                </a>
+                <a href="https://machinelearning.apple.com/research/illusion-of-thinking" target="_blank" class="trends-link">
+                    <span class="trends-icon">🧠</span>
+                    Illusion of Thinking - Apple Research
+                </a>
+                <a href="https://openai.com/index/gpt-5-safe-completions/" target="_blank" class="trends-link">
+                    <span class="trends-icon">🔒</span>
+                    GPT-5 Safe Completions - OpenAI
+                </a>
+                <a href="https://www.microsoft.com/en-us/worklab/work-trend-index/2025-the-year-the-frontier-firm-is-born" target="_blank" class="trends-link">
+                    <span class="trends-icon">🏢</span>
+                    Work Trend Index 2025 - Microsoft
+                </a>
+                <a href="https://survey.stackoverflow.co/2025/" target="_blank" class="trends-link">
+                    <span class="trends-icon">📊</span>
+                    Stack Overflow Developer Survey 2025
+                </a>
+            </div>
         </div>
     </div>
 
