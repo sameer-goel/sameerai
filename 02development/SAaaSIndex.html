@@ -42,16 +42,19 @@
             font-family: var(--font-family-heading);
             font-size: 1.1rem;
             font-weight: 600;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background: var(--primary-color);
             color: var(--bg-color);
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
         }
         .primary-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(127, 0, 255, 0.3);
+            background: #00e6e6;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 255, 255, 0.2);
         }
         .feature-card {
             background-color: var(--surface-color);
@@ -76,7 +79,7 @@
     <header class="py-6 px-8">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-xl font-bold text-white">SAaaS</h1>
-            <a href="#" class="primary-button text-sm">Launch Portal</a>
+            <a href="SAaaS.html" target="_blank" class="primary-button text-sm">Launch Portal</a>
         </div>
     </header>
 
@@ -95,7 +98,7 @@
                 Stop the endless cycle of research and diagramming. SAaaS uses a swarm of AI agents to simulate an elite solutions architecture team, turning your vision into a robust, cloud-agnostic design and deployable code.
             </p>
             <div class="mt-10">
-                <a href="#" class="primary-button text-lg">
+                <a href="SAaaS.html" target="_blank" class="primary-button text-lg">
                     Design Your Solution Now &rarr;
                 </a>
             </div>
