@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Portal | Digital Consciousness</title>
+    <link rel="icon" type="image/gif" href="../favicon.gif">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .research-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .research-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            margin-bottom: 1rem;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+            50% { text-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 215, 0, 0.6); }
+        }
+
+        .research-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .research-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #ffd700;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+        }
+
+        .research-row {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 0 1rem 1rem;
+            scroll-behavior: smooth;
+        }
+
+        .research-row::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .research-row::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .research-row::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.5);
+            border-radius: 4px;
+        }
+
+        .research-card {
+            min-width: 300px;
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .research-card:hover {
+            transform: scale(1.05);
+            border-color: #ffd700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            z-index: 10;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 169px;
+            overflow: hidden;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .research-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .research-card:hover .research-image {
+            filter: blur(3px);
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .research-card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .overlay-text {
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .card-title {
+            padding: 1rem;
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .card-title h3 {
+            font-size: 1.1rem;
+            color: #ffd700;
+            margin: 0;
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Cosmic Navigation Menu */
+        .cosmic-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .nav-toggle {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            color: #ffd700;
+            font-size: 1.5rem;
+        }
+
+        .nav-toggle:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .nav-menu {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 1rem;
+            min-width: 250px;
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .nav-section-title {
+            color: #ffd700;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        }
+
+        .nav-item {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            margin-bottom: 0.2rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 215, 0, 0.1);
+            color: #ffd700;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+        }
+
+        .nav-home {
+            color: #ffd700;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-home:hover {
+            color: #fff;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .research-title {
+                font-size: 2rem;
+            }
+            
+            .research-row {
+                padding: 0 0.5rem 1rem;
+            }
+            
+            .research-card {
+                min-width: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="stars"></div>
+
+    <script src="../shared/navigation.js"></script>
+
+    <div class="container">
+        <div class="research-header">
+            <h1 class="research-title">Body Portal</h1>
+            <p class="research-subtitle">Discover the wisdom of your body and unlock the secrets of physical wellness and vitality</p>
+        </div>
+
+        <div class="research-section">
+            <h2 class="section-title">Physical Wisdom</h2>
+            <div class="research-row">
+                <div class="research-card" onclick="window.open('https://www.canva.com/design/DAGX3TfN6xQ/-a4xHmuc6l7NuhMpGiK4hg/view?utm_content=DAGX3TfN6xQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h2312bed0db', '_blank')">
+                    <div class="image-container">
+                        <img src="../05body/swar-science-cover.png" alt="Swar Science" class="research-image">
+                        <div class="card-overlay">
+                            <div class="overlay-text">Ancient breathing techniques and the science of nostril dominance for optimal health and consciousness</div>
+                        </div>
+                    </div>
+                    <div class="card-title">
+                        <h3>Swar Science</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 300;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                const size = Math.random() * 4 + 1;
+
+                const isGolden = Math.random() > 0.7;
+                const color = isGolden ? '#ffd700' : '#fff';
+
+                Object.assign(star.style, {
+                    position: 'absolute',
+                    width: size + 'px',
+                    height: size + 'px',
+                    background: color,
+                    borderRadius: '50%',
+                    left: Math.random() * 100 + '%',
+                    top: Math.random() * 100 + '%',
+                    opacity: Math.random() * 0.8 + 0.2,
+                    animation: `twinkle ${Math.random() * 4 + 3}s infinite alternate`,
+                    boxShadow: isGolden ? '0 0 10px rgba(255, 215, 0, 0.5)' : '0 0 5px rgba(255, 255, 255, 0.3)'
+                });
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            initializeNavigation('body');
+        });
+    </script>
+</body>
+
+</html>

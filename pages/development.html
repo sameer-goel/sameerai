@@ -300,27 +300,7 @@
     <!-- Stars background -->
     <div id="stars"></div>
 
-    <!-- Cosmic Navigation Menu -->
-    <div class="cosmic-nav">
-        <div class="nav-toggle" onclick="toggleNavMenu()">☰</div>
-        <div class="nav-menu" id="navMenu">
-            <a href="../index.html" class="nav-item nav-home">Digital Consciousness</a>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">AI - Artificial Intelligence</div>
-                <a href="research.html" class="nav-item">R - Research</a>
-                <a href="development.html" class="nav-item active">D - Development</a>
-                <a href="ethics.html" class="nav-item">E - Ethics</a>
-            </div>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">Inner Intelligence</div>
-                <a href="mind.html" class="nav-item">Mind</a>
-                <a href="body.html" class="nav-item">B - Body</a>
-                <a href="soul.html" class="nav-item">Soul</a>
-            </div>
-        </div>
-    </div>
+    <script src="../shared/navigation.js"></script>
 
     <div class="container">
         <!-- Header -->
@@ -423,25 +403,10 @@
             }
         }
 
-        // Navigation Menu Toggle
-        function toggleNavMenu() {
-            const menu = document.getElementById('navMenu');
-            menu.classList.toggle('active');
-        }
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const nav = document.querySelector('.cosmic-nav');
-            const menu = document.getElementById('navMenu');
-            
-            if (!nav.contains(event.target) && menu.classList.contains('active')) {
-                menu.classList.remove('active');
-            }
-        });
-
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
+            initializeNavigation('development');
         });
     </script>
 </body>

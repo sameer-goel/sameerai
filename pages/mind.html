@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mind Portal | Sameerai Universe</title>
+    <title>Mind Apps | Digital Consciousness</title>
     <link rel="icon" type="image/gif" href="../favicon.gif">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -24,7 +24,6 @@
             overflow-x: hidden;
         }
 
-        /* Stars background matching index.html */
         #stars {
             position: fixed;
             top: 0;
@@ -43,7 +42,6 @@
             margin: 0 auto;
         }
 
-        /* Header */
         .research-header {
             text-align: center;
             margin-bottom: 4rem;
@@ -70,17 +68,8 @@
             margin-bottom: 2rem;
         }
 
-        /* Netflix-inspired Sections */
         .research-section {
             margin-bottom: 4rem;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            color: #ffd700;
-            margin-bottom: 1.5rem;
-            padding-left: 1rem;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
         }
 
         .research-row {
@@ -109,7 +98,7 @@
             min-width: 300px;
             background: rgba(255, 215, 0, 0.05);
             border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 12px;
+            border-radius: 15px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -118,62 +107,84 @@
 
         .research-card:hover {
             transform: scale(1.05);
+            border-color: #ffd700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
             z-index: 10;
         }
 
         .image-container {
-            height: 160px;
+            position: relative;
+            width: 100%;
             overflow: hidden;
+            border-radius: 15px 15px 0 0;
         }
 
-        .app-image {
+        .image-container.square {
+            height: 200px;
+        }
+
+        .image-container.widescreen {
+            height: 169px;
+        }
+
+        .research-image {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            transition: all 0.3s ease;
         }
 
-        .app-image.square {
+        .research-image.square {
             object-fit: contain;
+            background: rgba(255, 215, 0, 0.05);
             padding: 1rem;
         }
 
-        .app-image.widescreen {
+        .research-image.widescreen {
             object-fit: cover;
-            padding: 0;
         }
 
-        .card-content {
-            padding: 1rem;
+        .research-card:hover .research-image {
+            filter: blur(3px);
         }
 
         .card-overlay {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 215, 0, 0.1);
-            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
             opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            transition: opacity 0.3s ease;
         }
 
         .research-card:hover .card-overlay {
             opacity: 1;
-            max-height: 100px;
         }
 
-        .research-card h3 {
-            font-size: 1.1rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .research-card p {
+        .overlay-text {
             font-family: 'Inter', sans-serif;
-            color: rgba(255, 255, 255, 0.9);
+            color: #fff;
             font-size: 0.9rem;
             line-height: 1.4;
+            text-align: center;
+        }
+
+        .card-title {
+            padding: 1rem;
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .card-title h3 {
+            font-size: 1.1rem;
+            color: #ffd700;
             margin: 0;
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
         }
 
         /* Cosmic Navigation Menu */
@@ -280,13 +291,11 @@
             background: rgba(255, 215, 0, 0.1);
         }
 
-        /* Animations */
         @keyframes twinkle {
             0% { opacity: 0.2; transform: scale(1); }
             100% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -308,87 +317,63 @@
 </head>
 
 <body>
-    <!-- Stars background -->
     <div id="stars"></div>
 
-    <!-- Cosmic Navigation Menu -->
-    <div class="cosmic-nav">
-        <div class="nav-toggle" onclick="toggleNavMenu()">☰</div>
-        <div class="nav-menu" id="navMenu">
-            <a href="../index.html" class="nav-item nav-home">Digital Consciousness</a>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">AI - Artificial Intelligence</div>
-                <a href="research.html" class="nav-item">R - Research</a>
-                <a href="development.html" class="nav-item">D - Development</a>
-                <a href="ethics.html" class="nav-item">E - Ethics</a>
-            </div>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">Inner Intelligence</div>
-                <a href="mind.html" class="nav-item active">Mind</a>
-                <a href="body.html" class="nav-item">B - Body</a>
-                <a href="soul.html" class="nav-item">Soul</a>
-            </div>
-        </div>
-    </div>
+    <script src="../shared/navigation.js"></script>
 
     <div class="container">
-        <!-- Header -->
         <div class="research-header">
             <h1 class="research-title">Mind Apps</h1>
             <p class="research-subtitle">Explore consciousness, mental transformation, and inner awareness through sound and frequency</p>
         </div>
 
-        <!-- Mind Apps -->
         <div class="research-section">
-            <h2 class="section-title">Consciousness Apps</h2>
             <div class="research-row">
                 <div class="research-card" onclick="window.open('../04mind/BinuralBeatsApp.html', '_blank')">
-                    <div class="image-container">
-                        <img src="../04mind/BinuralBeatsAppLogo.png" alt="Binaural Beats App" class="app-image square">
+                    <div class="image-container square">
+                        <img src="../04mind/BinuralBeatsAppLogo.png" alt="Binaural Beats App" class="research-image square">
+                        <div class="card-overlay">
+                            <div class="overlay-text">Advanced binaural beats for meditation, focus, and brainwave entrainment</div>
+                        </div>
                     </div>
-                    <div class="card-content">
+                    <div class="card-title">
                         <h3>Binural Beats For Meditation</h3>
-                    </div>
-                    <div class="card-overlay">
-                        <p>Advanced binaural beats for meditation, focus, and brainwave entrainment</p>
                     </div>
                 </div>
 
                 <div class="research-card" onclick="window.open('../04mind/SolfeggioFrequencyApp.html', '_blank')">
-                    <div class="image-container">
-                        <img src="../04mind/SolfeggioFrequencyAppLogo.png" alt="Solfeggio Frequency App" class="app-image square">
+                    <div class="image-container square">
+                        <img src="../04mind/SolfeggioFrequencyAppLogo.png" alt="Solfeggio Frequency App" class="research-image square">
+                        <div class="card-overlay">
+                            <div class="overlay-text">Sacred frequencies for healing, transformation, and spiritual awakening</div>
+                        </div>
                     </div>
-                    <div class="card-content">
+                    <div class="card-title">
                         <h3>SolfeggioFrequency For Meditation</h3>
-                    </div>
-                    <div class="card-overlay">
-                        <p>Sacred frequencies for healing, transformation, and spiritual awakening</p>
                     </div>
                 </div>
 
                 <div class="research-card" onclick="window.open('https://sameer-goel.github.io/total-recall/', '_blank')">
-                    <div class="image-container">
-                        <img src="../04mind/book-quiz-game-cover.png" alt="Total Recall" class="app-image widescreen">
+                    <div class="image-container widescreen">
+                        <img src="../04mind/book-quiz-game-cover.png" alt="Total Recall" class="research-image widescreen">
+                        <div class="card-overlay">
+                            <div class="overlay-text">Interactive book quiz game for memory enhancement and knowledge retention</div>
+                        </div>
                     </div>
-                    <div class="card-content">
+                    <div class="card-title">
                         <h3>Total Recall Your Wisdom</h3>
-                    </div>
-                    <div class="card-overlay">
-                        <p>Interactive book quiz game for memory enhancement and knowledge retention</p>
                     </div>
                 </div>
 
-                <div class="research-card" onclick="window.open('https://www.youtube.com/watch?v=bgTbvyKyPCE', '_blank')">
-                    <div class="image-container">
-                        <img src="https://img.youtube.com/vi/bgTbvyKyPCE/maxresdefault.jpg" alt="Left Brain Right Brain" class="app-image widescreen">
+                <div class="research-card" onclick="window.open('https://meet.sameerai.com/apps/LeftBrainRightBrain.html', '_blank')">
+                    <div class="image-container widescreen">
+                        <img src="../04mind/leftbrainrightbrain.png" alt="Left Brain Right Brain" class="research-image widescreen">
+                        <div class="card-overlay">
+                            <div class="overlay-text">Exploring the fascinating differences between left and right brain thinking patterns</div>
+                        </div>
                     </div>
-                    <div class="card-content">
+                    <div class="card-title">
                         <h3>Left Brain Right Brain</h3>
-                    </div>
-                    <div class="card-overlay">
-                        <p>Exploring the fascinating differences between left and right brain thinking patterns</p>
                     </div>
                 </div>
             </div>
@@ -396,7 +381,6 @@
     </div>
 
     <script>
-        // Create stars animation matching index.html
         function createStars() {
             const starsContainer = document.getElementById('stars');
             const numStars = 200;
@@ -421,25 +405,9 @@
             }
         }
 
-        // Navigation Menu Toggle
-        function toggleNavMenu() {
-            const menu = document.getElementById('navMenu');
-            menu.classList.toggle('active');
-        }
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const nav = document.querySelector('.cosmic-nav');
-            const menu = document.getElementById('navMenu');
-            
-            if (!nav.contains(event.target) && menu.classList.contains('active')) {
-                menu.classList.remove('active');
-            }
-        });
-
-        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
+            initializeNavigation('mind');
         });
     </script>
 </body>

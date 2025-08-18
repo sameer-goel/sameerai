@@ -13,5 +13,5 @@ book-quiz-game-cover.png 16:9
 https://sameer-goel.github.io/total-recall/
 
 YT thumbnail auto pop up.
-Left Brain Right Brain, 16:9 YT thumbnail
-https://www.youtube.com/watch?v=bgTbvyKyPCE
+leftbrainrightbrain.png, 16:9
+https://meet.sameerai.com/apps/LeftBrainRightBrain.html

@@ -267,27 +267,7 @@
 <body>
     <div id="stars"></div>
 
-    <!-- Cosmic Navigation Menu -->
-    <div class="cosmic-nav">
-        <div class="nav-toggle" onclick="toggleNavMenu()">☰</div>
-        <div class="nav-menu" id="navMenu">
-            <a href="../index.html" class="nav-item nav-home">Digital Consciousness</a>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">AI - Artificial Intelligence</div>
-                <a href="research.html" class="nav-item">R - Research</a>
-                <a href="development.html" class="nav-item">D - Development</a>
-                <a href="ethics.html" class="nav-item active">E - Ethics</a>
-            </div>
-            
-            <div class="nav-section">
-                <div class="nav-section-title">Inner Intelligence</div>
-                <a href="mind.html" class="nav-item">Mind</a>
-                <a href="body.html" class="nav-item">B - Body</a>
-                <a href="soul.html" class="nav-item">Soul</a>
-            </div>
-        </div>
-    </div>
+    <script src="../shared/navigation.js"></script>
 
     <div class="container">
         <div class="ethics-header">
@@ -297,41 +277,8 @@
 
         <div class="quote-section">
             <div class="quote-text">"The AI we build today will shape the world we live in tomorrow."</div>
-            <div class="quote-author">— Sameer Goel</div>
+            <div class="quote-author">Sameer Goel</div>
         </div>
-
-        <div class="ethics-content">
-            <div class="ethics-card">
-                <h3>Responsible AI Development</h3>
-                <p>Building AI systems that prioritize human welfare, fairness, and transparency. Every algorithm we create carries the responsibility of shaping human experiences and societal outcomes.</p>
-            </div>
-
-            <div class="ethics-card">
-                <h3>Bias & Fairness</h3>
-                <p>Addressing algorithmic bias and ensuring AI systems treat all individuals and groups fairly. Creating inclusive technologies that serve diverse populations without discrimination.</p>
-            </div>
-
-            <div class="ethics-card">
-                <h3>Privacy & Security</h3>
-                <p>Protecting individual privacy and data security in AI applications. Implementing robust safeguards to prevent misuse of personal information and maintain user trust.</p>
-            </div>
-
-            <div class="ethics-card">
-                <h3>Transparency & Explainability</h3>
-                <p>Making AI decision-making processes understandable and accountable. Users deserve to know how AI systems affect their lives and the reasoning behind automated decisions.</p>
-            </div>
-
-            <div class="ethics-card">
-                <h3>Human-AI Collaboration</h3>
-                <p>Designing AI to augment human capabilities rather than replace them. Fostering symbiotic relationships where AI enhances human potential and creativity.</p>
-            </div>
-
-            <div class="ethics-card">
-                <h3>Future Considerations</h3>
-                <p>Anticipating long-term implications of AI advancement. Preparing for emerging ethical challenges as AI becomes more sophisticated and integrated into society.</p>
-            </div>
-        </div>
-    </div>
 
     <script>
         function createStars() {
@@ -358,23 +305,9 @@
             }
         }
 
-        function toggleNavMenu() {
-            const navMenu = document.getElementById('navMenu');
-            navMenu.classList.toggle('active');
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
-        });
-
-        // Close nav menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const navMenu = document.getElementById('navMenu');
-            const navToggle = document.querySelector('.nav-toggle');
-            
-            if (!navMenu.contains(event.target) && !navToggle.contains(event.target)) {
-                navMenu.classList.remove('active');
-            }
+            initializeNavigation('ethics');
         });
     </script>
 </body>
