@@ -84,7 +84,7 @@
             font-style: italic;
         }
 
-        #input-section h2, #process-section h2, #results-section h2 {
+        #input-section h2, .workflow-page h2 {
             font-family: var(--font-family-heading);
             font-size: 1.8rem;
             margin-bottom: 1rem;
@@ -103,7 +103,7 @@
             border: 1px solid var(--border-color);
         }
 
-        #use-case-selector {
+        #use-case-selector, #idea-input {
             width: 100%;
             padding: 1rem;
             font-family: var(--font-family-body);
@@ -113,16 +113,8 @@
             border: 1px solid var(--border-color);
             border-radius: 4px;
         }
-
+        
         #idea-input {
-            width: 100%;
-            padding: 1rem;
-            font-family: var(--font-family-body);
-            font-size: 1rem;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
             resize: vertical;
             min-height: 100px;
         }
@@ -133,7 +125,7 @@
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
         }
 
-        #submit-button {
+        .primary-button {
             padding: 0.8rem 1.5rem;
             font-family: var(--font-family-heading);
             font-size: 1.1rem;
@@ -147,15 +139,19 @@
             align-self: flex-end;
         }
 
-        #submit-button:hover:not(:disabled) {
+        .primary-button:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(127, 0, 255, 0.4);
         }
         
-        #submit-button:disabled {
+        .primary-button:disabled {
             background: var(--text-muted-color);
             cursor: not-allowed;
             color: var(--surface-color);
+        }
+        
+        .workflow-page {
+            display: none; /* All pages hidden by default */
         }
 
         .step-card {
@@ -163,19 +159,9 @@
             padding: 1.5rem;
             border-radius: 8px;
             border: 1px solid var(--border-color);
-            border-left: 5px solid var(--border-color);
+            border-left: 5px solid var(--primary-color);
             margin-bottom: 1.5rem;
             transition: all 0.3s ease;
-        }
-
-        .step-card.active {
-            border-left-color: var(--primary-color);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-            transform: scale(1.02);
-        }
-        
-        .step-card.complete {
-            border-left-color: #00ff88;
         }
 
         .step-header {
@@ -232,37 +218,49 @@
             word-wrap: break-word;
         }
         
-        .step-output ul {
-            padding-left: 20px;
+        .chat-transcript {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: var(--font-family-body);
+            font-size: 0.95rem;
         }
-        .step-output li {
-            margin-bottom: 0.5rem;
+        .sa-bubble, .client-bubble {
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            max-width: 85%;
+            line-height: 1.5;
         }
-        .step-output code {
-            font-family: var(--font-family-mono);
-            color: var(--primary-color);
+        .sa-bubble {
+            background-color: #2a2a3a;
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
         }
-        
-        #step-4 .human-in-loop-callout {
+        .client-bubble {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-color);
+            font-weight: 500;
+            border-bottom-right-radius: 4px;
+            align-self: flex-end;
+        }
+        .bubble-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            opacity: 0.7;
+        }
+
+        .human-in-loop-callout {
             background-color: rgba(255, 0, 255, 0.1);
             border: 1px solid var(--secondary-color);
             padding: 1rem;
             border-radius: 4px;
             margin-top: 1rem;
-            display: none; /* Initially hidden */
         }
-        #step-4 .human-in-loop-callout p {
+        .human-in-loop-callout p {
             color: var(--text-color);
             margin-bottom: 0.5rem;
         }
-        #step-4.active {
-             border-left-color: var(--secondary-color);
-             box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
-        }
-        #step-4.active h3 {
-            color: var(--secondary-color);
-        }
-
 
         #results-container {
             display: grid;
@@ -322,6 +320,11 @@
         code .code-yaml-key { color: #9cdcfe; }
         code .code-yaml-value { color: #ce9178; }
         
+        .navigation-controls {
+            margin-top: 2rem;
+            text-align: right;
+        }
+
         footer {
             text-align: center;
             padding: 2rem;
@@ -331,16 +334,6 @@
             color: var(--text-muted-color);
         }
         
-        footer a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        footer a:hover {
-            color: var(--secondary-color);
-            text-decoration: underline;
-        }
-
     </style>
 </head>
 <body>
@@ -366,91 +359,128 @@
                 </select>
                 <label for="idea-input">Describe your idea, use case, or problem statement below:</label>
                 <textarea id="idea-input" placeholder="e.g., An IoT platform to monitor soil moisture for smart farming, integrated with a dashboard for farmers."></textarea>
-                <button id="submit-button" type="submit">Deploy Agent Swarm</button>
+                <button id="submit-button" type="submit" class="primary-button">Deploy Agentic SAaa</button>
             </form>
         </section>
 
-        <section id="process-section" style="display: none;">
-            <h2>2. Agentic Workflow in Progress</h2>
-            <div id="step-1" class="step-card">
-                <div class="step-header">
-                    <h3>1️⃣ Brainstorming SA</h3>
-                    <span class="status">PENDING</span>
+        <div id="workflow-container" style="display: none;">
+            <!-- Page 1: Brainstorming -->
+            <div id="page-1" class="workflow-page">
+                <h2>2. Agentic Workflow: Step 1/5</h2>
+                <div class="step-card">
+                    <div class="step-header">
+                        <h3>1️⃣ Brainstorming SA</h3>
+                        <span class="status">PENDING</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Refines your idea into clear, actionable goals and requirements.</p>
+                        <div class="step-output"></div>
+                    </div>
                 </div>
-                <div class="step-content">
-                    <p>Refines your idea into clear, actionable goals and requirements.</p>
-                    <div class="step-output"></div>
-                </div
-            </div>
-            
-            <div id="step-2" class="step-card">Inspired by the potential of Agentic AI solutions for Solutions Architect. This project dispalys the future of AI Agents runing the show.
-                <div class="step-header">
-                    <h3>2️⃣ Scraping SA</h3>
-                    <span class="status">PENDING</span>
-                </div>
-                <div class="step-content">
-                    <p>Sources relevant real-world solutions, academic papers, and case studies.</p>
-                    <div class="step-output"></div>
-                </div>
-            </div>
-            
-            <div id="step-3" class="step-card">
-                <div class="step-header">
-                    <h3>3️⃣ Innovative SA</h3>
-                    <span class="status">PENDING</span>
-                </div>
-                <div class="step-content">
-                    <p>Generates novel approaches and identifies cutting-edge technologies for your unique challenges.</p>
-                    <div class="step-output"></div>
+                <div class="navigation-controls">
+                    <button class="next-step-btn primary-button" data-step="1" disabled>Next Step &rarr;</button>
                 </div>
             </div>
 
-            <div id="step-4" class="step-card">
-                <div class="step-header">
-                    <h3>4️⃣ Evaluation SA</h3>
-                    <span class="status">PENDING</span>
-                </div>
-                <div class="step-content">
-                    <p>Analyzes and compares potential architectures, recommending the optimal AWS solution.</p>
-                    <div class="step-output"></div>
-                    <div class="human-in-loop-callout">
-                        <p><strong>Human-in-the-Loop Integration Point:</strong></p>
-                        <p>At this stage, you have the option to connect with a human AWS Solutions Architect via live chat or a scheduled call to validate the proposed architecture before proceeding to prototyping.</p>
+            <!-- Page 2: Scraping -->
+            <div id="page-2" class="workflow-page">
+                <h2>2. Agentic Workflow: Step 2/5</h2>
+                <div class="step-card">
+                    <div class="step-header">
+                        <h3>2️⃣ Scraping SA</h3>
+                        <span class="status">PENDING</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Sources relevant real-world solutions, academic papers, and case studies.</p>
+                        <div class="step-output"></div>
                     </div>
                 </div>
-            </div>
-            
-            <div id="step-5" class="step-card">
-                <div class="step-header">
-                    <h3>5️⃣ Rapid Prototyping SA</h3>
-                    <span class="status">PENDING</span>
-                </div>
-                <div class="step-content">
-                    <p>Creates architecture diagrams and generates deployable Proof-of-Concept (PoC) code.</p>
-                    <div class="step-output"></div>
+                <div class="navigation-controls">
+                    <button class="next-step-btn primary-button" data-step="2" disabled>Next Step &rarr;</button>
                 </div>
             </div>
-        </section>
 
-        <section id="results-section" style="display: none;">
-            <h2>3. Your Solution Blueprint</h2>
-            <div id="results-container">
-                <div class="result-box">
-                    <h3>Architecture Diagram</h3>
-                    <canvas id="diagram-canvas" width="400" height="400"></canvas>
-                </div>
-                <div class="result-box">
-                    <h3>Proof-of-Concept Code</h3>
-                    <div id="poc-code">
-                        <pre><code id="code-output"></code></pre>
+            <!-- Page 3: Innovation -->
+            <div id="page-3" class="workflow-page">
+                <h2>2. Agentic Workflow: Step 3/5</h2>
+                <div class="step-card">
+                    <div class="step-header">
+                        <h3>3️⃣ Innovative SA</h3>
+                        <span class="status">PENDING</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Generates novel approaches and identifies cutting-edge technologies for your unique challenges.</p>
+                        <div class="step-output"></div>
                     </div>
                 </div>
+                <div class="navigation-controls">
+                    <button class="next-step-btn primary-button" data-step="3" disabled>Next Step &rarr;</button>
+                </div>
             </div>
-        </section>
+
+            <!-- Page 4: Evaluation -->
+            <div id="page-4" class="workflow-page">
+                <h2>2. Agentic Workflow: Step 4/5</h2>
+                <div class="step-card">
+                    <div class="step-header">
+                        <h3 style="color: var(--secondary-color)">4️⃣ Evaluation SA</h3>
+                        <span class="status">PENDING</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Analyzes and compares potential architectures, recommending the optimal cloud solution.</p>
+                        <div class="step-output"></div>
+                        <div class="human-in-loop-callout" style="display: none;">
+                            <p><strong>Human-in-the-Loop Integration Point:</strong></p>
+                            <p>At this stage, you have the option to connect with a human Cloud Solutions Architect to validate the proposed architecture before proceeding.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-controls">
+                    <button class="next-step-btn primary-button" data-step="4" disabled>Next Step &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Page 5: Prototyping -->
+            <div id="page-5" class="workflow-page">
+                <h2>2. Agentic Workflow: Step 5/5</h2>
+                <div class="step-card">
+                    <div class="step-header">
+                        <h3>5️⃣ Rapid Prototyping SA</h3>
+                        <span class="status">PENDING</span>
+                    </div>
+                    <div class="step-content">
+                        <p>Creates architecture diagrams and generates deployable Proof-of-Concept (PoC) code.</p>
+                        <div class="step-output"></div>
+                    </div>
+                </div>
+                <div class="navigation-controls">
+                    <button class="next-step-btn primary-button" data-step="5" disabled>View Final Blueprint &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Page 6: Results -->
+            <div id="page-6" class="workflow-page">
+                <h2>3. Your Solution Blueprint</h2>
+                <div id="results-container">
+                    <div class="result-box">
+                        <h3>Architecture Diagram</h3>
+                        <canvas id="diagram-canvas" width="400" height="400"></canvas>
+                    </div>
+                    <div class="result-box">
+                        <h3>Proof-of-Concept Code</h3>
+                        <div id="poc-code">
+                            <pre><code id="code-output"></code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-controls">
+                     <button id="restart-btn" class="primary-button">Start New Project</button>
+                </div>
+            </div>
+        </div>
 
         <footer>
             <p>Inspired by the potential of Agentic AI in cloud solutions. This project shows that state of the possible future for Solutions Architects.</p>
-            <p>Learn more about building Agentic AI applications on Cloud<p>
             <p>&copy; 2025 SAaaS Agentic Portal Idea By Sameer Goel.</p>
         </footer>
     </main>
@@ -475,18 +505,13 @@
         }
         const particlesGeometry = new THREE.BufferGeometry();
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        const particlesMaterial = new THREE.PointsMaterial({
-            color: 0x00ffff,
-            size: 0.02,
-            transparent: true
-        });
+        const particlesMaterial = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.02, transparent: true });
         const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particleSystem);
         camera.position.z = 5;
 
         const animate = () => {
             requestAnimationFrame(animate);
-            particleSystem.rotation.x += 0.0001;
             particleSystem.rotation.y += 0.0002;
             renderer.render(scene, camera);
         };
@@ -499,263 +524,101 @@
         });
 
         // --- Main Application Logic ---
+        const inputSection = document.getElementById('input-section');
+        const workflowContainer = document.getElementById('workflow-container');
         const form = document.getElementById('idea-form');
-        const submitButton = document.getElementById('submit-button');
-        const processSection = document.getElementById('process-section');
-        const resultsSection = document.getElementById('results-section');
         const useCaseSelector = document.getElementById('use-case-selector');
         const ideaInput = document.getElementById('idea-input');
+        let currentUseCase = '';
 
-        const step_cards = {
-            1: document.getElementById('step-1'),
-            2: document.getElementById('step-2'),
-            3: document.getElementById('step-3'),
-            4: document.getElementById('step-4'),
-            5: document.getElementById('step-5'),
-        };
-        
-        // --- Use Case Data Store ---
         const useCaseData = {
             smart_farming: {
                 problemStatement: "Develop a scalable IoT platform for real-time soil moisture monitoring in smart agriculture, featuring a data analytics dashboard to help farmers optimize irrigation schedules and increase crop yield.",
                 agentResponses: {
-                    1: `**Refined Goals:** The system must ingest data from thousands of low-power sensors, provide real-time alerts for critical moisture levels, store historical data for trend analysis, and present insights on a simple dashboard.\n**Key Features:** Secure device provisioning (X.509 certs), MQTT for ingestion, serverless processing, a time-series database, and an alert mechanism (SMS/email).\n**Requirements:** High availability, cost-effectiveness at scale, and low latency (<5 seconds from sensor to alert).`,
-                    2: `**Sources:** Found AWS Whitepaper on "Serverless IoT Architectures," a case study on John Deere's agricultural platform, and technical blogs using AWS IoT Core with Amazon Timestream.\n**Findings:** The most common pattern involves IoT Core, a rule to trigger a Lambda function, and a purpose-built time-series database for analytics.`,
-                    3: `**ML Integration:** Proposes using Amazon SageMaker to build a predictive model based on historical soil moisture, weather forecasts, and crop type to *predict* irrigation needs, moving from reactive to proactive water management.\n**Edge Computing:** Suggests AWS IoT Greengrass on field gateways to perform local data aggregation, reducing data transmission costs and enabling offline functionality.`,
-                    4: `**Analysis:** Compares Amazon DynamoDB (general purpose) with Amazon Timestream (purpose-built for time-series data). While DynamoDB is flexible, Timestream offers superior query performance for trend analysis out-of-the-box.\n**Recommendation:** Recommends **Amazon Timestream** as the optimal choice for handling time-stamped sensor data.\n**Final Architecture:** IoT Core -> IoT Rule -> Kinesis Data Firehose (for S3 batching) & Lambda (for real-time alerts via SNS) -> Amazon Timestream -> Amazon Managed Grafana (for dashboard).`,
-                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (AWS CDK): **Complete**.\n* Deployment Instructions: **Generated**.`
+                    1: [
+                        { sender: 'sa', text: "Thanks for the clear vision. An IoT platform for smart farming has huge potential. To start, what's the single most critical, must-have outcome for a farmer using this dashboard?" },
+                        { sender: 'client', text: "They need to know *immediately* when a specific section of their field is too dry. A simple, fast alert is more important than complex historical charts at first." },
+                        { sender: 'sa', text: "Perfect. That prioritizes low-latency alerts. This helps us define the core requirements: we need secure device ingestion, real-time processing for alerts, and efficient data storage for future analysis." },
+                        { sender: 'sa', text: "Based on that, I'd propose a serverless architecture. It's cost-effective and scales automatically from ten sensors to ten thousand. This ensures we meet the 'immediate alert' requirement without over-provisioning resources. Does that align with your thinking?" },
+                        { sender: 'client', text: "Yes, serverless sounds right. I don't want to manage servers. Let's go with that." },
+                        { sender: 'sa', text: "Great. We have our refined goals: a highly-responsive, scalable, and cost-effective alerting and data-ingestion platform. I'll now pass this to the Scraping SA to find relevant case studies." },
+                    ],
+                    2: `**Sources:** Found cloud provider whitepapers on "Serverless IoT Architectures," a case study on John Deere's agricultural platform, and technical blogs using an IoT Core service with a Time-Series Database.\n**Findings:** The most common pattern involves an IoT Core service, a rule to trigger a Serverless Function, and a purpose-built time-series database for analytics.`,
+                    3: `**ML Integration:** Proposes using a Managed ML Platform to build a predictive model based on historical soil moisture, weather forecasts, and crop type to *predict* irrigation needs, moving from reactive to proactive water management.\n**Edge Computing:** Suggests an Edge Computing Service on field gateways to perform local data aggregation, reducing data transmission costs and enabling offline functionality.`,
+                    4: `**Analysis:** Compares a general purpose NoSQL Database with a purpose-built Time-Series Database. While the NoSQL option is flexible, the Time-Series DB offers superior query performance for trend analysis out-of-the-box.\n**Recommendation:** Recommends **a Time-Series Database** as the optimal choice for handling time-stamped sensor data.\n**Final Architecture:** IoT Core -> IoT Rule -> Data Stream (for batching) & Serverless Function (for real-time alerts via Notification Service) -> Time-Series Database -> Managed Visualization Service (for dashboard).`,
+                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (Infrastructure-as-Code): **Complete**.\n* Deployment Instructions: **Generated**.`
                 },
-                code: `<span class="code-comment"># AWS CDK Stack for Smart Farming IoT Platform</span>
-<span class="code-keyword">from</span> aws_cdk <span class="code-keyword">import</span> (
-    core,
-    aws_iot <span class="code-keyword">as</span> iot,
-    aws_lambda <span class="code-keyword">as</span> _lambda,
-    aws_timestream <span class="code-keyword">as</span> timestream,
-    aws_sns <span class="code-keyword">as</span> sns,
-    aws_iam <span class="code-keyword">as</span> iam
-)
-
-<span class="code-keyword">class</span> <span class="code-class">SmartFarmingStack</span>(core.Stack):
-    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-keyword">self</span>, scope: core.Construct, id: str, **kwargs) -> None:
-        super().__init__(scope, id, **kwargs)
-
-        <span class="code-comment"># 1. Timestream Database and Table</span>
-        database = timestream.CfnDatabase(<span class="code-keyword">self</span>, <span class="code-string">"SoilMoistureDB"</span>)
-        table = timestream.CfnTable(
-            <span class="code-keyword">self</span>, <span class="code-string">"SensorReadingsTable"</span>,
-            database_name=database.database_name,
-            retention_properties={
-                <span class="code-string">"MemoryStoreRetentionPeriodInHours"</span>: <span class="code-string">"24"</span>,
-                <span class="code-string">"MagneticStoreRetentionPeriodInDays"</span>: <span class="code-string">"365"</span>
-            }
-        )
-        table.add_depends_on(database)
-
-        <span class="code-comment"># 2. SNS Topic for alerts</span>
-        alert_topic = sns.Topic(<span class="code-keyword">self</span>, <span class="code-string">"LowMoistureAlerts"</span>)
-
-        <span class="code-comment"># 3. Lambda function to process data and send alerts</span>
-        handler = _lambda.Function(...)
-        alert_topic.grant_publish(handler)
-        
-        <span class="code-comment"># 4. IoT Rule to trigger Lambda and write to Timestream</span>
-        iot_rule = iot.CfnTopicRule(...)`,
+                code: `<span class="code-comment"># Example IaC Stack (using a generic framework)</span>...`,
                 diagram: (ctx, { drawBox, drawArrow }) => {
-                    const iotDevice = { x: 100, y: 50 };
-                    const iotCore = { x: 100, y: 150 };
-                    const iotRule = { x: 250, y: 150 };
-                    const lambda = { x: 250, y: 250 };
-                    const timestream = { x: 400, y: 150 };
-                    const sns = { x: 400, y: 250 };
-                    
-                    drawBox("IoT Sensor", iotDevice.x, iotDevice.y);
-                    drawBox("AWS IoT Core", iotCore.x, iotCore.y);
-                    drawBox("IoT Rule", iotRule.x, iotRule.y, '#ff00ff');
-                    drawBox("Lambda", lambda.x, lambda.y);
-                    drawBox("Timestream", timestream.x, timestream.y);
-                    drawBox("SNS", sns.x, sns.y);
-
-                    drawArrow(iotDevice.x, iotDevice.y + 25, iotCore.x, iotCore.y - 25);
-                    drawArrow(iotCore.x + 50, iotCore.y, iotRule.x - 50, iotRule.y);
-                    drawArrow(iotRule.x, iotRule.y + 25, lambda.x, lambda.y - 25);
-                    drawArrow(iotRule.x + 50, iotRule.y, timestream.x - 50, timestream.y);
-                    drawArrow(lambda.x + 50, lambda.y, sns.x - 50, sns.y);
+                    const iotDevice = { x: 100, y: 50 }, iotCore = { x: 100, y: 150 }, iotRule = { x: 250, y: 150 }, lambda = { x: 250, y: 250 }, timestream = { x: 400, y: 150 }, sns = { x: 400, y: 250 };
+                    drawBox("IoT Sensor", iotDevice.x, iotDevice.y); drawBox("IoT Core", iotCore.x, iotCore.y); drawBox("IoT Rule", iotRule.x, iotRule.y, '#ff00ff'); drawBox("Function", lambda.x, lambda.y); drawBox("Time-Series DB", timestream.x, timestream.y); drawBox("Notifications", sns.x, sns.y);
+                    drawArrow(iotDevice.x, iotDevice.y + 25, iotCore.x, iotCore.y - 25); drawArrow(iotCore.x + 50, iotCore.y, iotRule.x - 50, iotRule.y); drawArrow(iotRule.x, iotRule.y + 25, lambda.x, lambda.y - 25); drawArrow(iotRule.x + 50, iotRule.y, timestream.x - 50, timestream.y); drawArrow(lambda.x + 50, lambda.y, sns.x - 50, sns.y);
                 }
             },
             sustainable_energy: {
                 problemStatement: "Build an AI-driven cloud platform for sustainable energy grid management, designed to forecast energy production from renewable sources (solar, wind) and optimize load balancing in real-time.",
                 agentResponses: {
-                    1: `**Refined Goals:** Ingest real-time production data from renewable sources and consumption data from the grid. Integrate third-party weather forecast data. Train and host an ML model for production forecasting. Provide an API for grid operators to query forecasts.\n**Key Features:** Time-series data ingestion, ML model training/deployment pipeline, and a secure API endpoint.`,
-                    2: `**Sources:** Found academic papers on using LSTM networks for time-series forecasting, AWS solution briefs on "AWS for Energy," and case studies from Engie on managing renewable assets.\n**Findings:** Successful platforms prioritize a robust data pipeline and leverage managed AI/ML services to accelerate development.`,
-                    3: `**Digital Twin:** Proposes creating a "digital twin" of the energy grid using AWS IoT TwinMaker. This allows for complex "what-if" scenario simulations (e.g., "what if a major storm reduces solar output by 40%?").\n**Reinforcement Learning:** Suggests using Amazon SageMaker RL to train an agent that actively learns the best load-balancing strategies.`,
-                    4: `**Analysis:** Compares building a custom forecasting model on SageMaker (high control, high effort) vs. using Amazon Forecast (managed service, faster time-to-market).\n**Recommendation:** Recommends **Amazon Forecast** for the initial PoC due to its rapid development cycle.\n**Final Architecture:** Data Sources (APIs, sensors) -> Amazon Kinesis -> Lambda (for transformation) -> S3 Data Lake -> Amazon Forecast -> API Gateway -> Grid Operator Application.`,
-                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (AWS CDK): **Complete**.`
+                    1: [
+                        { sender: 'sa', text: "An AI-driven grid management platform is a fantastic goal. To focus our efforts, are we more interested in *forecasting* future energy production, or in the *real-time optimization* of the grid based on current data?" },
+                        { sender: 'client', text: "Let's start with forecasting. If we can accurately predict solar and wind output 24 hours in advance, that's a huge win for grid operators." },
+                        { sender: 'sa', text: "Excellent clarification. The core problem is time-series forecasting. This means our architecture must be strong in data ingestion (from weather APIs, grid sensors) and have a robust ML pipeline to train and serve the forecast model." },
+                        { sender: 'sa', text: "I recommend a data lake approach to store the diverse data sources, with a managed forecasting service to accelerate model development. This gives us a solid foundation for accurate predictions. How does that sound?" },
+                        { sender: 'client', text: "A managed service for forecasting sounds great. Faster is better. Let's proceed." }
+                    ],
+                    2: `**Sources:** Found academic papers on using LSTM networks for time-series forecasting, solution briefs on "Cloud for Energy," and case studies from Engie on managing renewable assets.\n**Findings:** Successful platforms prioritize a robust data pipeline and leverage managed AI/ML services to accelerate development.`,
+                    3: `**Digital Twin:** Proposes creating a "digital twin" of the energy grid using a Digital Twin Service. This allows for complex "what-if" scenario simulations (e.g., "what if a major storm reduces solar output by 40%?").\n**Reinforcement Learning:** Suggests using a managed Reinforcement Learning platform to train an agent that actively learns the best load-balancing strategies.`,
+                    4: `**Analysis:** Compares building a custom forecasting model on a managed ML platform (high control, high effort) vs. using a Managed Forecasting Service (faster time-to-market).\n**Recommendation:** Recommends **a Managed Forecasting Service** for the initial PoC due to its rapid development cycle.\n**Final Architecture:** Data Sources (APIs, sensors) -> Data Streaming Service -> Serverless Function (for transformation) -> Cloud Storage Data Lake -> Managed Forecasting Service -> API Gateway -> Grid Operator Application.`,
+                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (Infrastructure-as-Code): **Complete**.`
                 },
-                code: `<span class="code-comment"># AWS CDK Stack for AI Energy Grid Platform</span>
-<span class="code-keyword">from</span> aws_cdk <span class="code-keyword">import</span> (
-    core,
-    aws_s3 <span class="code-keyword">as</span> s3,
-    aws_kinesis <span class="code-keyword">as</span> kinesis,
-    aws_lambda <span class="code-keyword">as</span> _lambda,
-    aws_iam <span class="code-keyword">as</span> iam,
-    aws_apigateway <span class="code-keyword">as</span> apigw
-)
-
-<span class="code-keyword">class</span> <span class="code-class">EnergyGridStack</span>(core.Stack):
-    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-keyword">self</span>, scope: core.Construct, id: str, **kwargs) -> None:
-        super().__init__(scope, id, **kwargs)
-
-        <span class="code-comment"># 1. S3 bucket for the data lake</span>
-        data_lake_bucket = s3.Bucket(<span class="code-keyword">self</span>, <span class="code-string">"EnergyDataLake"</span>)
-
-        <span class="code-comment"># 2. Kinesis stream for real-time data ingestion</span>
-        stream = kinesis.Stream(<span class="code-keyword">self</span>, <span class="code-string">"EnergyDataStream"</span>)
-        
-        <span class="code-comment"># 3. IAM Role for Amazon Forecast</span>
-        forecast_role = iam.Role(
-            <span class="code-keyword">self</span>, <span class="code-string">"ForecastRole"</span>,
-            assumed_by=iam.ServicePrincipal(<span class="code-string">"forecast.amazonaws.com"</span>)
-        )
-        data_lake_bucket.grant_read(forecast_role)
-        
-        <span class="code-comment"># 4. API Gateway to expose forecast results</span>
-        api = apigw.RestApi(<span class="code-keyword">self</span>, <span class="code-string">"ForecastApi"</span>)
-        <span class="code-comment"># ... integration with Lambda or Forecast endpoint</span>`,
+                code: `<span class="code-comment"># Example IaC Stack for AI Energy Grid Platform</span>...`,
                 diagram: (ctx, { drawBox, drawArrow }) => {
-                    const dataSources = { x: 100, y: 50 };
-                    const kinesis = { x: 100, y: 150 };
-                    const s3 = { x: 250, y: 150 };
-                    const forecast = { x: 250, y: 250 };
-                    const apiGw = { x: 400, y: 250 };
-
-                    drawBox("Data Sources", dataSources.x, dataSources.y);
-                    drawBox("Kinesis", kinesis.x, kinesis.y);
-                    drawBox("S3 Data Lake", s3.x, s3.y);
-                    drawBox("Amazon Forecast", forecast.x, forecast.y, '#ff00ff');
-                    drawBox("API Gateway", apiGw.x, apiGw.y);
-
-                    drawArrow(dataSources.x, dataSources.y + 25, kinesis.x, kinesis.y - 25);
-                    drawArrow(kinesis.x + 50, kinesis.y, s3.x - 50, s3.y);
-                    drawArrow(s3.x, s3.y + 25, forecast.x, forecast.y - 25);
-                    drawArrow(forecast.x + 50, forecast.y, apiGw.x - 50, apiGw.y);
+                    const dataSources = { x: 100, y: 50 }, kinesis = { x: 100, y: 150 }, s3 = { x: 250, y: 150 }, forecast = { x: 250, y: 250 }, apiGw = { x: 400, y: 250 };
+                    drawBox("Data Sources", dataSources.x, dataSources.y); drawBox("Data Stream", kinesis.x, kinesis.y); drawBox("Data Lake", s3.x, s3.y); drawBox("Forecasting Svc", forecast.x, forecast.y, '#ff00ff'); drawBox("API Gateway", apiGw.x, apiGw.y);
+                    drawArrow(dataSources.x, dataSources.y + 25, kinesis.x, kinesis.y - 25); drawArrow(kinesis.x + 50, kinesis.y, s3.x - 50, s3.y); drawArrow(s3.x, s3.y + 25, forecast.x, forecast.y - 25); drawArrow(forecast.x + 50, forecast.y, apiGw.x - 50, apiGw.y);
                 }
             },
             soil_conservation: {
                 problemStatement: "Create an AI-powered geospatial platform that analyzes satellite imagery and sensor data to detect early signs of soil erosion, providing actionable insights for land management and conservation efforts.",
                 agentResponses: {
-                    1: `**Refined Goals:** Source and process large volumes of satellite imagery (e.g., from Sentinel-2). Train a computer vision model to identify erosion patterns. Present findings on an interactive map-based interface.\n**Key Features:** Large-scale data ingestion pipeline, a data labeling workflow, and geospatial data visualization.`,
-                    2: `**Sources:** Found the AWS Open Data Registry for satellite imagery, documentation for Amazon SageMaker's Geospatial capabilities, and projects from Esri's ArcGIS platform.\n**Findings:** Effective solutions require a robust MLOps pipeline to handle the massive datasets and retrain models as new imagery becomes available.`,
-                    3: `**Data Fusion:** Suggests a model that "fuses" data from multiple sources (satellite imagery, digital elevation models, soil sensor data) for a more accurate and holistic erosion risk score.\n**Human-in-the-Loop:** Recommends using Amazon SageMaker Ground Truth to create a labeling job where soil scientists can validate the model's findings.`,
-                    4: `**Analysis:** Compares a custom-trained model in SageMaker vs. using a pre-trained model as a base. For the specific task of erosion detection, a custom model is required.\n**Recommendation:** Recommends using **Amazon SageMaker's built-in geospatial capabilities** and a custom-trained computer vision model, leveraging Ground Truth for data labeling.\n**Final Architecture:** Satellite Data (S3) -> AWS Step Functions (Orchestration) -> SageMaker Processing Job -> SageMaker Ground Truth -> SageMaker Training Job -> SageMaker Endpoint -> Amazon Location Service (Map UI).`,
-                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (SageMaker Pipeline): **Complete**.`
+                    1: [
+                        { sender: 'sa', text: "This is a powerful application of AI for environmental good. The core of this is computer vision on geospatial data. What is the primary data source we should focus on first: public satellite imagery, or proprietary drone footage?" },
+                        { sender: 'client', text: "Let's start with public satellite imagery, like Sentinel-2. It's free and provides frequent updates, which is great for monitoring change over time." },
+                        { sender: 'sa', text: "Good choice. That defines our initial data pipeline. The main challenge will be processing these massive images and training a model to spot subtle erosion patterns. This calls for a robust MLOps pipeline." },
+                        { sender: 'sa', text: "I suggest an architecture centered on a managed ML platform with built-in geospatial capabilities. This will handle the heavy lifting of data processing and model training, allowing us to focus on the AI model itself. Is this approach suitable?" },
+                        { sender: 'client', text: "Yes, a managed platform is ideal. I want to focus on the science, not the infrastructure." }
+                    ],
+                    2: `**Sources:** Found a public cloud data registry for satellite imagery, documentation for a cloud provider's Geospatial capabilities, and projects from major GIS platforms.\n**Findings:** Effective solutions require a robust MLOps pipeline to handle the massive datasets and retrain models as new imagery becomes available.`,
+                    3: `**Data Fusion:** Suggests a model that "fuses" data from multiple sources (satellite imagery, digital elevation models, soil sensor data) for a more accurate and holistic erosion risk score.\n**Human-in-the-Loop:** Recommends using a Data Labeling Service to create a labeling job where soil scientists can validate the model's findings.`,
+                    4: `**Analysis:** Compares a custom-trained model on a managed ML platform vs. using a pre-trained model as a base. For the specific task of erosion detection, a custom model is required.\n**Recommendation:** Recommends using **a cloud's built-in geospatial capabilities** and a custom-trained computer vision model, leveraging a Data Labeling service.\n**Final Architecture:** Satellite Data (Cloud Storage) -> Workflow Orchestration Service -> Data Processing Job -> Data Labeling Service -> Model Training Job -> ML Model Endpoint -> Mapping Service (Map UI).`,
+                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (ML Pipeline): **Complete**.`
                 },
-                code: `<span class="code-comment"># Python script for a SageMaker MLOps Pipeline</span>
-<span class="code-keyword">import</span> sagemaker
-<span class="code-keyword">from</span> sagemaker.workflow.pipeline <span class="code-keyword">import</span> Pipeline
-<span class="code-keyword">from</span> sagemaker.workflow.steps <span class="code-keyword">import</span> ProcessingStep, TrainingStep
-
-<span class="code-comment"># 1. Get SageMaker session and role</span>
-sagemaker_session = sagemaker.Session()
-role = sagemaker.get_execution_role()
-
-<span class="code-comment"># 2. Define Processing Step for data prep</span>
-<span class="code-keyword">from</span> sagemaker.sklearn.processing <span class="code-keyword">import</span> SKLearnProcessor
-processor = SKLearnProcessor(...)
-step_process = ProcessingStep(
-    name=<span class="code-string">"ProcessSatelliteImages"</span>,
-    processor=processor,
-    ...
-)
-
-<span class="code-comment"># 3. Define Training Step for model training</span>
-<span class="code-keyword">from</span> sagemaker.estimator <span class="code-keyword">import</span> Estimator
-estimator = Estimator(...)
-step_train = TrainingStep(
-    name=<span class="code-string">"TrainErosionModel"</span>,
-    estimator=estimator,
-    ...
-)
-
-<span class="code-comment"># 4. Create and execute the pipeline</span>
-pipeline = Pipeline(
-    name=<span class="code-string">"SoilConservationPipeline"</span>,
-    steps=[step_process, step_train]
-)
-pipeline.upsert(role_arn=role)
-execution = pipeline.start()`,
+                 code: `<span class="code-comment"># Python script for a Managed ML Pipeline</span>...`,
                 diagram: (ctx, { drawBox, drawArrow }) => {
-                    const s3 = { x: 100, y: 50 };
-                    const stepFunctions = { x: 100, y: 150 };
-                    const processingJob = { x: 250, y: 50 };
-                    const trainingJob = { x: 250, y: 150 };
-                    const endpoint = { x: 250, y: 250 };
-                    const locationSvc = { x: 400, y: 250 };
-
-                    drawBox("S3 Data", s3.x, s3.y);
-                    drawBox("Step Functions", stepFunctions.x, stepFunctions.y, '#ff00ff');
-                    drawBox("SM Processing", processingJob.x, processingJob.y);
-                    drawBox("SM Training", trainingJob.x, trainingJob.y);
-                    drawBox("SM Endpoint", endpoint.x, endpoint.y);
-                    drawBox("Location Svc", locationSvc.x, locationSvc.y);
-
-                    drawArrow(s3.x, s3.y + 25, stepFunctions.x, stepFunctions.y - 25);
-                    drawArrow(stepFunctions.x + 50, stepFunctions.y - 50, processingJob.x - 50, processingJob.y);
-                    drawArrow(stepFunctions.x + 50, stepFunctions.y, trainingJob.x - 50, trainingJob.y);
-                    drawArrow(stepFunctions.x + 50, stepFunctions.y + 50, endpoint.x - 50, endpoint.y);
-                    drawArrow(endpoint.x + 50, endpoint.y, locationSvc.x - 50, locationSvc.y);
+                    const s3 = { x: 100, y: 50 }, stepFunctions = { x: 100, y: 150 }, processingJob = { x: 250, y: 50 }, trainingJob = { x: 250, y: 150 }, endpoint = { x: 250, y: 250 }, locationSvc = { x: 400, y: 250 };
+                    drawBox("Data Storage", s3.x, s3.y); drawBox("Orchestrator", stepFunctions.x, stepFunctions.y, '#ff00ff'); drawBox("Data Processing", processingJob.x, processingJob.y); drawBox("Model Training", trainingJob.x, trainingJob.y); drawBox("ML Endpoint", endpoint.x, endpoint.y); drawBox("Mapping Svc", locationSvc.x, locationSvc.y);
+                    drawArrow(s3.x, s3.y + 25, stepFunctions.x, stepFunctions.y - 25); drawArrow(stepFunctions.x + 50, stepFunctions.y - 50, processingJob.x - 50, processingJob.y); drawArrow(stepFunctions.x + 50, stepFunctions.y, trainingJob.x - 50, trainingJob.y); drawArrow(stepFunctions.x + 50, stepFunctions.y + 50, endpoint.x - 50, endpoint.y); drawArrow(endpoint.x + 50, endpoint.y, locationSvc.x - 50, locationSvc.y);
                 }
             },
             climate_monitoring: {
                 problemStatement: "Architect a high-performance computing (HPC) environment on the cloud to process and analyze massive climate model datasets, enabling researchers to run complex simulations and accurately forecast climate change impacts.",
                 agentResponses: {
-                    1: `**Refined Goals:** Provide a scalable, on-demand compute environment for parallel simulations. Offer high-throughput storage for petabyte-scale datasets. Securely manage access for a research team. Optimize for cost by running resources only when needed.\n**Key Features:** Cluster management, a parallel file system, a job scheduler, and fast networking.`,
-                    2: `**Sources:** Found documentation for AWS ParallelCluster, FSx for Lustre, and EC2 compute-optimized instances. Read a NASA case study on using AWS for climate simulation.\n**Findings:** The key is to combine a powerful cluster manager with a high-performance parallel file system to avoid I/O bottlenecks.`,
-                    3: `**Serverless HPC:** Proposes using AWS Batch for certain pre/post-processing tasks that can be broken into smaller, stateless jobs, which is more cost-effective than using the full cluster for everything.\n**Data Sharing:** Recommends creating a public data portal using Amazon S3 and CloudFront to make simulation results easily accessible to the global research community.`,
-                    4: `**Analysis:** Compares AWS ParallelCluster (full control, traditional HPC feel) with AWS Batch (managed service, container-focused). Climate simulations often rely on tightly coupled MPI communication, which is better suited to a traditional cluster.\n**Recommendation:** Recommends **AWS ParallelCluster** for the flexibility and power needed for complex climate science simulations.\n**Final Architecture:** AWS ParallelCluster API -> CloudFormation -> Slurm (Job Scheduler) -> Cluster of EC2 instances with Elastic Fabric Adapter (EFA) -> Amazon FSx for Lustre (Storage).`,
-                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (ParallelCluster Config): **Complete**.`
+                    1: [
+                        { sender: 'sa', text: "An HPC environment for climate modeling is a critical tool for research. To architect this effectively, what is the primary bottleneck for your researchers today: compute time, data storage access, or job scheduling complexity?" },
+                        { sender: 'client', text: "Definitely compute time. Our on-premise cluster is always busy, and researchers wait for days to run simulations. We need on-demand, scalable compute." },
+                        { sender: 'sa', text: "That's a classic use case for the cloud. The goal is an elastic HPC environment. This means we need a powerful cluster manager, a high-performance parallel file system to feed the compute nodes, and a familiar job scheduler like Slurm." },
+                        { sender: 'sa', text: "I'd recommend a solution centered around a managed HPC Cluster Manager service. It automates the setup of the cluster, networking, and storage, so researchers can get to work faster. Does this focus on on-demand compute align with your needs?" },
+                        { sender: 'client', text: "Absolutely. Less time managing infrastructure means more time for science. Let's move forward with that." }
+                    ],
+                    2: `**Sources:** Found documentation for HPC Cluster Managers, Parallel File Systems, and compute-optimized instances. Read a NASA case study on using the cloud for climate simulation.\n**Findings:** The key is to combine a powerful cluster manager with a high-performance parallel file system to avoid I/O bottlenecks.`,
+                    3: `**Serverless HPC:** Proposes using a managed batch computing service for certain pre/post-processing tasks that can be broken into smaller, stateless jobs, which is more cost-effective than using the full cluster for everything.\n**Data Sharing:** Recommends creating a public data portal using Cloud Storage and a CDN to make simulation results easily accessible to the global research community.`,
+                    4: `**Analysis:** Compares a full-control HPC Cluster Manager (traditional HPC feel) with a managed batch service (container-focused). Climate simulations often rely on tightly coupled MPI communication, which is better suited to a traditional cluster.\n**Recommendation:** Recommends **an HPC Cluster Manager** for the flexibility and power needed for complex climate science simulations.\n**Final Architecture:** HPC Cluster Manager API -> IaC Templates -> Job Scheduler -> Cluster of compute instances with High-Performance Networking -> Parallel File System (Storage).`,
+                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (Cluster Config): **Complete**.`
                 },
-                code: `<span class="code-comment"># AWS ParallelCluster cluster-config.yaml</span>
-<span class="code-yaml-key">Region:</span> <span class="code-yaml-value">us-east-1</span>
-<span class="code-yaml-key">Image:</span>
-  <span class="code-yaml-key">Os:</span> <span class="code-yaml-value">alinux2</span>
-<span class="code-yaml-key">HeadNode:</span>
-  <span class="code-yaml-key">InstanceType:</span> <span class="code-yaml-value">c5.xlarge</span>
-  <span class="code-yaml-key">Networking:</span>
-    <span class="code-yaml-key">SubnetId:</span> <span class="code-yaml-value">subnet-12345678</span>
-<span class="code-yaml-key">Scheduling:</span>
-  <span class="code-yaml-key">Scheduler:</span> <span class="code-yaml-value">slurm</span>
-  <span class="code-yaml-key">SlurmQueues:</span>
-    - <span class="code-yaml-key">Name:</span> <span class="code-yaml-value">compute-queue</span>
-      <span class="code-yaml-key">ComputeResources:</span>
-        - <span class="code-yaml-key">Name:</span> <span class="code-yaml-value">hpc-cluster</span>
-          <span class="code-yaml-key">InstanceType:</span> <span class="code-yaml-value">hpc6a.48xlarge</span>
-          <span class="code-yaml-key">MinCount:</span> <span class="code-yaml-value">0</span>
-          <span class="code-yaml-key">MaxCount:</span> <span class="code-yaml-value">10</span>
-      <span class="code-yaml-key">Networking:</span>
-        <span class="code-yaml-key">SubnetIds:</span>
-          - <span class="code-yaml-value">subnet-12345678</span>
-<span class="code-yaml-key">SharedStorage:</span>
-  - <span class="code-yaml-key">MountDir:</span> <span class="code-yaml-value">/fsx</span>
-    <span class="code-yaml-key">Name:</span> <span class="code-yaml-value">my-fsx-lustre</span>
-    <span class="code-yaml-key">StorageType:</span> <span class="code-yaml-value">FsxLustre</span>`,
+                code: `<span class="code-comment"># Example HPC Cluster Manager config.yaml</span>...`,
                 diagram: (ctx, { drawBox, drawArrow }) => {
-                    const user = { x: 100, y: 50 };
-                    const pcluster = { x: 100, y: 150 };
-                    const headNode = { x: 250, y: 150 };
-                    const computeNodes = { x: 250, y: 250 };
-                    const fsx = { x: 400, y: 200 };
-
-                    drawBox("Researcher", user.x, user.y);
-                    drawBox("ParallelCluster", pcluster.x, pcluster.y, '#ff00ff');
-                    drawBox("Head Node", headNode.x, headNode.y);
-                    drawBox("Compute Nodes", computeNodes.x, computeNodes.y);
-                    drawBox("FSx for Lustre", fsx.x, fsx.y);
-
-                    drawArrow(user.x, user.y + 25, pcluster.x, pcluster.y - 25);
-                    drawArrow(pcluster.x + 50, pcluster.y, headNode.x - 50, headNode.y);
-                    drawArrow(headNode.x, headNode.y + 25, computeNodes.x, computeNodes.y - 25);
-                    drawArrow(headNode.x + 50, headNode.y, fsx.x - 50, fsx.y);
-                    drawArrow(computeNodes.x + 50, computeNodes.y, fsx.x - 50, fsx.y);
+                    const user = { x: 100, y: 50 }, pcluster = { x: 100, y: 150 }, headNode = { x: 250, y: 150 }, computeNodes = { x: 250, y: 250 }, fsx = { x: 400, y: 200 };
+                    drawBox("Researcher", user.x, user.y); drawBox("HPC Manager", pcluster.x, pcluster.y, '#ff00ff'); drawBox("Head Node", headNode.x, headNode.y); drawBox("Compute Nodes", computeNodes.x, computeNodes.y); drawBox("Parallel FS", fsx.x, fsx.y);
+                    drawArrow(user.x, user.y + 25, pcluster.x, pcluster.y - 25); drawArrow(pcluster.x + 50, pcluster.y, headNode.x - 50, headNode.y); drawArrow(headNode.x, headNode.y + 25, computeNodes.x, computeNodes.y - 25); drawArrow(headNode.x + 50, headNode.y, fsx.x - 50, fsx.y); drawArrow(computeNodes.x + 50, computeNodes.y, fsx.x - 50, fsx.y);
                 }
             }
         };
@@ -770,134 +633,145 @@ execution = pipeline.start()`,
                 ideaInput.value = '';
             }
         });
+        
+        async function runChatSimulation(container, script) {
+            container.innerHTML = ''; 
+            const transcriptContainer = document.createElement('div');
+            transcriptContainer.className = 'chat-transcript';
+            container.appendChild(transcriptContainer);
 
-        async function runStep(step, useCaseId) {
-            const card = step_cards[step];
+            for (const message of script) {
+                await sleep(1200);
+                const bubble = document.createElement('div');
+                const label = document.createElement('div');
+                label.className = 'bubble-label';
+                
+                if (message.sender === 'sa') {
+                    bubble.className = 'sa-bubble';
+                    label.textContent = 'Brainstorming SA';
+                } else {
+                    bubble.className = 'client-bubble';
+                    label.textContent = 'You (The Client)';
+                }
+                
+                bubble.appendChild(label);
+                bubble.append(message.text); 
+                
+                transcriptContainer.appendChild(bubble);
+                bubble.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+        }
+        
+        async function runStep(step) {
+            const page = document.getElementById(`page-${step}`);
+            const card = page.querySelector('.step-card');
             const statusEl = card.querySelector('.status');
             const outputEl = card.querySelector('.step-output');
+            const nextBtn = page.querySelector('.next-step-btn');
 
-            card.classList.add('active');
             statusEl.innerHTML = `<div class="loader"></div> PROCESSING...`;
             
             await sleep(1500 + Math.random() * 1000);
 
-            const responseText = useCaseData[useCaseId].agentResponses[step];
-            outputEl.innerHTML = await marked(responseText);
+            const responseData = useCaseData[currentUseCase].agentResponses[step];
+            
+            if (step === 1 && Array.isArray(responseData)) {
+                await runChatSimulation(outputEl, responseData);
+            } else {
+                outputEl.innerHTML = await marked(responseData);
+            }
 
             statusEl.textContent = '✅ COMPLETE';
-            card.classList.remove('active');
-            card.classList.add('complete');
-            
             if (step === 4) {
-                const callout = card.querySelector('.human-in-loop-callout');
-                callout.style.display = 'block';
-                gsap.from(callout, { opacity: 0, y: 20, duration: 0.5 });
+                card.querySelector('.human-in-loop-callout').style.display = 'block';
             }
+            
+            nextBtn.disabled = false;
         }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const selectedUseCase = useCaseSelector.value;
+            currentUseCase = useCaseSelector.value;
 
-            if (!selectedUseCase) {
-                // A simple modal could be better here, but alert is used for simplicity.
-                // In a real app, avoid alert().
-                const modal = document.createElement('div');
-                modal.style.position = 'fixed';
-                modal.style.top = '20px';
-                modal.style.left = '50%';
-                modal.style.transform = 'translateX(-50%)';
-                modal.style.padding = '1rem 2rem';
-                modal.style.background = '#ff00ff';
-                modal.style.color = 'white';
-                modal.style.borderRadius = '5px';
-                modal.style.zIndex = '1000';
-                modal.textContent = 'Please select a use case from the dropdown first!';
-                document.body.appendChild(modal);
-                setTimeout(() => modal.remove(), 3000);
+            if (!currentUseCase) {
+                // In a real app, use a styled modal instead of alert.
+                alert('Please select a use case from the dropdown first!');
                 return;
             }
 
-            submitButton.disabled = true;
-            submitButton.textContent = 'Processing...';
-            gsap.to(form, { opacity: 0.5, pointerEvents: 'none', duration: 0.5 });
-            
-            // Reset previous results
-            resultsSection.style.display = 'none';
-            Object.values(step_cards).forEach(card => {
-                card.classList.remove('complete', 'active');
-                card.querySelector('.status').textContent = 'PENDING';
-                card.querySelector('.step-output').innerHTML = '';
-            });
-
-
-            processSection.style.display = 'block';
-            gsap.from(processSection, { opacity: 0, y: 50, duration: 1 });
-
-            for (let i = 1; i <= 5; i++) {
-                await runStep(i, selectedUseCase);
-            }
-
-            resultsSection.style.display = 'block';
-            gsap.from(resultsSection, { opacity: 0, y: 50, duration: 1 });
-            
-            generateDiagram(selectedUseCase);
-            generateCode(selectedUseCase);
-            submitButton.textContent = 'Done!';
+            gsap.to(inputSection, { opacity: 0, duration: 0.5, onComplete: () => {
+                inputSection.style.display = 'none';
+                workflowContainer.style.display = 'block';
+                const firstPage = document.getElementById('page-1');
+                firstPage.style.display = 'block';
+                gsap.from(firstPage, { opacity: 0, y: 30, duration: 0.5 });
+                runStep(1);
+            }});
         });
 
-        function generateDiagram(useCaseId) {
+        workflowContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('next-step-btn')) {
+                const currentStep = parseInt(e.target.dataset.step);
+                const currentPage = document.getElementById(`page-${currentStep}`);
+                const nextPage = document.getElementById(`page-${currentStep + 1}`);
+
+                gsap.to(currentPage, { opacity: 0, duration: 0.5, onComplete: () => {
+                    currentPage.style.display = 'none';
+                    if (nextPage) {
+                        nextPage.style.display = 'block';
+                        gsap.from(nextPage, { opacity: 0, y: 30, duration: 0.5 });
+                        if (currentStep < 5) {
+                            runStep(currentStep + 1);
+                        } else { // This is the final step, revealing results
+                            generateDiagram();
+                            generateCode();
+                        }
+                    }
+                }});
+            }
+        });
+        
+        document.getElementById('restart-btn').addEventListener('click', () => {
+             location.reload();
+        });
+
+        function generateDiagram() {
             const canvas = document.getElementById('diagram-canvas');
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             ctx.font = '12px "Roboto Mono"';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
             const drawBox = (text, x, y, color = '#00ffff') => {
-                const boxWidth = 100;
-                const boxHeight = 50;
-                ctx.strokeStyle = color;
-                ctx.fillStyle = '#1a1a23';
-                ctx.lineWidth = 1.5;
-                ctx.beginPath();
-                ctx.rect(x - boxWidth / 2, y - boxHeight / 2, boxWidth, boxHeight);
-                ctx.stroke();
-                ctx.fill();
-                ctx.fillStyle = '#e0e0e0';
-                ctx.fillText(text, x, y);
+                const boxWidth = 100, boxHeight = 50;
+                ctx.strokeStyle = color; ctx.fillStyle = '#1a1a23'; ctx.lineWidth = 1.5;
+                ctx.beginPath(); ctx.rect(x - boxWidth / 2, y - boxHeight / 2, boxWidth, boxHeight);
+                ctx.stroke(); ctx.fill();
+                ctx.fillStyle = '#e0e0e0'; ctx.fillText(text, x, y);
             };
 
             const drawArrow = (x1, y1, x2, y2) => {
-                ctx.strokeStyle = '#8a8a9e';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(x1, y1);
-                ctx.lineTo(x2, y2);
-                ctx.stroke();
-                
+                ctx.strokeStyle = '#8a8a9e'; ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
                 const angle = Math.atan2(y2 - y1, x2 - x1);
-                ctx.beginPath();
-                ctx.moveTo(x2, y2);
+                ctx.beginPath(); ctx.moveTo(x2, y2);
                 ctx.lineTo(x2 - 10 * Math.cos(angle - Math.PI / 6), y2 - 10 * Math.sin(angle - Math.PI / 6));
                 ctx.moveTo(x2, y2);
                 ctx.lineTo(x2 - 10 * Math.cos(angle + Math.PI / 6), y2 - 10 * Math.sin(angle + Math.PI / 6));
                 ctx.stroke();
             };
             
-            if (useCaseData[useCaseId] && useCaseData[useCaseId].diagram) {
-                // Adjust canvas size for better fitting
-                canvas.width = 500;
-                canvas.height = 350;
-                useCaseData[useCaseId].diagram(ctx, { drawBox, drawArrow });
+            if (useCaseData[currentUseCase] && useCaseData[currentUseCase].diagram) {
+                canvas.width = 500; canvas.height = 350;
+                useCaseData[currentUseCase].diagram(ctx, { drawBox, drawArrow });
             }
         }
 
-        function generateCode(useCaseId) {
+        function generateCode() {
             const codeOutput = document.getElementById('code-output');
-            if (useCaseData[useCaseId] && useCaseData[useCaseId].code) {
-                codeOutput.innerHTML = useCaseData[useCaseId].code;
+            if (useCaseData[currentUseCase] && useCaseData[currentUseCase].code) {
+                codeOutput.innerHTML = useCaseData[currentUseCase].code;
             } else {
                 codeOutput.innerHTML = `<span class="code-comment"># No code generated for this selection.</span>`;
             }

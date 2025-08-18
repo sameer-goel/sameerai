@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAaaS: Solutions Architect as a Service</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        :root {
+            --bg-color: #0a0a0f;
+            --surface-color: #1a1a23;
+            --primary-color: #00ffff;
+            --secondary-color: #ff00ff;
+            --text-color: #e0e0e0;
+            --text-muted-color: #8a8a9e;
+            --border-color: #2a2a3a;
+            --font-family-heading: 'Inter', sans-serif;
+            --font-family-body: 'Inter', sans-serif;
+        }
+        body {
+            font-family: var(--font-family-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        #hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .primary-button {
+            padding: 0.8rem 2rem;
+            font-family: var(--font-family-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .primary-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(127, 0, 255, 0.3);
+        }
+        .feature-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="hero-background-container">
+        <canvas id="hero-background"></canvas>
+    </div>
+
+    <!-- Header -->
+    <header class="py-6 px-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-white">SAaaS</h1>
+            <a href="#" class="primary-button text-sm">Launch Portal</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-8">
+
+        <!-- Hero Section -->
+        <section class="text-center py-24 md:py-32">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                Go from Whiteboard to Deployable Blueprint
+            </h2>
+            <h2 class="text-4xl md:text-6xl font-extrabold leading-tight mt-2">
+                <span class="gradient-text">in Minutes.</span>
+            </h2>
+            <p class="mt-8 max-w-2xl mx-auto text-lg text-slate-400">
+                Stop the endless cycle of research and diagramming. SAaaS uses a swarm of AI agents to simulate an elite solutions architecture team, turning your vision into a robust, cloud-agnostic design and deployable code.
+            </p>
+            <div class="mt-10">
+                <a href="#" class="primary-button text-lg">
+                    Design Your Solution Now &rarr;
+                </a>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="py-24">
+            <div class="text-center mb-16">
+                <h3 class="text-3xl font-bold text-white">Your Idea, Supercharged by Agentic AI</h3>
+                <p class="mt-4 text-lg text-slate-400">A collaborative workflow between you and your dedicated AI team.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <!-- Step 1 -->
+                <div class="p-6">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-surface-color border border-border-color text-primary-color font-bold text-2xl mx-auto">1</div>
+                    <h4 class="mt-6 font-semibold text-white text-xl">Idea</h4>
+                    <p class="mt-2 text-slate-400">Start with a simple problem statement. The Brainstorming SA engages you in a dialogue to refine your idea into concrete technical and business goals.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="p-6">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-surface-color border border-border-color text-primary-color font-bold text-2xl mx-auto">2</div>
+                    <h4 class="mt-6 font-semibold text-white text-xl">Agentic AI at Work</h4>
+                    <p class="mt-2 text-slate-400">A specialized swarm of agents gets to work—researching existing patterns, innovating new approaches, and evaluating trade-offs to find the optimal architecture.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="p-6">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-surface-color border border-border-color text-primary-color font-bold text-2xl mx-auto">3</div>
+                    <h4 class="mt-6 font-semibold text-white text-xl">Validate & Prototype</h4>
+                    <p class="mt-2 text-slate-400">Review the final recommendation, with an option for human validation. Then, let the Prototyping SA generate your architecture diagram and deployable IaC code.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-24">
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="feature-card">
+                    <h3 class="text-2xl font-bold gradient-text">From Idea to IaC in Minutes</h3>
+                    <p class="mt-4 text-slate-400">Collapse weeks of research, design, and initial coding into a single, streamlined session. Accelerate your time-to-market and free your engineers to focus on building, not just planning.</p>
+                </div>
+                 <div class="feature-card">
+                    <h3 class="text-2xl font-bold gradient-text">AI-Powered Innovation</h3>
+                    <p class="mt-4 text-slate-400">Our Innovative SA doesn't just copy existing patterns. It synthesizes cutting-edge research and novel approaches to propose solutions you might not have considered, giving you a competitive edge.</p>
+                </div>
+                 <div class="feature-card">
+                    <h3 class="text-2xl font-bold gradient-text">Cloud-Agnostic by Design</h3>
+                    <p class="mt-4 text-slate-400">The core architectural principles and generated code are designed to be portable. Avoid vendor lock-in and get a blueprint that can be adapted to any major cloud provider with minimal changes.</p>
+                </div>
+                 <div class="feature-card">
+                    <h3 class="text-2xl font-bold gradient-text">Human-in-the-Loop Validation</h3>
+                    <p class="mt-4 text-slate-400">AI is powerful, but critical decisions need human oversight. Our workflow includes a crucial validation step, allowing you or a human expert to review and approve the final design before prototyping.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Final CTA Section -->
+        <section class="py-32 text-center">
+            <h2 class="text-4xl font-bold text-white">
+                Ready to build the future?
+            </h2>
+            <p class="mt-6 max-w-xl mx-auto text-lg text-slate-400">
+                Stop architecting, start building. Your AI solutions architecture team is waiting to bring your next great idea to life.
+            </p>
+            <div class="mt-10">
+                <a href="SAaaS.html" target="_blank" class="primary-button text-lg">
+                    Try SAaaS
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-border-color mt-20">
+        <div class="container mx-auto py-8 px-8 text-center text-slate-500 text-sm">
+            <p>&copy; 2025 SAaaS Portal. An exploration in agentic AI by Sameer Goel.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Using the same Three.js background from the tool for brand consistency
+        import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('hero-background'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const particlesCount = 500;
+        const positions = new Float32Array(particlesCount * 3);
+        for(let i = 0; i < particlesCount * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 15;
+        }
+        const particlesGeometry = new THREE.BufferGeometry();
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            color: 0x00ffff,
+            size: 0.02,
+            transparent: true,
+            opacity: 0.7
+        });
+        const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particleSystem);
+        camera.position.z = 5;
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+            particleSystem.rotation.y += 0.0001;
+            renderer.render(scene, camera);
+        };
+        animate();
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

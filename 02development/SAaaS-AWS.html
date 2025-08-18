@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAaaS: Agentic Solutions Architect Portal</title>
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+        "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js",
+        "marked": "https://cdn.jsdelivr.net/npm/marked@12.0.2/lib/marked.esm.js"
+      }
+    }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&family=Inter:wght@400;600;800&display=swap');
+
+        :root {
+            --bg-color: #0a0a0f;
+            --surface-color: #1a1a23;
+            --primary-color: #00ffff;
+            --secondary-color: #ff00ff;
+            --text-color: #e0e0e0;
+            --text-muted-color: #8a8a9e;
+            --border-color: #2a2a3a;
+            --font-family-heading: 'Inter', sans-serif;
+            --font-family-body: 'Inter', sans-serif;
+            --font-family-mono: 'Roboto Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #hero-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        header h1 {
+            font-family: var(--font-family-heading);
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header .tagline {
+            font-size: 1.1rem;
+            color: var(--text-muted-color);
+            font-style: italic;
+        }
+
+        #input-section h2, #process-section h2, #results-section h2 {
+            font-family: var(--font-family-heading);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        #idea-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            background-color: var(--surface-color);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        #use-case-selector {
+            width: 100%;
+            padding: 1rem;
+            font-family: var(--font-family-body);
+            font-size: 1rem;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        #idea-input {
+            width: 100%;
+            padding: 1rem;
+            font-family: var(--font-family-body);
+            font-size: 1rem;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        #idea-input:focus, #use-case-selector:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        #submit-button {
+            padding: 0.8rem 1.5rem;
+            font-family: var(--font-family-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-color);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            align-self: flex-end;
+        }
+
+        #submit-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(127, 0, 255, 0.4);
+        }
+        
+        #submit-button:disabled {
+            background: var(--text-muted-color);
+            cursor: not-allowed;
+            color: var(--surface-color);
+        }
+
+        .step-card {
+            background-color: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step-card.active {
+            border-left-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .step-card.complete {
+            border-left-color: #00ff88;
+        }
+
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .step-header h3 {
+            font-family: var(--font-family-heading);
+            font-size: 1.3rem;
+            color: var(--primary-color);
+        }
+        
+        .step-header .status {
+            font-family: var(--font-family-mono);
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .loader {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--primary-color);
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            animation: rotation 1s linear infinite;
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .step-content p {
+            color: var(--text-muted-color);
+            margin-bottom: 1rem;
+        }
+
+        .step-output {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: var(--font-family-mono);
+            font-size: 0.9rem;
+            min-height: 50px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .step-output ul {
+            padding-left: 20px;
+        }
+        .step-output li {
+            margin-bottom: 0.5rem;
+        }
+        .step-output code {
+            font-family: var(--font-family-mono);
+            color: var(--primary-color);
+        }
+        
+        /* New styles for chat transcript */
+        .chat-transcript {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: var(--font-family-body);
+            font-size: 0.95rem;
+        }
+        .sa-bubble, .client-bubble {
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            max-width: 85%;
+            line-height: 1.5;
+        }
+        .sa-bubble {
+            background-color: #2a2a3a;
+            border-bottom-left-radius: 4px;
+            align-self: flex-start;
+        }
+        .client-bubble {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-color);
+            font-weight: 500;
+            border-bottom-right-radius: 4px;
+            align-self: flex-end;
+        }
+        .bubble-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            opacity: 0.7;
+        }
+
+        #step-4 .human-in-loop-callout {
+            background-color: rgba(255, 0, 255, 0.1);
+            border: 1px solid var(--secondary-color);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            display: none; /* Initially hidden */
+        }
+        #step-4 .human-in-loop-callout p {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        #step-4.active {
+             border-left-color: var(--secondary-color);
+             box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+        }
+        #step-4.active h3 {
+            color: var(--secondary-color);
+        }
+
+
+        #results-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+        
+        @media(min-width: 768px) {
+            #results-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .result-box {
+            background-color: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            min-height: 300px;
+        }
+        
+        .result-box h3 {
+            margin-bottom: 1rem;
+            font-family: var(--font-family-heading);
+            color: var(--primary-color);
+        }
+
+        #diagram-canvas {
+            width: 100%;
+            height: auto;
+            background-color: var(--bg-color);
+            border-radius: 4px;
+        }
+
+        #poc-code {
+            height: 400px;
+            overflow-y: auto;
+        }
+        
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        code {
+            font-family: var(--font-family-mono);
+            font-size: 0.85rem;
+            color: #cda2ff;
+        }
+
+        code .code-comment { color: #6a9955; }
+        code .code-string { color: #ce9178; }
+        code .code-keyword { color: #569cd6; }
+        code .code-function { color: #dcdcaa; }
+        code .code-class { color: #4ec9b0; }
+        code .code-yaml-key { color: #9cdcfe; }
+        code .code-yaml-value { color: #ce9178; }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+        }
+        
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        footer a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="hero-background"></div>
+
+    <main>
+        <header>
+            <h1>Solutions Architects as a Service (SAaaS): Agentic Portal</h1>
+            <p class="tagline">Don't just imagine the future with Agents, build it today with Agentic Solutions Architects.</p>
+        </header>
+
+        <section id="input-section">
+             <h2>1. Start with Your Vision</h2>
+            <form id="idea-form" action="javascript:void(0);">
+                <label for="use-case-selector">Or, select a pre-defined use case:</label>
+                <select id="use-case-selector">
+                    <option value="">-- Select a Demo Use Case --</option>
+                    <option value="smart_farming">Smart Farming: IoT Platform</option>
+                    <option value="sustainable_energy">Sustainable Energy: AI Grid Management</option>
+                    <option value="soil_conservation">Soil Conservation: Geospatial AI Platform</option>
+                    <option value="climate_monitoring">Climate Monitoring: HPC Environment</option>
+                </select>
+                <label for="idea-input">Describe your idea, use case, or problem statement below:</label>
+                <textarea id="idea-input" placeholder="e.g., An IoT platform to monitor soil moisture for smart farming, integrated with a dashboard for farmers."></textarea>
+                <button id="submit-button" type="submit">Deploy Agent Swarm</button>
+            </form>
+        </section>
+
+        <section id="process-section" style="display: none;">
+            <h2>2. Agentic Workflow in Progress</h2>
+            <div id="step-1" class="step-card">
+                <div class="step-header">
+                    <h3>1️⃣ Brainstorming SA</h3>
+                    <span class="status">PENDING</span>
+                </div>
+                <div class="step-content">
+                    <p>Refines your idea into clear, actionable goals and requirements.</p>
+                    <div class="step-output"></div>
+                </div>
+            </div>
+            
+            <div id="step-2" class="step-card">
+                <div class="step-header">
+                    <h3>2️⃣ Scraping SA</h3>
+                    <span class="status">PENDING</span>
+                </div>
+                <div class="step-content">
+                    <p>Sources relevant real-world solutions, academic papers, and case studies.</p>
+                    <div class="step-output"></div>
+                </div>
+            </div>
+            
+            <div id="step-3" class="step-card">
+                <div class="step-header">
+                    <h3>3️⃣ Innovative SA</h3>
+                    <span class="status">PENDING</span>
+                </div>
+                <div class="step-content">
+                    <p>Generates novel approaches and identifies cutting-edge technologies for your unique challenges.</p>
+                    <div class="step-output"></div>
+                </div>
+            </div>
+
+            <div id="step-4" class="step-card">
+                <div class="step-header">
+                    <h3>4️⃣ Evaluation SA</h3>
+                    <span class="status">PENDING</span>
+                </div>
+                <div class="step-content">
+                    <p>Analyzes and compares potential architectures, recommending the optimal AWS solution.</p>
+                    <div class="step-output"></div>
+                    <div class="human-in-loop-callout">
+                        <p><strong>Human-in-the-Loop Integration Point:</strong></p>
+                        <p>At this stage, you have the option to connect with a human AWS Solutions Architect via live chat or a scheduled call to validate the proposed architecture before proceeding to prototyping.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="step-5" class="step-card">
+                <div class="step-header">
+                    <h3>5️⃣ Rapid Prototyping SA</h3>
+                    <span class="status">PENDING</span>
+                </div>
+                <div class="step-content">
+                    <p>Creates architecture diagrams and generates deployable Proof-of-Concept (PoC) code.</p>
+                    <div class="step-output"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="results-section" style="display: none;">
+            <h2>3. Your Solution Blueprint</h2>
+            <div id="results-container">
+                <div class="result-box">
+                    <h3>Architecture Diagram</h3>
+                    <canvas id="diagram-canvas" width="400" height="400"></canvas>
+                </div>
+                <div class="result-box">
+                    <h3>Proof-of-Concept Code</h3>
+                    <div id="poc-code">
+                        <pre><code id="code-output"></code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Inspired by the potential of Agentic AI in cloud solutions. This project shows that state of the possible future for Solutions Architects.</p>
+            <p>Learn more about building Agentic AI applications on Cloud</p>
+            <p>&copy; 2025 SAaaS Agentic Portal Idea By Sameer Goel.</p>
+        </footer>
+    </main>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { gsap } from 'gsap';
+        import { marked } from 'marked';
+
+        // --- 3D Background Visualization ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        const container = document.getElementById('hero-background');
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        const particlesCount = 300;
+        const positions = new Float32Array(particlesCount * 3);
+        for(let i = 0; i < particlesCount * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 10;
+        }
+        const particlesGeometry = new THREE.BufferGeometry();
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            color: 0x00ffff,
+            size: 0.02,
+            transparent: true
+        });
+        const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particleSystem);
+        camera.position.z = 5;
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+            particleSystem.rotation.x += 0.0001;
+            particleSystem.rotation.y += 0.0002;
+            renderer.render(scene, camera);
+        };
+        animate();
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- Main Application Logic ---
+        const form = document.getElementById('idea-form');
+        const submitButton = document.getElementById('submit-button');
+        const processSection = document.getElementById('process-section');
+        const resultsSection = document.getElementById('results-section');
+        const useCaseSelector = document.getElementById('use-case-selector');
+        const ideaInput = document.getElementById('idea-input');
+
+        const step_cards = {
+            1: document.getElementById('step-1'),
+            2: document.getElementById('step-2'),
+            3: document.getElementById('step-3'),
+            4: document.getElementById('step-4'),
+            5: document.getElementById('step-5'),
+        };
+        
+        // --- Use Case Data Store ---
+        const useCaseData = {
+            smart_farming: {
+                problemStatement: "Develop a scalable IoT platform for real-time soil moisture monitoring in smart agriculture, featuring a data analytics dashboard to help farmers optimize irrigation schedules and increase crop yield.",
+                agentResponses: {
+                    1: [
+                        { sender: 'sa', text: "Thanks for the clear vision. An IoT platform for smart farming has huge potential. To start, what's the single most critical, must-have outcome for a farmer using this dashboard?" },
+                        { sender: 'client', text: "They need to know *immediately* when a specific section of their field is too dry. A simple, fast alert is more important than complex historical charts at first." },
+                        { sender: 'sa', text: "Perfect. That prioritizes low-latency alerts. This helps us define the core requirements: we need secure device ingestion, real-time processing for alerts, and efficient data storage for future analysis." },
+                        { sender: 'sa', text: "Based on that, I'd propose a serverless architecture. It's cost-effective and scales automatically from ten sensors to ten thousand. This ensures we meet the 'immediate alert' requirement without over-provisioning resources. Does that align with your thinking?" },
+                        { sender: 'client', text: "Yes, serverless sounds right. I don't want to manage servers. Let's go with that." },
+                        { sender: 'sa', text: "Great. We have our refined goals: a highly-responsive, scalable, and cost-effective alerting and data-ingestion platform. I'll now pass this to the Scraping SA to find relevant case studies." },
+                    ],
+                    2: `**Sources:** Found AWS Whitepaper on "Serverless IoT Architectures," a case study on John Deere's agricultural platform, and technical blogs using AWS IoT Core with Amazon Timestream.\n**Findings:** The most common pattern involves IoT Core, a rule to trigger a Lambda function, and a purpose-built time-series database for analytics.`,
+                    3: `**ML Integration:** Proposes using Amazon SageMaker to build a predictive model based on historical soil moisture, weather forecasts, and crop type to *predict* irrigation needs, moving from reactive to proactive water management.\n**Edge Computing:** Suggests AWS IoT Greengrass on field gateways to perform local data aggregation, reducing data transmission costs and enabling offline functionality.`,
+                    4: `**Analysis:** Compares Amazon DynamoDB (general purpose) with Amazon Timestream (purpose-built for time-series data). While DynamoDB is flexible, Timestream offers superior query performance for trend analysis out-of-the-box.\n**Recommendation:** Recommends **Amazon Timestream** as the optimal choice for handling time-stamped sensor data.\n**Final Architecture:** IoT Core -> IoT Rule -> Kinesis Data Firehose (for S3 batching) & Lambda (for real-time alerts via SNS) -> Amazon Timestream -> Amazon Managed Grafana (for dashboard).`,
+                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (AWS CDK): **Complete**.\n* Deployment Instructions: **Generated**.`
+                },
+                code: `<span class="code-comment"># AWS CDK Stack for Smart Farming IoT Platform</span>
+<span class="code-keyword">from</span> aws_cdk <span class="code-keyword">import</span> (
+    core,
+    aws_iot <span class="code-keyword">as</span> iot,
+    aws_lambda <span class="code-keyword">as</span> _lambda,
+    aws_timestream <span class="code-keyword">as</span> timestream,
+    aws_sns <span class="code-keyword">as</span> sns,
+    aws_iam <span class="code-keyword">as</span> iam
+)
+
+<span class="code-keyword">class</span> <span class="code-class">SmartFarmingStack</span>(core.Stack):
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-keyword">self</span>, scope: core.Construct, id: str, **kwargs) -> None:
+        super().__init__(scope, id, **kwargs)
+
+        <span class="code-comment"># 1. Timestream Database and Table</span>
+        database = timestream.CfnDatabase(<span class="code-keyword">self</span>, <span class="code-string">"SoilMoistureDB"</span>)
+        table = timestream.CfnTable(
+            <span class="code-keyword">self</span>, <span class="code-string">"SensorReadingsTable"</span>,
+            database_name=database.database_name,
+            retention_properties={
+                <span class="code-string">"MemoryStoreRetentionPeriodInHours"</span>: <span class="code-string">"24"</span>,
+                <span class="code-string">"MagneticStoreRetentionPeriodInDays"</span>: <span class="code-string">"365"</span>
+            }
+        )
+        table.add_depends_on(database)
+
+        <span class="code-comment"># 2. SNS Topic for alerts</span>
+        alert_topic = sns.Topic(<span class="code-keyword">self</span>, <span class="code-string">"LowMoistureAlerts"</span>)
+
+        <span class="code-comment"># 3. Lambda function to process data and send alerts</span>
+        handler = _lambda.Function(...)
+        alert_topic.grant_publish(handler)
+        
+        <span class="code-comment"># 4. IoT Rule to trigger Lambda and write to Timestream</span>
+        iot_rule = iot.CfnTopicRule(...)`,
+                diagram: (ctx, { drawBox, drawArrow }) => {
+                    const iotDevice = { x: 100, y: 50 };
+                    const iotCore = { x: 100, y: 150 };
+                    const iotRule = { x: 250, y: 150 };
+                    const lambda = { x: 250, y: 250 };
+                    const timestream = { x: 400, y: 150 };
+                    const sns = { x: 400, y: 250 };
+                    
+                    drawBox("IoT Sensor", iotDevice.x, iotDevice.y);
+                    drawBox("AWS IoT Core", iotCore.x, iotCore.y);
+                    drawBox("IoT Rule", iotRule.x, iotRule.y, '#ff00ff');
+                    drawBox("Lambda", lambda.x, lambda.y);
+                    drawBox("Timestream", timestream.x, timestream.y);
+                    drawBox("SNS", sns.x, sns.y);
+
+                    drawArrow(iotDevice.x, iotDevice.y + 25, iotCore.x, iotCore.y - 25);
+                    drawArrow(iotCore.x + 50, iotCore.y, iotRule.x - 50, iotRule.y);
+                    drawArrow(iotRule.x, iotRule.y + 25, lambda.x, lambda.y - 25);
+                    drawArrow(iotRule.x + 50, iotRule.y, timestream.x - 50, timestream.y);
+                    drawArrow(lambda.x + 50, lambda.y, sns.x - 50, sns.y);
+                }
+            },
+            // Other use cases would also have their step 1 converted to a conversation array.
+            // For this example, we'll keep them as text to show both formats can work.
+            sustainable_energy: {
+                problemStatement: "Build an AI-driven cloud platform for sustainable energy grid management, designed to forecast energy production from renewable sources (solar, wind) and optimize load balancing in real-time.",
+                agentResponses: {
+                    1: `**Refined Goals:** Ingest real-time production data from renewable sources and consumption data from the grid. Integrate third-party weather forecast data. Train and host an ML model for production forecasting. Provide an API for grid operators to query forecasts.\n**Key Features:** Time-series data ingestion, ML model training/deployment pipeline, and a secure API endpoint.`,
+                    2: `**Sources:** Found academic papers on using LSTM networks for time-series forecasting, AWS solution briefs on "AWS for Energy," and case studies from Engie on managing renewable assets.\n**Findings:** Successful platforms prioritize a robust data pipeline and leverage managed AI/ML services to accelerate development.`,
+                    3: `**Digital Twin:** Proposes creating a "digital twin" of the energy grid using AWS IoT TwinMaker. This allows for complex "what-if" scenario simulations (e.g., "what if a major storm reduces solar output by 40%?").\n**Reinforcement Learning:** Suggests using Amazon SageMaker RL to train an agent that actively learns the best load-balancing strategies.`,
+                    4: `**Analysis:** Compares building a custom forecasting model on SageMaker (high control, high effort) vs. using Amazon Forecast (managed service, faster time-to-market).\n**Recommendation:** Recommends **Amazon Forecast** for the initial PoC due to its rapid development cycle.\n**Final Architecture:** Data Sources (APIs, sensors) -> Amazon Kinesis -> Lambda (for transformation) -> S3 Data Lake -> Amazon Forecast -> API Gateway -> Grid Operator Application.`,
+                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (AWS CDK): **Complete**.`
+                },
+                code: `<span class="code-comment"># AWS CDK Stack for AI Energy Grid Platform</span>...`,
+                diagram: (ctx, { drawBox, drawArrow }) => {
+                    const dataSources = { x: 100, y: 50 };
+                    const kinesis = { x: 100, y: 150 };
+                    const s3 = { x: 250, y: 150 };
+                    const forecast = { x: 250, y: 250 };
+                    const apiGw = { x: 400, y: 250 };
+
+                    drawBox("Data Sources", dataSources.x, dataSources.y);
+                    drawBox("Kinesis", kinesis.x, kinesis.y);
+                    drawBox("S3 Data Lake", s3.x, s3.y);
+                    drawBox("Amazon Forecast", forecast.x, forecast.y, '#ff00ff');
+                    drawBox("API Gateway", apiGw.x, apiGw.y);
+
+                    drawArrow(dataSources.x, dataSources.y + 25, kinesis.x, kinesis.y - 25);
+                    drawArrow(kinesis.x + 50, kinesis.y, s3.x - 50, s3.y);
+                    drawArrow(s3.x, s3.y + 25, forecast.x, forecast.y - 25);
+                    drawArrow(forecast.x + 50, forecast.y, apiGw.x - 50, apiGw.y);
+                }
+            },
+            soil_conservation: {
+                problemStatement: "Create an AI-powered geospatial platform that analyzes satellite imagery and sensor data to detect early signs of soil erosion, providing actionable insights for land management and conservation efforts.",
+                agentResponses: {
+                    1: `**Refined Goals:** Source and process large volumes of satellite imagery (e.g., from Sentinel-2). Train a computer vision model to identify erosion patterns. Present findings on an interactive map-based interface.\n**Key Features:** Large-scale data ingestion pipeline, a data labeling workflow, and geospatial data visualization.`,
+                    2: `**Sources:** Found the AWS Open Data Registry for satellite imagery, documentation for Amazon SageMaker's Geospatial capabilities, and projects from Esri's ArcGIS platform.\n**Findings:** Effective solutions require a robust MLOps pipeline to handle the massive datasets and retrain models as new imagery becomes available.`,
+                    3: `**Data Fusion:** Suggests a model that "fuses" data from multiple sources (satellite imagery, digital elevation models, soil sensor data) for a more accurate and holistic erosion risk score.\n**Human-in-the-Loop:** Recommends using Amazon SageMaker Ground Truth to create a labeling job where soil scientists can validate the model's findings.`,
+                    4: `**Analysis:** Compares a custom-trained model in SageMaker vs. using a pre-trained model as a base. For the specific task of erosion detection, a custom model is required.\n**Recommendation:** Recommends using **Amazon SageMaker's built-in geospatial capabilities** and a custom-trained computer vision model, leveraging Ground Truth for data labeling.\n**Final Architecture:** Satellite Data (S3) -> AWS Step Functions (Orchestration) -> SageMaker Processing Job -> SageMaker Ground Truth -> SageMaker Training Job -> SageMaker Endpoint -> Amazon Location Service (Map UI).`,
+                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (SageMaker Pipeline): **Complete**.`
+                },
+                 code: `<span class="code-comment"># Python script for a SageMaker MLOps Pipeline</span>...`,
+                diagram: (ctx, { drawBox, drawArrow }) => {
+                    const s3 = { x: 100, y: 50 };
+                    const stepFunctions = { x: 100, y: 150 };
+                    const processingJob = { x: 250, y: 50 };
+                    const trainingJob = { x: 250, y: 150 };
+                    const endpoint = { x: 250, y: 250 };
+                    const locationSvc = { x: 400, y: 250 };
+
+                    drawBox("S3 Data", s3.x, s3.y);
+                    drawBox("Step Functions", stepFunctions.x, stepFunctions.y, '#ff00ff');
+                    drawBox("SM Processing", processingJob.x, processingJob.y);
+                    drawBox("SM Training", trainingJob.x, trainingJob.y);
+                    drawBox("SM Endpoint", endpoint.x, endpoint.y);
+                    drawBox("Location Svc", locationSvc.x, locationSvc.y);
+
+                    drawArrow(s3.x, s3.y + 25, stepFunctions.x, stepFunctions.y - 25);
+                    drawArrow(stepFunctions.x + 50, stepFunctions.y - 50, processingJob.x - 50, processingJob.y);
+                    drawArrow(stepFunctions.x + 50, stepFunctions.y, trainingJob.x - 50, trainingJob.y);
+                    drawArrow(stepFunctions.x + 50, stepFunctions.y + 50, endpoint.x - 50, endpoint.y);
+                    drawArrow(endpoint.x + 50, endpoint.y, locationSvc.x - 50, locationSvc.y);
+                }
+            },
+            climate_monitoring: {
+                problemStatement: "Architect a high-performance computing (HPC) environment on the cloud to process and analyze massive climate model datasets, enabling researchers to run complex simulations and accurately forecast climate change impacts.",
+                agentResponses: {
+                    1: `**Refined Goals:** Provide a scalable, on-demand compute environment for parallel simulations. Offer high-throughput storage for petabyte-scale datasets. Securely manage access for a research team. Optimize for cost by running resources only when needed.\n**Key Features:** Cluster management, a parallel file system, a job scheduler, and fast networking.`,
+                    2: `**Sources:** Found documentation for AWS ParallelCluster, FSx for Lustre, and EC2 compute-optimized instances. Read a NASA case study on using AWS for climate simulation.\n**Findings:** The key is to combine a powerful cluster manager with a high-performance parallel file system to avoid I/O bottlenecks.`,
+                    3: `**Serverless HPC:** Proposes using AWS Batch for certain pre/post-processing tasks that can be broken into smaller, stateless jobs, which is more cost-effective than using the full cluster for everything.\n**Data Sharing:** Recommends creating a public data portal using Amazon S3 and CloudFront to make simulation results easily accessible to the global research community.`,
+                    4: `**Analysis:** Compares AWS ParallelCluster (full control, traditional HPC feel) with AWS Batch (managed service, container-focused). Climate simulations often rely on tightly coupled MPI communication, which is better suited to a traditional cluster.\n**Recommendation:** Recommends **AWS ParallelCluster** for the flexibility and power needed for complex climate science simulations.\n**Final Architecture:** AWS ParallelCluster API -> CloudFormation -> Slurm (Job Scheduler) -> Cluster of EC2 instances with Elastic Fabric Adapter (EFA) -> Amazon FSx for Lustre (Storage).`,
+                    5: `**Artifacts Generated:**\n* Architecture Diagram: **Complete**.\n* PoC Code (ParallelCluster Config): **Complete**.`
+                },
+                code: `<span class="code-comment"># AWS ParallelCluster cluster-config.yaml</span>...`,
+                diagram: (ctx, { drawBox, drawArrow }) => {
+                    const user = { x: 100, y: 50 };
+                    const pcluster = { x: 100, y: 150 };
+                    const headNode = { x: 250, y: 150 };
+                    const computeNodes = { x: 250, y: 250 };
+                    const fsx = { x: 400, y: 200 };
+
+                    drawBox("Researcher", user.x, user.y);
+                    drawBox("ParallelCluster", pcluster.x, pcluster.y, '#ff00ff');
+                    drawBox("Head Node", headNode.x, headNode.y);
+                    drawBox("Compute Nodes", computeNodes.x, computeNodes.y);
+                    drawBox("FSx for Lustre", fsx.x, fsx.y);
+
+                    drawArrow(user.x, user.y + 25, pcluster.x, pcluster.y - 25);
+                    drawArrow(pcluster.x + 50, pcluster.y, headNode.x - 50, headNode.y);
+                    drawArrow(headNode.x, headNode.y + 25, computeNodes.x, computeNodes.y - 25);
+                    drawArrow(headNode.x + 50, headNode.y, fsx.x - 50, fsx.y);
+                    drawArrow(computeNodes.x + 50, computeNodes.y, fsx.x - 50, fsx.y);
+                }
+            }
+        };
+
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        useCaseSelector.addEventListener('change', (e) => {
+            const selectedUseCase = e.target.value;
+            if (selectedUseCase && useCaseData[selectedUseCase]) {
+                ideaInput.value = useCaseData[selectedUseCase].problemStatement;
+            } else {
+                ideaInput.value = '';
+            }
+        });
+        
+        async function runChatSimulation(container, script) {
+            container.innerHTML = ''; // Clear previous content
+            const transcriptContainer = document.createElement('div');
+            transcriptContainer.className = 'chat-transcript';
+            container.appendChild(transcriptContainer);
+
+            for (const message of script) {
+                await sleep(1200); // Delay between messages
+                const bubble = document.createElement('div');
+                const label = document.createElement('div');
+                label.className = 'bubble-label';
+                
+                if (message.sender === 'sa') {
+                    bubble.className = 'sa-bubble';
+                    label.textContent = 'Brainstorming SA';
+                } else {
+                    bubble.className = 'client-bubble';
+                    label.textContent = 'You (The Client)';
+                }
+                
+                bubble.appendChild(label);
+                bubble.append(message.text); // Use append to handle text nodes
+                
+                transcriptContainer.appendChild(bubble);
+                bubble.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+        }
+
+        async function runStep(step, useCaseId) {
+            const card = step_cards[step];
+            const statusEl = card.querySelector('.status');
+            const outputEl = card.querySelector('.step-output');
+
+            card.classList.add('active');
+            statusEl.innerHTML = `<div class="loader"></div> PROCESSING...`;
+            
+            await sleep(1500 + Math.random() * 1000);
+
+            const responseData = useCaseData[useCaseId].agentResponses[step];
+            
+            // NEW: Check if the response for step 1 is a conversation script
+            if (step === 1 && Array.isArray(responseData)) {
+                await runChatSimulation(outputEl, responseData);
+            } else {
+                outputEl.innerHTML = await marked(responseData);
+            }
+
+            statusEl.textContent = '✅ COMPLETE';
+            card.classList.remove('active');
+            card.classList.add('complete');
+            
+            if (step === 4) {
+                const callout = card.querySelector('.human-in-loop-callout');
+                callout.style.display = 'block';
+                gsap.from(callout, { opacity: 0, y: 20, duration: 0.5 });
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const selectedUseCase = useCaseSelector.value;
+
+            if (!selectedUseCase) {
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '20px';
+                modal.style.left = '50%';
+                modal.style.transform = 'translateX(-50%)';
+                modal.style.padding = '1rem 2rem';
+                modal.style.background = '#ff00ff';
+                modal.style.color = 'white';
+                modal.style.borderRadius = '5px';
+                modal.style.zIndex = '1000';
+                modal.textContent = 'Please select a use case from the dropdown first!';
+                document.body.appendChild(modal);
+                setTimeout(() => modal.remove(), 3000);
+                return;
+            }
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
+            gsap.to(form, { opacity: 0.5, pointerEvents: 'none', duration: 0.5 });
+            
+            resultsSection.style.display = 'none';
+            Object.values(step_cards).forEach(card => {
+                card.classList.remove('complete', 'active');
+                card.querySelector('.status').textContent = 'PENDING';
+                card.querySelector('.step-output').innerHTML = '';
+                if(card.id === 'step-4') {
+                    card.querySelector('.human-in-loop-callout').style.display = 'none';
+                }
+            });
+
+            processSection.style.display = 'block';
+            gsap.from(processSection, { opacity: 0, y: 50, duration: 1 });
+
+            for (let i = 1; i <= 5; i++) {
+                await runStep(i, selectedUseCase);
+            }
+
+            resultsSection.style.display = 'block';
+            gsap.from(resultsSection, { opacity: 0, y: 50, duration: 1 });
+            
+            generateDiagram(selectedUseCase);
+            generateCode(selectedUseCase);
+            submitButton.textContent = 'Done!';
+        });
+
+        function generateDiagram(useCaseId) {
+            const canvas = document.getElementById('diagram-canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.font = '12px "Roboto Mono"';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            const drawBox = (text, x, y, color = '#00ffff') => {
+                const boxWidth = 100;
+                const boxHeight = 50;
+                ctx.strokeStyle = color;
+                ctx.fillStyle = '#1a1a23';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.rect(x - boxWidth / 2, y - boxHeight / 2, boxWidth, boxHeight);
+                ctx.stroke();
+                ctx.fill();
+                ctx.fillStyle = '#e0e0e0';
+                ctx.fillText(text, x, y);
+            };
+
+            const drawArrow = (x1, y1, x2, y2) => {
+                ctx.strokeStyle = '#8a8a9e';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+                
+                const angle = Math.atan2(y2 - y1, x2 - x1);
+                ctx.beginPath();
+                ctx.moveTo(x2, y2);
+                ctx.lineTo(x2 - 10 * Math.cos(angle - Math.PI / 6), y2 - 10 * Math.sin(angle - Math.PI / 6));
+                ctx.moveTo(x2, y2);
+                ctx.lineTo(x2 - 10 * Math.cos(angle + Math.PI / 6), y2 - 10 * Math.sin(angle + Math.PI / 6));
+                ctx.stroke();
+            };
+            
+            if (useCaseData[useCaseId] && useCaseData[useCaseId].diagram) {
+                canvas.width = 500;
+                canvas.height = 350;
+                useCaseData[useCaseId].diagram(ctx, { drawBox, drawArrow });
+            }
+        }
+
+        function generateCode(useCaseId) {
+            const codeOutput = document.getElementById('code-output');
+            if (useCaseData[useCaseId] && useCaseData[useCaseId].code) {
+                codeOutput.innerHTML = useCaseData[useCaseId].code;
+            } else {
+                codeOutput.innerHTML = `<span class="code-comment"># No code generated for this selection.</span>`;
+            }
+        }
+
+    </script>
+</body>
+</html>
