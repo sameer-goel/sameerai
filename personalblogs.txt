@@ -1,1 +1,3 @@
 7 prompts to find what next AI job.
+
+3 ways to test training data.

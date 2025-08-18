@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Ethics & Responsibility - Digital Consciousness</title>
+    <link rel="icon" type="image/gif" href="../favicon.gif">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .ethics-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .ethics-title {
+            font-size: 3rem;
+            color: #00d4ff;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+            letter-spacing: 2px;
+        }
+
+        .ethics-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .quote-section {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            padding: 3rem;
+            background: rgba(0, 212, 255, 0.05);
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1);
+        }
+
+        .quote-text {
+            font-size: 1.8rem;
+            color: #00d4ff;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+        }
+
+        .quote-author {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+
+        .ethics-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .ethics-card {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .ethics-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .ethics-card h3 {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .ethics-card p {
+            font-family: 'Inter', sans-serif;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Cosmic Navigation Menu */
+        .cosmic-nav {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+        }
+
+        .nav-toggle {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            color: #00d4ff;
+            font-size: 1.5rem;
+        }
+
+        .nav-toggle:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: #00d4ff;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .nav-menu {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 1rem;
+            min-width: 250px;
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .nav-section-title {
+            color: #00d4ff;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+        }
+
+        .nav-item {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            margin-bottom: 0.2rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+        }
+
+        .nav-home {
+            color: #ffd700;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-home:hover {
+            color: #fff;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .ethics-title {
+                font-size: 2rem;
+            }
+            
+            .quote-text {
+                font-size: 1.4rem;
+            }
+            
+            .ethics-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="stars"></div>
+
+    <!-- Cosmic Navigation Menu -->
+    <div class="cosmic-nav">
+        <div class="nav-toggle" onclick="toggleNavMenu()">☰</div>
+        <div class="nav-menu" id="navMenu">
+            <a href="../index.html" class="nav-item nav-home">Digital Consciousness</a>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">AI - Artificial Intelligence</div>
+                <a href="research.html" class="nav-item">R - Research</a>
+                <a href="development.html" class="nav-item">D - Development</a>
+                <a href="ethics.html" class="nav-item active">E - Ethics</a>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">Inner Intelligence</div>
+                <a href="mind.html" class="nav-item">Mind</a>
+                <a href="body.html" class="nav-item">B - Body</a>
+                <a href="soul.html" class="nav-item">Soul</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="ethics-header">
+            <h1 class="ethics-title">AI Ethics & Responsibility</h1>
+            <p class="ethics-subtitle">Navigating the moral landscape of artificial intelligence and ensuring responsible development of intelligent systems</p>
+        </div>
+
+        <div class="quote-section">
+            <div class="quote-text">"The AI we build today will shape the world we live in tomorrow."</div>
+            <div class="quote-author">— Sameer Goel</div>
+        </div>
+
+        <div class="ethics-content">
+            <div class="ethics-card">
+                <h3>Responsible AI Development</h3>
+                <p>Building AI systems that prioritize human welfare, fairness, and transparency. Every algorithm we create carries the responsibility of shaping human experiences and societal outcomes.</p>
+            </div>
+
+            <div class="ethics-card">
+                <h3>Bias & Fairness</h3>
+                <p>Addressing algorithmic bias and ensuring AI systems treat all individuals and groups fairly. Creating inclusive technologies that serve diverse populations without discrimination.</p>
+            </div>
+
+            <div class="ethics-card">
+                <h3>Privacy & Security</h3>
+                <p>Protecting individual privacy and data security in AI applications. Implementing robust safeguards to prevent misuse of personal information and maintain user trust.</p>
+            </div>
+
+            <div class="ethics-card">
+                <h3>Transparency & Explainability</h3>
+                <p>Making AI decision-making processes understandable and accountable. Users deserve to know how AI systems affect their lives and the reasoning behind automated decisions.</p>
+            </div>
+
+            <div class="ethics-card">
+                <h3>Human-AI Collaboration</h3>
+                <p>Designing AI to augment human capabilities rather than replace them. Fostering symbiotic relationships where AI enhances human potential and creativity.</p>
+            </div>
+
+            <div class="ethics-card">
+                <h3>Future Considerations</h3>
+                <p>Anticipating long-term implications of AI advancement. Preparing for emerging ethical challenges as AI becomes more sophisticated and integrated into society.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 200;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                const size = Math.random() * 3 + 1;
+
+                Object.assign(star.style, {
+                    position: 'absolute',
+                    width: size + 'px',
+                    height: size + 'px',
+                    background: '#fff',
+                    borderRadius: '50%',
+                    left: Math.random() * 100 + '%',
+                    top: Math.random() * 100 + '%',
+                    opacity: Math.random() * 0.8 + 0.2,
+                    animation: `twinkle ${Math.random() * 3 + 2}s infinite alternate`
+                });
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function toggleNavMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+        });
+
+        // Close nav menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navMenu = document.getElementById('navMenu');
+            const navToggle = document.querySelector('.nav-toggle');
+            
+            if (!navMenu.contains(event.target) && !navToggle.contains(event.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+
+</html>
