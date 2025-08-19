@@ -513,6 +513,124 @@
             animation: thoughtAppear 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
+        /* Intro Modal Styles */
+        #intro-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        #intro-modal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .intro-content {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(22, 33, 62, 0.95));
+            border: 3px solid #00d4ff;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: left;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .intro-content h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.2rem;
+            color: #00d4ff;
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+            text-align: center;
+        }
+
+        .intro-content p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            color: #fff;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .intro-button {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+            border: 1px solid rgba(0, 212, 255, 0.5);
+            padding: 15px 30px;
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .intro-button:hover {
+            transform: scale(1.05);
+            background: rgba(0, 212, 255, 0.3);
+            border-color: rgba(0, 212, 255, 0.8);
+            box-shadow: 
+                0 6px 20px rgba(0, 212, 255, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .intro-button:hover::before {
+            left: 100%;
+        }
+
         /* Responsive design */
         @media (max-width: 768px) {
             .spheres-container {
@@ -581,6 +699,17 @@
 <body>
     <!-- Animated starfield background -->
     <div id="stars"></div>
+
+    <!-- Intro Modal -->
+    <div id="intro-modal">
+        <div class="intro-content">
+            <h1>Digital Consciousness</h1>
+            <p>It is a project inspired by the rise of personal AI tools for work and everyday life.</p>
+            <p>This portal stated as a quick prototype during family discussion.</p>
+            <p>This portal serves me as a mind map of my activities. To my family, as a go to for self-help apps.</p>
+            <button class="intro-button" onclick="closeIntroModal()">Explore</button>
+        </div>
+    </div>
 
     <!-- Initial landing screen with central GIF -->
     <div id="landing-screen" class="screen">
@@ -951,6 +1080,15 @@
                 // Add clicked state to current sphere
                 container.classList.add('clicked');
             }
+        }
+
+        // ===== INTRO MODAL FUNCTIONS =====
+        function closeIntroModal() {
+            const introModal = document.getElementById('intro-modal');
+            introModal.classList.add('hidden');
+            setTimeout(() => {
+                introModal.style.display = 'none';
+            }, 500);
         }
 
         // ===== INITIALIZATION =====
